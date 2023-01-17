@@ -11,6 +11,8 @@ public class turnNinty extends CommandBase {
   /** Creates a new turnNinty. */
   private Can_Motors m_subsystem;
   private double initialPosition;
+  private double remainDist;
+  final static double kP = .0003;
   private boolean isDone = false;
   public turnNinty(Can_Motors motorControl) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -29,11 +31,16 @@ public class turnNinty extends CommandBase {
   @Override
   public void execute() {
     //4096
-    if(initialPosition+1028<=m_subsystem.  ()){
+    if(initialPosition+1028<=m_subsystem.getSensorPosition()){
       isDone = true;
     }else{
-      m_subsystem.drive(.5);
+      remainDist = (initialPosition+1028) - m_subsystem.getSensorPosition();
+
+      m_subsystem.drive(kP*remainDist);
     }
+    /*subsystem.drive(0, direction * 0.4 * Math.pow(degrees - (subsystem.getAngle() - initAngle), .124364));
+    if (Math.abs(subsystem.getAngle()) > initAngle + degrees || Math.abs(subsystem.getAngle())  < initAngle - degrees){
+      isFinished = true;*/
   }
 
   // Called once the command ends or is interrupted.
