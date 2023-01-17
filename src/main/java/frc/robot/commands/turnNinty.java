@@ -29,7 +29,7 @@ public class turnNinty extends CommandBase {
   @Override
   public void execute() {
     //4096
-    if(initialPosition+1028<=m_subsystem.  ()){
+    if(initialPosition+1028<=m_subsystem.getSensorPosition()){
       isDone = true;
     }else{
       m_subsystem.drive(.5);
