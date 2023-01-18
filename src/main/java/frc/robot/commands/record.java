@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.PWM_Motors;
 
-public class recPlay extends CommandBase {
+public class record extends CommandBase {
   /** Creates a new recPlay. */
   private PWM_Motors recControl;
   private Joystick lShaft;
@@ -19,7 +19,7 @@ public class recPlay extends CommandBase {
   private String recFile;
   private String name = "rec001";
   private FileWriter rFile;
-  public recPlay(PWM_Motors recControl, Joystick lShaft, Joystick rShaft) {
+  public record(PWM_Motors recControl, Joystick lShaft, Joystick rShaft) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.recControl = recControl;
     this.lShaft = lShaft;
@@ -32,7 +32,7 @@ public class recPlay extends CommandBase {
   public void initialize() {
     recFile = "/home/lvuser/" + name + ".txt";
     try {
-          FileWriter rFile = new FileWriter(recFile);
+          rFile = new FileWriter(recFile);
           System.out.println("File created: " + rFile);
           
         } catch (IOException e) {
@@ -46,11 +46,12 @@ public class recPlay extends CommandBase {
   @Override
   public void execute() {
     try {
-      rFile.append(lShaft.toString() + rShaft.toString() + "\n");
+      rFile.append(String.valueOf(lShaft.getY()) + String.valueOf(rShaft.getY()) + "\n");
     } catch (IOException e) {
       System.out.println("An error occurred.");
       e.printStackTrace();
     }
+    this.recControl.drive(lShaft.getY(), rShaft.getY());
   }
 
   // Called once the command ends or is interrupted.
