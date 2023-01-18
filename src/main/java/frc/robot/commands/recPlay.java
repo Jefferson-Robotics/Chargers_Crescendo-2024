@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import java.io.FileWriter;
-import java.io.File;
 import java.io.IOException;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -32,7 +31,6 @@ public class recPlay extends CommandBase {
   @Override
   public void initialize() {
     recFile = "/home/lvuser/" + name + ".txt";
-    System.out.println("dfg");
     try {
           FileWriter rFile = new FileWriter(recFile);
           System.out.println("File created: " + rFile);
