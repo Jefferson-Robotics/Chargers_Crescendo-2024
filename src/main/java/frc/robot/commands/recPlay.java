@@ -46,7 +46,7 @@ public class recPlay extends CommandBase {
   @Override
   public void execute() {
     try {
-      rFile.append("lShaft, rShaft \n");
+      rFile.append(lShaft.toString() + rShaft.toString() + "\n");
     } catch (IOException e) {
       System.out.println("An error occurred.");
       e.printStackTrace();
