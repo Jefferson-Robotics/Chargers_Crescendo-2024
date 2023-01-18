@@ -1,0 +1,7 @@
+Record and play
+
+Create: File
+Record Button: Controller inputs
+Store: File
+Play Button: File
+Clear Button: File
