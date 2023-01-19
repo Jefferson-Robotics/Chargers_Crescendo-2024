@@ -15,6 +15,7 @@ import frc.robot.commands.xboxControl;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.turnNinty;
 import frc.robot.commands.rec;
+import frc.robot.commands.playBack;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -31,6 +32,7 @@ public class RobotContainer {
   private PWM_Motors PWM = new PWM_Motors();
   private turnNinty turn = new turnNinty(CAN);
   private rec recBt = new rec(PWM, leftShaft, rightShaft);
+  private playBack playB = new playBack(PWM);
 
   //private Reader reader = new Reader(m_motorcontrol);
   private joystickControl joystick = new joystickControl(PWM, leftShaft, rightShaft);
@@ -52,11 +54,12 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    JoystickButton ninty = new JoystickButton(leftShaft, 7);
-    ninty.whenPressed(turn);
+    //JoystickButton ninty = new JoystickButton(leftShaft, 7);
+    //ninty.whenPressed(turn);
     JoystickButton rec = new JoystickButton(leftShaft, 11);
     rec.whenPressed(recBt);
-    
+    JoystickButton playBack = new JoystickButton(leftShaft, 10);
+    playBack.whenPressed(playB);
   }
 
   /**

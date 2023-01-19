@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.PWM_Motors;
 
-public class record extends CommandBase {
+public class rec extends CommandBase {
   /** Creates a new recPlay. */
   private PWM_Motors recControl;
   private Joystick lShaft;
@@ -19,7 +19,7 @@ public class record extends CommandBase {
   private String recFile;
   private String name = "rec001";
   private FileWriter rFile;
-  public record(PWM_Motors recControl, Joystick lShaft, Joystick rShaft) {
+  public rec(PWM_Motors recControl, Joystick lShaft, Joystick rShaft) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.recControl = recControl;
     this.lShaft = lShaft;
@@ -46,7 +46,7 @@ public class record extends CommandBase {
   @Override
   public void execute() {
     try {
-      rFile.append(String.valueOf(lShaft.getY()) + String.valueOf(rShaft.getY()) + "\n");
+      rFile.append(String.valueOf(lShaft.getY()) + "," + String.valueOf(rShaft.getY()) + "\n");
     } catch (IOException e) {
       System.out.println("An error occurred.");
       e.printStackTrace();
