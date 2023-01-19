@@ -30,8 +30,8 @@ public class RobotContainer {
   private XboxController controller = new XboxController(2);
   private Can_Motors CAN = new Can_Motors();
   private PWM_Motors PWM = new PWM_Motors();
-  private turnNinty turn = new turnNinty(CAN);
-  private rec recBt = new rec(PWM, leftShaft, rightShaft);
+  //private turnNinty turn = new turnNinty(CAN);
+  private rec recCommand = new rec(PWM, leftShaft, rightShaft);
   private playBack playB = new playBack(PWM);
 
   //private Reader reader = new Reader(m_motorcontrol);
@@ -56,9 +56,10 @@ public class RobotContainer {
   private void configureButtonBindings() {
     //JoystickButton ninty = new JoystickButton(leftShaft, 7);
     //ninty.whenPressed(turn);
-    JoystickButton rec = new JoystickButton(leftShaft, 11);
-    rec.whenPressed(recBt);
-    JoystickButton playBack = new JoystickButton(leftShaft, 10);
+    JoystickButton recButton = new JoystickButton(leftShaft, 11);
+    JoystickButton recButton2 = new JoystickButton(leftShaft, 10);
+    recButton.whenPressed(recCommand.until(recButton2));
+    JoystickButton playBack = new JoystickButton(leftShaft, 8);
     playBack.whenPressed(playB);
   }
 
