@@ -29,7 +29,7 @@ public class NavXAuto extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive = 1/180*(m_control.getAngleY()-initAngle);
+    drive = 180-(m_control.getAngleY()-initAngle)/180;
     m_control.drive(drive,0);
     
     System.out.println(m_control.getAngleY());
