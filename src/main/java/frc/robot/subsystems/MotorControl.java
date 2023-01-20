@@ -41,7 +41,9 @@ public class MotorControl extends SubsystemBase {
   public double getAngleY(){
     return ahrs.getPitch();
   }
-
+  public double getAltitude(){
+    return ahrs.getAltitude();
+  }
   public void resetGyro(){
     ahrs.reset();
   }

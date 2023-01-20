@@ -11,27 +11,25 @@ public class NavXAuto extends CommandBase {
   /** Creates a new NavXAuto. */
   private MotorControl m_control;
   private double initAngle;
-  private boolean activated;
-  public NavXAuto() {
+  private double drive;
+  public NavXAuto(MotorControl motorControl) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.m_control = motorControl;
+    addRequirements(motorControl);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    activated = false;
     initAngle = m_control.getAngleY();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    drive = 1/m_control.getAngleY()-initAngle;
+    m_control.drive(drive,0);
     
-
-    if(initAngle+5 >= m_control.getAngleY()){
-      m_control.drive(1,0);
-    } else if(activated == false){
-    }
     System.out.println(m_control.getAngleY());
   }
 

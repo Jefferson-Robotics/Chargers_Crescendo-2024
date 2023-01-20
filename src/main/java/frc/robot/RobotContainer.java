@@ -13,6 +13,7 @@ import frc.robot.commands.AutoDriver;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.Reader;
 import frc.robot.commands.AutoTurn;
+import frc.robot.commands.NavXAuto;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -27,6 +28,7 @@ public class RobotContainer {
   //private Reader reader = new Reader(m_motorcontrol);
 
   private AutoMove move = new AutoMove(m_motorcontrol);
+  private NavXAuto balance = new NavXAuto(m_motorcontrol);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -52,6 +54,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return move;
+    return balance;
   }
 }
