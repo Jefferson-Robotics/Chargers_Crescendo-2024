@@ -16,12 +16,13 @@ public class playBack extends CommandBase {
   private PWM_Motors playControl;
   private double lPlay;
   private double rPlay;
-  private String name = "rec001";
+  private String name = "rec002";
   private File rFile;
   private Scanner sc;
   public playBack(PWM_Motors playControl) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.playControl = playControl;
+    //this.name = name;
     addRequirements(playControl);
   }
 

@@ -17,13 +17,14 @@ public class rec extends CommandBase {
   private Joystick lShaft;
   private Joystick rShaft;
   private String recFile;
-  private String name = "rec001";
+  private String name = "rec002";
   private FileWriter rFile;
   public rec(PWM_Motors recControl, Joystick lShaft, Joystick rShaft) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.recControl = recControl;
     this.lShaft = lShaft;
     this.rShaft = rShaft;
+    //this.name = name;
     addRequirements(recControl);
   }
 

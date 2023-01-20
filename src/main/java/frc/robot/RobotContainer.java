@@ -56,10 +56,10 @@ public class RobotContainer {
   private void configureButtonBindings() {
     //JoystickButton ninty = new JoystickButton(leftShaft, 7);
     //ninty.whenPressed(turn);
-    JoystickButton recButton = new JoystickButton(leftShaft, 11);
-    JoystickButton recButton2 = new JoystickButton(leftShaft, 10);
+    JoystickButton recButton = new JoystickButton(rightShaft, 11);
+    JoystickButton recButton2 = new JoystickButton(rightShaft, 10);
     recButton.whenPressed(recCommand.until(recButton2));
-    JoystickButton playBack = new JoystickButton(leftShaft, 8);
+    JoystickButton playBack = new JoystickButton(rightShaft, 6);
     playBack.whenPressed(playB);
   }
 
