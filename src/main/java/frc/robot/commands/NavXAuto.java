@@ -4,39 +4,40 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.MotorControl;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.subsystems.MotorControl;
 
-public class Drive extends CommandBase {
-  /** Creates a new Drive. */
-  private MotorControl m_subsystem;
-  private XboxController controller;
-
-  public Drive(MotorControl motorControl, XboxController controller) {
+public class NavXAuto extends CommandBase {
+  /** Creates a new NavXAuto. */
+  private MotorControl m_control;
+  private double initAngle;
+  private boolean activated;
+  public NavXAuto() {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.m_subsystem = motorControl;
-    this.controller = controller;
-    addRequirements(m_subsystem);
-    
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    activated = false;
+    initAngle = m_control.getAngleY();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.drive(controller.getLeftY(), controller.getRightX());
+    
+
+    if(initAngle+5 >= m_control.getAngleY()){
+      m_control.drive(1,0);
+    } else if(activated == false){
+    }
+    System.out.println(m_control.getAngleY());
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    //print.close();
-    m_subsystem.drive(0, 0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

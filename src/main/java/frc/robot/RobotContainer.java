@@ -6,7 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.Drive;
+import frc.robot.commands.Xbox;
 import frc.robot.subsystems.MotorControl;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.AutoDriver;
@@ -31,7 +31,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     //m_motorcontrol.setDefaultCommand(new Reader(m_motorcontrol)/*new Drive(m_motorcontrol, controller)*/);
-    m_motorcontrol.setDefaultCommand(new Drive(m_motorcontrol, controller));
+    m_motorcontrol.setDefaultCommand(new Xbox(m_motorcontrol, controller));
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -43,7 +43,6 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    
   }
 
   /**

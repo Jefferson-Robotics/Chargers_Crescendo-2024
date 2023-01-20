@@ -38,6 +38,10 @@ public class MotorControl extends SubsystemBase {
   public double getAngle(){
     return ahrs.getAngle();
   }
+  public double getAngleY(){
+    return ahrs.getPitch();
+  }
+
   public void resetGyro(){
     ahrs.reset();
   }
@@ -47,7 +51,8 @@ public class MotorControl extends SubsystemBase {
 
   @Override
   public void periodic() {
-    System.out.println(getEncoderCount());
+    // System.out.println(getEncoderCount());
+    System.out.println(getAngleY());
     // This method will be called once per scheduler run
     //System.out.println(getAngle());
   }
