@@ -13,6 +13,8 @@ public class NavXAuto extends CommandBase {
   private double initAngle;
   private double drive;
   private boolean isFinished;
+  private int stage;
+  
   public NavXAuto(MotorControl motorControl) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_control = motorControl;
@@ -24,23 +26,33 @@ public class NavXAuto extends CommandBase {
   public void initialize() {
     initAngle = m_control.getAngleY();
     isFinished = false;
+    stage = 0;
+    drive = 1;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive = 180-(m_control.getAngleY()-initAngle)/180;
+    if (m_control.getAngleY() > 10) {
+      stage = 1;
+    }
+    if (stage == 1) {
+      drive = Math.tan(Math.min(Math.max(m_control.getAngleY(),-45), 45));
+      if (-5 < m_control.getAngleY() && m_control.getAngleY() < 5) {
+        isFinished = true;
+      }
+    }
+    
     m_control.drive(drive,0);
     
     System.out.println(m_control.getAngleY());
-    if(drive<=.3){
-      isFinished = true;
-    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_control.drive(0,0);
+  }
 
   // Returns true when the command should end.
   @Override
