@@ -10,7 +10,6 @@ import frc.robot.subsystems.MotorControl;
 public class NavXAuto extends CommandBase {
   /** Creates a new NavXAuto. */
   private MotorControl m_control;
-  private double initAngle;
   private double drive;
   private boolean isFinished;
   private int stage;
@@ -24,8 +23,6 @@ public class NavXAuto extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    initAngle = m_control.getAngleY();
-    isFinished = false;
     stage = 0;
     drive = 1;
   }
