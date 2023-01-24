@@ -25,7 +25,7 @@ public class MotorControl extends SubsystemBase {
     ahrs = new AHRS(SPI.Port.kMXP); 
     lslave.follow(lmaster);
     rslave.follow(rmaster);
-    drive = new DifferentialDrive(rmaster,lmaster);
+    drive = new DifferentialDrive(lmaster,rmaster);
   }
 
   public void drive(double y,double x){
@@ -39,7 +39,7 @@ public class MotorControl extends SubsystemBase {
     return ahrs.getAngle();
   }
   public double getAngleY(){
-    return ahrs.getPitch();
+    return ahrs.getRoll();
   }
   public double getAltitude(){
     return ahrs.getAltitude();
@@ -54,7 +54,6 @@ public class MotorControl extends SubsystemBase {
   @Override
   public void periodic() {
     // System.out.println(getEncoderCount());
-    System.out.println(getAngleY());
     // This method will be called once per scheduler run
     //System.out.println(getAngle());
   }

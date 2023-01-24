@@ -6,6 +6,9 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.MotorControl;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
+import java.io.Console;
+
 import edu.wpi.first.wpilibj.XboxController;
 
 public class Xbox extends CommandBase {
@@ -28,7 +31,8 @@ public class Xbox extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.drive(controller.getLeftY(), controller.getRightX());
+    m_subsystem.drive(-controller.getLeftY(), controller.getRightX());
+    System.out.println(m_subsystem.getAngleY());
   }
 
   // Called once the command ends or is interrupted.
