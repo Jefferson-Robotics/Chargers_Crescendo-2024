@@ -13,6 +13,7 @@ import frc.robot.subsystems.PWM_Motors;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.xboxControl;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 //import frc.robot.commands.turnNinty;
 import frc.robot.commands.rec;
 import frc.robot.commands.playBack;
@@ -58,7 +59,8 @@ public class RobotContainer {
     //ninty.whenPressed(turn);
     JoystickButton recButton = new JoystickButton(rightShaft, 11);
     JoystickButton recButton2 = new JoystickButton(rightShaft, 10);
-    recButton.whenPressed(recCommand.until(recButton2));
+    recButton.whenPressed(recCommand);  
+    recButton2.cancelWhenPressed(recCommand);
     JoystickButton playBack = new JoystickButton(rightShaft, 6);
     playBack.whenPressed(playB);
   }
