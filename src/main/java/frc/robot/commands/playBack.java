@@ -16,7 +16,7 @@ public class playBack extends CommandBase {
   private PWM_Motors playControl;
   private double lPlay;
   private double rPlay;
-  private String name = "rec002";
+  private String name = "rec003";
   private File rFile;
   private Scanner sc;
   public playBack(PWM_Motors playControl) {

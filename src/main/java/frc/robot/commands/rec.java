@@ -14,16 +14,16 @@ import frc.robot.subsystems.PWM_Motors;
 public class rec extends CommandBase {
   /** Creates a new recPlay. */
   private PWM_Motors recControl;
-  private Joystick lShaft;
-  private Joystick rShaft;
+  private Joystick leftShaft;
+  private Joystick rightShaft;
   private String recFile;
-  private String name = "rec002";
+  private String name = "rec003";
   private FileWriter rFile;
-  public rec(PWM_Motors recControl, Joystick lShaft, Joystick rShaft) {
+  public rec(PWM_Motors recControl, Joystick leftShaft, Joystick rightShaft) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.recControl = recControl;
-    this.lShaft = lShaft;
-    this.rShaft = rShaft;
+    this.leftShaft = leftShaft;
+    this.rightShaft = rightShaft;
     //this.name = name;
     addRequirements(recControl);
   }
@@ -47,12 +47,12 @@ public class rec extends CommandBase {
   @Override
   public void execute() {
     try {
-      rFile.append(String.valueOf(lShaft.getY()) + "," + String.valueOf(rShaft.getY()) + "\n");
+      rFile.append(String.valueOf(leftShaft.getY()) + "," + String.valueOf(rightShaft.getX()) + "\n");
     } catch (IOException e) {
       System.out.println("An error occurred.");
       e.printStackTrace();
     }
-    this.recControl.drive(lShaft.getY(), rShaft.getY());
+    this.recControl.drive(leftShaft.getY(), rightShaft.getX());
   }
 
   // Called once the command ends or is interrupted.
