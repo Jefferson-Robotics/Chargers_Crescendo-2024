@@ -29,7 +29,8 @@ public class MotorControl extends SubsystemBase {
   }
 
   public void drive(double y,double x){
-    drive.arcadeDrive(x*.5, y*.5);
+    drive.arcadeDrive(0.5*x, y*0.7);
+    System.out.println("Angle: "+ ahrs.getRoll());
   }
   public double getEncoderCount(){
     return lslave.getSelectedSensorPosition();

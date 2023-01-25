@@ -34,7 +34,8 @@ public class NavXAuto extends CommandBase {
       stage = 1;
     }
     if (stage == 1) {
-      drive = Math.tan(Math.toRadians(Math.min(Math.max(m_control.getAngleY(),-45), 45)));
+      drive = (2/Math.PI) * Math.atan(Math.min(Math.max(m_control.getAngleY()/5,-45), 45));
+      //drive = Math.tan(Math.toRadians(Math.min(Math.max(m_control.getAngleY()*2,-45), 45)));
       /*
       if (-1 < m_control.getAngleY() && m_control.getAngleY() < 1) {
         isFinished = true;
@@ -43,8 +44,6 @@ public class NavXAuto extends CommandBase {
     }
     System.out.println("Drive: "+drive);
     m_control.drive(Math.min(Math.max(drive,-1), 1),0);
-    
-    System.out.println("Angle: "+m_control.getAngleY());
   }
 
   // Called once the command ends or is interrupted.
