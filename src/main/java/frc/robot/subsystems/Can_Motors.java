@@ -27,7 +27,7 @@ public class Can_Motors extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     //System.out.println(getAngle());
-    System.out.println("Current"  + getCurrent());
-    System.out.println("Speed" + Speen.getMotorOutputVoltage());
+    //System.out.println("Current"  + getCurrent());
+    //System.out.println("Speed" + Speen.getMotorOutputVoltage());
   }
 }

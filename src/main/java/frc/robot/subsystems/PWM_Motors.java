@@ -21,7 +21,7 @@ public class PWM_Motors extends SubsystemBase {
     drive = new DifferentialDrive(left,right);
   }
   public void drive(double y,double x){
-    drive.tankDrive(x*-.7, y*.7);
+    drive.arcadeDrive(x*.7, y*-.7);
   }
   @Override
   public void periodic() {
