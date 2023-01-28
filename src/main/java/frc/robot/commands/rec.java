@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.PWM_Motors;
 
 public class rec extends CommandBase {
@@ -53,6 +54,8 @@ public class rec extends CommandBase {
       e.printStackTrace();
     }
     this.recControl.drive(leftShaft.getY(), rightShaft.getX());
+    SmartDashboard.putNumber("Current recording value of Left Stick", leftShaft.getY());
+    SmartDashboard.putNumber("Current recording value of Right Stick", rightShaft.getX());
   }
 
   // Called once the command ends or is interrupted.
