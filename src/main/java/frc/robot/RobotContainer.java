@@ -38,10 +38,13 @@ public class RobotContainer {
   private AutoMove move = new AutoMove(m_motorcontrol);
   private NavXAuto balance = new NavXAuto(m_motorcontrol);
 
+  private Xbox xboxControl = new Xbox(m_motorcontrol, controller);
+  private joystickControl joyControl = new joystickControl(m_motorcontrol, leftShaft, rightShaft);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     //m_motorcontrol.setDefaultCommand(new Reader(m_motorcontrol)/*new Drive(m_motorcontrol, controller)*/);
-    m_motorcontrol.setDefaultCommand(new Xbox(m_motorcontrol, controller));
+    m_motorcontrol.setDefaultCommand(joyControl);
     // Configure the button bindings
     configureButtonBindings();
   }
