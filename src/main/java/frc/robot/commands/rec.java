@@ -10,17 +10,17 @@ import java.io.IOException;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.PWM_Motors;
+import frc.robot.subsystems.MotorControl;
 
 public class rec extends CommandBase {
   /** Creates a new recPlay. */
-  private PWM_Motors recControl;
+  private MotorControl recControl;
   private Joystick leftShaft;
   private Joystick rightShaft;
   private String recFile;
   private String name = "rec003";
   private FileWriter rFile;
-  public rec(PWM_Motors recControl, Joystick leftShaft, Joystick rightShaft) {
+  public rec(MotorControl recControl, Joystick leftShaft, Joystick rightShaft) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.recControl = recControl;
     this.leftShaft = leftShaft;

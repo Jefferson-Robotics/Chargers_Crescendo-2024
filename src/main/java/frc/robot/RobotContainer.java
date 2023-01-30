@@ -5,10 +5,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.Xbox;
+import frc.robot.commands.playBack;
+import frc.robot.commands.rec;
 import frc.robot.subsystems.MotorControl;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutoDriver;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.Reader;
@@ -23,10 +27,14 @@ import frc.robot.commands.NavXAuto;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+  private Joystick leftShaft = new Joystick(0);
+  private Joystick rightShaft = new Joystick(1);
   private XboxController controller = new XboxController(3);
   private MotorControl m_motorcontrol = new MotorControl();
   //private Reader reader = new Reader(m_motorcontrol);
 
+  private rec recCommand = new rec(m_motorcontrol, leftShaft, rightShaft);
+  private playBack playB = new playBack(m_motorcontrol);
   private AutoMove move = new AutoMove(m_motorcontrol);
   private NavXAuto balance = new NavXAuto(m_motorcontrol);
 
@@ -45,6 +53,11 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    JoystickButton recButton = new JoystickButton(rightShaft, 11);
+    JoystickButton recButton2 = new JoystickButton(rightShaft, 10);
+    recButton.onTrue(recCommand.until(recButton2));
+    JoystickButton playBack = new JoystickButton(rightShaft, 6);
+    playBack.onTrue(playB);
   }
 
   /**
