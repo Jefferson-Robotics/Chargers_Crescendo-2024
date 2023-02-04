@@ -8,18 +8,18 @@ import java.io.File;
 import java.util.Scanner;
 import java.io.IOException;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.MotorControl;
+import frc.robot.subsystems.CANMotorControl;
 
 
 public class playBack extends CommandBase {
   /** Creates a new playBack. */
-  private MotorControl playControl;
+  private CANMotorControl playControl;
   private double lPlay;
   private double rPlay;
   private String name = "rec003";
   private File rFile;
   private Scanner sc;
-  public playBack(MotorControl playControl) {
+  public playBack(CANMotorControl playControl) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.playControl = playControl;
     //this.name = name;

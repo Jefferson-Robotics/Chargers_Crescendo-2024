@@ -8,15 +8,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.MotorControl;
+import frc.robot.subsystems.CANMotorControl;
 
 public class Reader extends CommandBase {
   /** Creates a new Reader. */
   private File mFile;
   private Scanner myReader;
-  private MotorControl m_subsystem;
+  private CANMotorControl m_subsystem;
 
-  public Reader(MotorControl motorControl) {
+  public Reader(CANMotorControl motorControl) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_subsystem = motorControl;
     

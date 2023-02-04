@@ -6,18 +6,21 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.Xbox;
-import frc.robot.commands.playBack;
-import frc.robot.commands.rec;
-import frc.robot.subsystems.MotorControl;
+import frc.robot.commands.joystickControl;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.AutoBalanceNavx;
 import frc.robot.commands.AutoDriver;
 import frc.robot.commands.AutoMove;
-import frc.robot.commands.Reader;
-import frc.robot.commands.AutoTurn;
-import frc.robot.commands.NavXAuto;
+import frc.robot.commands.Xbox;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+//import frc.robot.commands.turnNinty;
+import frc.robot.commands.rec;
+import frc.robot.commands.playBack;
+import frc.robot.subsystems.CANMotorControl;
+import frc.robot.subsystems.OpenMV;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -29,24 +32,31 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private Joystick leftShaft = new Joystick(0);
   private Joystick rightShaft = new Joystick(1);
-  private XboxController controller = new XboxController(3);
-  private MotorControl m_motorcontrol = new MotorControl();
+  private XboxController controller = new XboxController(2);
+  private CANMotorControl mControl = new CANMotorControl();
+  private rec recCommand = new rec(mControl, leftShaft, rightShaft);
+  private playBack playB = new playBack(mControl);
+
+  //Camera access with a search.
+  private OpenMV camera = new OpenMV();
+
   //private Reader reader = new Reader(m_motorcontrol);
+  private joystickControl joystick = new joystickControl(mControl, leftShaft, rightShaft);
+  private Xbox xbox = new Xbox(mControl, controller);
+  private SendableChooser<Command> m_Chooser = new SendableChooser<Command>();
 
-  private rec recCommand = new rec(m_motorcontrol, leftShaft, rightShaft);
-  private playBack playB = new playBack(m_motorcontrol);
-  private AutoMove move = new AutoMove(m_motorcontrol);
-  private NavXAuto balance = new NavXAuto(m_motorcontrol);
 
-  private Xbox xboxControl = new Xbox(m_motorcontrol, controller);
-  private joystickControl joyControl = new joystickControl(m_motorcontrol, leftShaft, rightShaft);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     //m_motorcontrol.setDefaultCommand(new Reader(m_motorcontrol)/*new Drive(m_motorcontrol, controller)*/);
-    m_motorcontrol.setDefaultCommand(joyControl);
+    m_Chooser.setDefaultOption("Auto Balance", new AutoBalanceNavx(mControl));
+    m_Chooser.addOption("Right Wall Auto (AutoMove)", new AutoMove(mControl));
+    SmartDashboard.putData("Autonomous mode chooser", m_Chooser);
+    mControl.setDefaultCommand(xbox);
     // Configure the button bindings
     configureButtonBindings();
+    
   }
 
   /**
@@ -56,6 +66,8 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    //JoystickButton ninty = new JoystickButton(leftShaft, 7);
+    //ninty.whenPressed(turn);
     JoystickButton recButton = new JoystickButton(rightShaft, 11);
     JoystickButton recButton2 = new JoystickButton(rightShaft, 10);
     recButton.onTrue(recCommand.until(recButton2));
@@ -70,6 +82,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return balance;
+    return m_Chooser.getSelected();
   }
 }

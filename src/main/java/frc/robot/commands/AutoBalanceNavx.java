@@ -5,16 +5,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.MotorControl;
+import frc.robot.subsystems.CANMotorControl;
 
-public class NavXAuto extends CommandBase {
+public class AutoBalanceNavx extends CommandBase {
   /** Creates a new NavXAuto. */
-  private MotorControl m_control;
+  private CANMotorControl m_control;
   private double drive;
   private boolean isFinished;
   private int stage;
   
-  public NavXAuto(MotorControl motorControl) {
+  public AutoBalanceNavx(CANMotorControl motorControl) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_control = motorControl;
     addRequirements(motorControl);

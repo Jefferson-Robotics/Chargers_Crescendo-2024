@@ -5,12 +5,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.MotorControl;
+import frc.robot.subsystems.CANMotorControl;
 
 public class AutoTurn extends CommandBase {
   /** Creates a new Turn. */
 
-  private MotorControl subsystem;
+  private CANMotorControl subsystem;
 
   private double initAngle = 0;
 
@@ -20,7 +20,7 @@ public class AutoTurn extends CommandBase {
 
   private boolean ifRight;
 
-  public AutoTurn(MotorControl subsystem, int degrees, boolean ifRight) {
+  public AutoTurn(CANMotorControl subsystem, int degrees, boolean ifRight) {
     this.subsystem = subsystem;
     this.degrees = degrees;
     this.ifRight = ifRight;

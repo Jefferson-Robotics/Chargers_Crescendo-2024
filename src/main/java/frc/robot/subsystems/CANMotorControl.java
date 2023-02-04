@@ -11,7 +11,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 
 
-public class MotorControl extends SubsystemBase {
+public class CANMotorControl extends SubsystemBase {
   /** Creates a new MotorControl. */
   private WPI_TalonFX lmaster = new WPI_TalonFX(10);
   private WPI_TalonFX rmaster = new WPI_TalonFX(11);
@@ -20,7 +20,7 @@ public class MotorControl extends SubsystemBase {
   private AHRS ahrs;
   private DifferentialDrive drive;
 
-  public MotorControl() {
+  public CANMotorControl() {
     ahrs = new AHRS(SPI.Port.kMXP); 
     lslave.follow(lmaster);
     rslave.follow(rmaster);

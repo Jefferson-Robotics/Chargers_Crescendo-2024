@@ -4,7 +4,7 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.MotorControl;
+import frc.robot.subsystems.CANMotorControl;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import java.io.Console;
@@ -13,10 +13,10 @@ import edu.wpi.first.wpilibj.XboxController;
 
 public class Xbox extends CommandBase {
   /** Creates a new Drive. */
-  private MotorControl m_subsystem;
+  private CANMotorControl m_subsystem;
   private XboxController controller;
 
-  public Xbox(MotorControl motorControl, XboxController controller) {
+  public Xbox(CANMotorControl motorControl, XboxController controller) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_subsystem = motorControl;
     this.controller = controller;

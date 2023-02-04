@@ -5,12 +5,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.MotorControl;
+import frc.robot.subsystems.CANMotorControl;
 
 public class AutoDriver extends CommandBase {
   /** Creates a new AutoDriver. */
 
-  private MotorControl m_subsystem;
+  private CANMotorControl m_subsystem;
 
   private double encoderCount = 0;
 
@@ -18,7 +18,7 @@ public class AutoDriver extends CommandBase {
   private boolean ifForward;
 
   private float ft = 0;
-  public AutoDriver(MotorControl motorControl, float ft, boolean ifForward) {
+  public AutoDriver(CANMotorControl motorControl, float ft, boolean ifForward) {
     this.ft = ft;
     this.ifForward = ifForward;
     // Use addRequirements() here to declare subsystem dependencies.
