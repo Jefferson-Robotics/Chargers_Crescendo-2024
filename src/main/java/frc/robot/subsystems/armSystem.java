@@ -19,7 +19,7 @@ public class armSystem extends SubsystemBase {
   }
   public void setSpeed(double speed) {
     left.set(TalonSRXControlMode.PercentOutput, speed);
-    right.set(TalonSRXControlMode.PercentOutput, -1 * speed);
+    right.set(TalonSRXControlMode.PercentOutput, speed);
   }
 
   @Override
