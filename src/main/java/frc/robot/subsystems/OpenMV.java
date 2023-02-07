@@ -11,7 +11,7 @@ public class OpenMV extends SubsystemBase {
   /** Creates a new OpenMV. */
   SerialPort openMV;
   public OpenMV() {
-    openMV = new SerialPort(9600, SerialPort.Port.kUSB);
+    //openMV = new SerialPort(9600, SerialPort.Port.kUSB);
   }
 
   @Override

@@ -16,9 +16,11 @@ import frc.robot.commands.Xbox;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 //import frc.robot.commands.turnNinty;
 import frc.robot.commands.rec;
+import frc.robot.commands.xboxArm;
 import frc.robot.commands.playBack;
 import frc.robot.subsystems.CANMotorControl;
 import frc.robot.subsystems.OpenMV;
+import frc.robot.subsystems.armSystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
@@ -36,13 +38,16 @@ public class RobotContainer {
   private CANMotorControl mControl = new CANMotorControl();
   private rec recCommand = new rec(mControl, leftShaft, rightShaft);
   private playBack playB = new playBack(mControl);
+  private armSystem arm = new armSystem();
+
 
   //Camera access with a search.
-  private OpenMV camera = new OpenMV();
+  //private OpenMV camera = new OpenMV();
 
   //private Reader reader = new Reader(m_motorcontrol);
   private joystickControl joystick = new joystickControl(mControl, leftShaft, rightShaft);
   private Xbox xbox = new Xbox(mControl, controller);
+  private xboxArm armControl = new xboxArm(arm, controller);
   private SendableChooser<Command> m_Chooser = new SendableChooser<Command>();
 
 
@@ -54,6 +59,7 @@ public class RobotContainer {
     m_Chooser.addOption("Right Wall Auto (AutoMove)", new AutoMove(mControl));
     SmartDashboard.putData("Autonomous mode chooser", m_Chooser);
     mControl.setDefaultCommand(xbox);
+    arm.setDefaultCommand(armControl);
     // Configure the button bindings
     configureButtonBindings();
     
