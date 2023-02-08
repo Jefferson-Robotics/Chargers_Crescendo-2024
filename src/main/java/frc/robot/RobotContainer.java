@@ -58,7 +58,7 @@ public class RobotContainer {
     m_Chooser.setDefaultOption("Auto Balance", new AutoBalanceNavx(mControl));
     m_Chooser.addOption("Right Wall Auto (AutoMove)", new AutoMove(mControl));
     SmartDashboard.putData("Autonomous mode chooser", m_Chooser);
-    mControl.setDefaultCommand(xbox);
+    mControl.setDefaultCommand(joystick);
     arm.setDefaultCommand(armControl);
     // Configure the button bindings
     configureButtonBindings();
