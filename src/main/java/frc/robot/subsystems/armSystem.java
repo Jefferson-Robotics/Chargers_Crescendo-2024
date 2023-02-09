@@ -16,24 +16,24 @@ public class armSystem extends SubsystemBase {
   /** Creates a new armSystem. */
   private TalonSRX left = new TalonSRX(7);
   private TalonSRX right = new TalonSRX(8);
-  private Encoder encoder = new Encoder(0, 1);
+  private Encoder encoderB = new Encoder(0,1);
   public armSystem() { 
 
   }
   public void setSpeed(double speed) {
       left.set(TalonSRXControlMode.PercentOutput, speed);
       right.set(TalonSRXControlMode.PercentOutput, speed);
-      System.out.println(left.getBusVoltage());
   }
-  private double getArmEncoder(){
-    return encoder.get();
+  public double getArmEncoder(){
+    return encoderB.get();
   }
-  private void ResetPos(){
-    left.getBusVoltage();
+  public void resetEncoder() {
+    encoderB.reset();
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    System.out.println(encoderB.get());
   }
 }

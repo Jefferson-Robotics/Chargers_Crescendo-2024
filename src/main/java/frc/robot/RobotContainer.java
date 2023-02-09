@@ -86,6 +86,9 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
+  public void resetArm() {
+    arm.resetEncoder();
+  }
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return m_Chooser.getSelected();
