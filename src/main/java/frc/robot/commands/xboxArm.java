@@ -26,7 +26,7 @@ public class xboxArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armControl.setSpeed(.7 * controller.getRightY());
+    armControl.setSpeed(.7 * controller.getRightY(),.7 * controller.getLeftY());
   }
 
   // Called once the command ends or is interrupted.

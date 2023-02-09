@@ -20,11 +20,14 @@ public class armSystem extends SubsystemBase {
   public armSystem() { 
 
   }
-  public void setSpeed(double speed) {
-      left.set(TalonSRXControlMode.PercentOutput, speed);
-      right.set(TalonSRXControlMode.PercentOutput, speed);
+  public void setSpeed(double speedB, double speedT) {
+    if (!(stopper.get() && speedB>0)) {
+      left.set(TalonSRXControlMode.PercentOutput, speedB);
+      right.set(TalonSRXControlMode.PercentOutput, speedB);
+    }
+    System.out.println(stopper.get());
   }
-  public double getArmEncoder(){
+  public double getArmEncoderBottom(){
     return encoderB.get();
   }
   public void resetEncoder() {

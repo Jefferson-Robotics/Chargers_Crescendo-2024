@@ -7,8 +7,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.joystickControl;
+import frc.robot.commands.moveEncoder;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.commands.AutoBalanceNavx;
 import frc.robot.commands.AutoDriver;
 import frc.robot.commands.AutoMove;
@@ -79,6 +81,11 @@ public class RobotContainer {
     recButton.onTrue(recCommand.until(recButton2));
     JoystickButton playBack = new JoystickButton(rightShaft, 6);
     playBack.onTrue(playB);
+
+
+
+    JoystickButton moveArmZero = new JoystickButton(controller, Button.kB.value);
+    moveArmZero.onTrue(new moveEncoder(arm, 0, 0));
   }
 
   /**
