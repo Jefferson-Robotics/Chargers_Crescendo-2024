@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,6 +18,7 @@ public class armSystem extends SubsystemBase {
   private TalonSRX left = new TalonSRX(7);
   private TalonSRX right = new TalonSRX(8);
   private Encoder encoderB = new Encoder(0,1);
+  private DigitalInput stopper = new DigitalInput(2);
   public armSystem() { 
 
   }
@@ -24,6 +26,9 @@ public class armSystem extends SubsystemBase {
     if (!(stopper.get() && speedB>0)) {
       left.set(TalonSRXControlMode.PercentOutput, speedB);
       right.set(TalonSRXControlMode.PercentOutput, speedB);
+    } else {
+      left.set(TalonSRXControlMode.PercentOutput, 0);
+      right.set(TalonSRXControlMode.PercentOutput, 0);
     }
     System.out.println(stopper.get());
   }
