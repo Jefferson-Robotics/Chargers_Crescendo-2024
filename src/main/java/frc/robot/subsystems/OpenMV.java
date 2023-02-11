@@ -5,17 +5,64 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import java.lang.Double;
 
 public class OpenMV extends SubsystemBase {
-  /** Creates a new OpenMV. */
-  SerialPort openMV;
+  /** Creates a new Camerea. */
+  SerialPort camera;
+
   public OpenMV() {
-    //openMV = new SerialPort(9600, SerialPort.Port.kUSB);
+    try{
+      camera = new SerialPort(115200, Port.kUSB);
+      } catch(Exception e){
+        System.out.println("FUCK YOU");
+      }
+  }
+
+  //x,height;width:distance
+  public double cach(int n) {
+    double ret = 0;
+    String s = camera.readString();
+
+    try{
+      if (n == 1) {
+        ret = Double.parseDouble(s.substring(0, s.indexOf(",")));
+      } else if (n == 2) {
+        ret = Double.parseDouble(s.substring(s.indexOf(",")+1, s.indexOf(";")));
+      } else if (n == 3) {
+        ret = Double.parseDouble(s.substring(s.indexOf(";")+1, s.indexOf(":")));
+      } else if (n == 4) {
+        ret = Double.parseDouble(s.substring(s.indexOf(":")+1));
+      }
+    } catch(Exception e) {
+      ret = -2.0;
+    }
+
+    return ret;
+  }
+
+  public double getPosX() {
+    return cach(1);
+  }
+
+  public double getHeight() {
+    return cach(2);
+  }
+
+  public double getWidth() {
+    return cach(3);
+  }
+
+  public double getDis() {
+    return cach(4);
   }
 
   @Override
   public void periodic() {
+    //System.out.println(camera.readString());
     // This method will be called once per scheduler run
   }
 }
+
