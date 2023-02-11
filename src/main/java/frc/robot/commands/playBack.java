@@ -16,13 +16,15 @@ public class playBack extends CommandBase {
   private CANMotorControl playControl;
   private double lPlay;
   private double rPlay;
-  private String name = "rec003";
+  private String name;
+  private boolean isBlue;
   private File rFile;
   private Scanner sc;
-  public playBack(CANMotorControl playControl) {
+  public playBack(CANMotorControl playControl, boolean isBlue, String name) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.playControl = playControl;
-    //this.name = name;
+    this.isBlue = isBlue;
+    this.name = name;
     addRequirements(playControl);
   }
 
@@ -45,6 +47,9 @@ public class playBack extends CommandBase {
     String[] currentArray = cLine.split(",", 2);
     lPlay = Double.valueOf(currentArray[0]);
     rPlay = Double.valueOf(currentArray[1]);
+    if (!isBlue) {
+      rPlay = -1 * rPlay;
+    }
     this.playControl.drive(lPlay, rPlay);
   }
 

@@ -48,13 +48,13 @@ public class rec extends CommandBase {
   @Override
   public void execute() {
     try {
-      rFile.append(String.valueOf(leftShaft.getY()) + "," + String.valueOf(rightShaft.getX()) + "\n");
+      rFile.append(String.valueOf(-leftShaft.getY()) + "," + String.valueOf(rightShaft.getX()) + "\n");
     } catch (IOException e) {
       System.out.println("An error occurred.");
       e.printStackTrace();
     }
-    this.recControl.drive(leftShaft.getY(), rightShaft.getX());
-    SmartDashboard.putNumber("Current recording value of Left Stick", leftShaft.getY());
+    this.recControl.drive(-leftShaft.getY(), rightShaft.getX());
+    SmartDashboard.putNumber("Current recording value of Left Stick", -leftShaft.getY());
     SmartDashboard.putNumber("Current recording value of Right Stick", rightShaft.getX());
   }
 

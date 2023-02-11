@@ -39,7 +39,7 @@ public class RobotContainer {
   private XboxController controller = new XboxController(2);
   private CANMotorControl mControl = new CANMotorControl();
   private rec recCommand = new rec(mControl, leftShaft, rightShaft);
-  private playBack playB = new playBack(mControl);
+  private playBack playB = new playBack(mControl, true, "rec003");
   private armSystem arm = new armSystem();
 
 
