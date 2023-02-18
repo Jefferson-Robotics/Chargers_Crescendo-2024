@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -15,28 +16,42 @@ import pabeles.concurrency.ConcurrencyOps.Reset;
 
 public class armSystem extends SubsystemBase {
   /** Creates a new armSystem. */
-  private TalonSRX left = new TalonSRX(7);
-  private TalonSRX right = new TalonSRX(8);
+  private TalonSRX botLeft = new TalonSRX(7);
+  private TalonSRX botRight = new TalonSRX(8);
   private Encoder encoderB = new Encoder(0,1);
-  private DigitalInput stopper = new DigitalInput(2);
-  public armSystem() { 
+  private TalonSRX topLeft = new TalonSRX(6);
+  private TalonSRX topRight = new TalonSRX(5);
+  //private Encoder encoderT = new Encoder(100,100);
 
+
+  //private DigitalInput stopper = new DigitalInput(2);
+  public armSystem() { 
+    botLeft.setNeutralMode(NeutralMode.Brake);
+    botRight.setNeutralMode(NeutralMode.Brake);
+    topLeft.setNeutralMode(NeutralMode.Brake);
+    topRight.setNeutralMode(NeutralMode.Brake);
   }
   public void setSpeed(double speedB, double speedT) {
-    if (!(stopper.get() && speedB>0)) {
-      left.set(TalonSRXControlMode.PercentOutput, speedB);
-      right.set(TalonSRXControlMode.PercentOutput, speedB);
-    } else {
-      left.set(TalonSRXControlMode.PercentOutput, 0);
-      right.set(TalonSRXControlMode.PercentOutput, 0);
-    }
-    System.out.println(stopper.get());
+    botLeft.set(TalonSRXControlMode.PercentOutput, speedB);
+    botRight.set(TalonSRXControlMode.PercentOutput, speedB);
+
+    topLeft.set(TalonSRXControlMode.PercentOutput, speedT);
+    topRight.set(TalonSRXControlMode.PercentOutput, speedT);
+    //System.out.println(stopper.get());
   }
+
   public double getArmEncoderBottom(){
     return encoderB.get();
   }
+  /* 
+  public double getArmEncoderTop(){
+    return encoderT.get();
+  }
+  */
+
   public void resetEncoder() {
     encoderB.reset();
+    //encoderT.reset();
   }
 
   @Override

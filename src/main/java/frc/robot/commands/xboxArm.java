@@ -6,16 +6,19 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.armSystem;
 
 public class xboxArm extends CommandBase {
   /** Creates a new xboxArm. */
   private armSystem armControl;
   private XboxController controller;
-  public xboxArm(armSystem armControl, XboxController controller) {
+  private Claw clawControl;
+  public xboxArm(armSystem armControl, XboxController controller, Claw clawControl) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.armControl = armControl;
     this.controller = controller;
+    this.clawControl = clawControl;
     addRequirements(armControl);
   }
 
@@ -27,6 +30,7 @@ public class xboxArm extends CommandBase {
   @Override
   public void execute() {
     armControl.setSpeed(.7 * controller.getRightY(),.7 * controller.getLeftY());
+    clawControl.setSpeed(1 * controller.getRightTriggerAxis() + -1 * controller.getLeftTriggerAxis());
   }
 
   // Called once the command ends or is interrupted.

@@ -23,6 +23,7 @@ import frc.robot.commands.playBack;
 import frc.robot.subsystems.CANMotorControl;
 import frc.robot.subsystems.OpenMV;
 import frc.robot.subsystems.armSystem;
+import frc.robot.subsystems.Claw;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
@@ -41,7 +42,7 @@ public class RobotContainer {
   private rec recCommand = new rec(mControl, leftShaft, rightShaft);
   private playBack playB = new playBack(mControl, true, "rec003");
   private armSystem arm = new armSystem();
-
+  private Claw clawControl = new Claw();
 
   //Camera access with a search.
   //private OpenMV camera = new OpenMV();
@@ -49,7 +50,7 @@ public class RobotContainer {
   //private Reader reader = new Reader(m_motorcontrol);
   private joystickControl joystick = new joystickControl(mControl, leftShaft, rightShaft);
   private Xbox xbox = new Xbox(mControl, controller);
-  private xboxArm armControl = new xboxArm(arm, controller);
+  private xboxArm armControl = new xboxArm(arm, controller, clawControl);
   private SendableChooser<Command> m_Chooser = new SendableChooser<Command>();
 
 
@@ -84,8 +85,8 @@ public class RobotContainer {
 
 
 
-    JoystickButton moveArmZero = new JoystickButton(controller, Button.kB.value);
-    moveArmZero.onTrue(new moveEncoder(arm, 0, 0));
+    //JoystickButton moveArmZero = new JoystickButton(controller, Button.kB.value);
+    //moveArmZero.onTrue(new moveEncoder(arm, 0, 0));
   }
 
   /**
