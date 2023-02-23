@@ -15,6 +15,7 @@ import frc.robot.commands.AutoBalanceNavx;
 import frc.robot.commands.AutoDriver;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.Xbox;
+import frc.robot.commands.dockArmEncoder;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 //import frc.robot.commands.turnNinty;
 import frc.robot.commands.rec;
@@ -53,7 +54,7 @@ public class RobotContainer {
   private xboxArm armControl = new xboxArm(arm, controller, clawControl);
   private SendableChooser<Command> m_Chooser = new SendableChooser<Command>();
 
-
+  private dockArmEncoder armZero = new dockArmEncoder(arm);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -85,8 +86,8 @@ public class RobotContainer {
 
 
 
-    //JoystickButton moveArmZero = new JoystickButton(controller, Button.kB.value);
-    //moveArmZero.onTrue(new moveEncoder(arm, 0, 0));
+    JoystickButton moveArmZero = new JoystickButton(controller, Button.kB.value);
+    moveArmZero.onTrue(armZero);
   }
 
   /**

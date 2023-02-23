@@ -21,42 +21,41 @@ public class armSystem extends SubsystemBase {
   private Encoder encoderB = new Encoder(0,1);
   private TalonSRX topLeft = new TalonSRX(6);
   private TalonSRX topRight = new TalonSRX(5);
-  //private Encoder encoderT = new Encoder(100,100);
+  private Encoder encoderT = new Encoder(2,3);
 
 
-  //private DigitalInput stopper = new DigitalInput(2);
   public armSystem() { 
     botLeft.setNeutralMode(NeutralMode.Brake);
     botRight.setNeutralMode(NeutralMode.Brake);
     topLeft.setNeutralMode(NeutralMode.Brake);
     topRight.setNeutralMode(NeutralMode.Brake);
   }
-  public void setSpeed(double speedB, double speedT) {
+  public void setSpeedBottom(double speedB) {
     botLeft.set(TalonSRXControlMode.PercentOutput, speedB);
     botRight.set(TalonSRXControlMode.PercentOutput, speedB);
-
+  }
+  public void setSpeedTop(double speedT) {
     topLeft.set(TalonSRXControlMode.PercentOutput, speedT);
     topRight.set(TalonSRXControlMode.PercentOutput, speedT);
-    //System.out.println(stopper.get());
   }
 
   public double getArmEncoderBottom(){
     return encoderB.get();
   }
-  /* 
+  
   public double getArmEncoderTop(){
     return encoderT.get();
   }
-  */
 
   public void resetEncoder() {
     encoderB.reset();
-    //encoderT.reset();
+    encoderT.reset();
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    System.out.println(encoderB.get());
+    System.out.println("Bottom Encoder: " + encoderB.get());
+    System.out.println("Top Encoder: " + encoderT.get());
   }
 }

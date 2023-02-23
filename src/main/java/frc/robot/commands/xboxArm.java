@@ -14,6 +14,10 @@ public class xboxArm extends CommandBase {
   private armSystem armControl;
   private XboxController controller;
   private Claw clawControl;
+  private double desPosB;
+  private double curPosBottom;
+  private double desPosT;
+  private double curPosTop;
   public xboxArm(armSystem armControl, XboxController controller, Claw clawControl) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.armControl = armControl;
@@ -24,12 +28,15 @@ public class xboxArm extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    desPosB = 0;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armControl.setSpeed(.7 * controller.getRightY(),.7 * controller.getLeftY());
+    armControl.setSpeedTop(.5 * controller.getLeftY());
+    armControl.setSpeedBottom(.5 * controller.getRightY());
     clawControl.setSpeed(1 * controller.getRightTriggerAxis() + -1 * controller.getLeftTriggerAxis());
   }
 
