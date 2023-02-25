@@ -44,6 +44,7 @@ public class RobotContainer {
   private playBack playB = new playBack(mControl, true, "rec003");
   private armSystem arm = new armSystem();
   private Claw clawControl = new Claw();
+  private moveEncoder movePos = new moveEncoder(arm, 40, -170);
 
   //Camera access with a search.
   //private OpenMV camera = new OpenMV();
@@ -86,8 +87,11 @@ public class RobotContainer {
 
 
 
+
     JoystickButton moveArmZero = new JoystickButton(controller, Button.kB.value);
     moveArmZero.onTrue(armZero);
+    JoystickButton moveArmFront = new JoystickButton(controller, Button.kX.value);
+    moveArmFront.onTrue(movePos);
   }
 
   /**
