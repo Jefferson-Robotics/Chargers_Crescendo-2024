@@ -34,6 +34,7 @@ public class Claw extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    System.out.println("------------------------ CURRENT " + Gripper.getSupplyCurrent());
     System.out.println("------------------------------ OPEN: " + open.get());
     System.out.println("------------------------------ CUBE: " + cube.get());
     System.out.println("------------------------------ CONE: " + cone.get());

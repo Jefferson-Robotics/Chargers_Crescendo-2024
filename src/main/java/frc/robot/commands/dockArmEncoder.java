@@ -83,3 +83,4 @@ public class dockArmEncoder extends CommandBase {
     return isDone;
   }
 }
+
