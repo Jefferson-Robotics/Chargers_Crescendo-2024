@@ -44,7 +44,7 @@ public class RobotContainer {
   private playBack playB = new playBack(mControl, true, "rec003");
   private armSystem arm = new armSystem();
   private Claw clawControl = new Claw();
-  private moveEncoder movePos = new moveEncoder(arm, 40, -170);
+  private moveEncoder movePos = new moveEncoder(arm, -325, -565);
 
   //Camera access with a search.
   //private OpenMV camera = new OpenMV();

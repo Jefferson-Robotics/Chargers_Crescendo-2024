@@ -47,9 +47,9 @@ public class moveEncoder extends CommandBase {
         state = 1;
         control.setSpeedBottom(0);
       } else if (Constants.bottomArmEncoderVertical - curPosBottom > 0) {
-        control.setSpeedBottom(-0.5);
+        control.setSpeedBottom(-0.4);
       } else if (Constants.bottomArmEncoderVertical - curPosBottom < 0) {
-        control.setSpeedBottom(0.5);
+        control.setSpeedBottom(0.4);
       }
 
     } else if (state == 1) {
@@ -58,9 +58,9 @@ public class moveEncoder extends CommandBase {
         state = 2;
         control.setSpeedTop(0);
       } else if (Constants.topArmEncoderVertical - curPosTop > 0) {
-        control.setSpeedTop(-0.5);
+        control.setSpeedTop(-0.4);
       } else if (Constants.topArmEncoderVertical - curPosTop < 0) {
-        control.setSpeedTop(0.5);
+        control.setSpeedTop(0.4);
       }
 
     } else if (state == 2) {
@@ -76,9 +76,9 @@ public class moveEncoder extends CommandBase {
       if (finalPosTop-curPosTop > -1 * Constants.encoderMargin && finalPosTop-curPosTop < Constants.encoderMargin) {
         topDone = true;
       } else if (finalPosTop-curPosTop > 0) {
-        control.setSpeedTop(-0.5);
+        control.setSpeedTop(-0.3);
       } else if (finalPosTop-curPosTop < 0) {
-        control.setSpeedTop(0.5);
+        control.setSpeedTop(0.3);
       }
     }
   }

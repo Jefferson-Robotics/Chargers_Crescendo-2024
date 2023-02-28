@@ -50,9 +50,9 @@ public class dockArmEncoder extends CommandBase {
       if (curPosTop > -1 * Constants.encoderMargin && curPosTop <  Constants.encoderMargin) {
         state = 2;
         control.setSpeedTop(0);
-      } else if (curPosTop < 0) {
+      } else if (curPosTop < -10) {
         control.setSpeedTop(-0.5);
-      } else if (curPosTop > 0) {
+      } else if (curPosTop > -10) {
         control.setSpeedTop(0.5);
       }
 
