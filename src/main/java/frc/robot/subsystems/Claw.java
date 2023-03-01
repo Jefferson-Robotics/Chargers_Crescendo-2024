@@ -30,6 +30,16 @@ public class Claw extends SubsystemBase {
       Gripper.set(ControlMode.PercentOutput, 0);
     } 
   }
+  public boolean isNotOpen() {
+    return(open.get());
+  }
+  public boolean isNotCube() {
+    return(cube.get());
+  }
+  public boolean isNotCone() {
+    return(cone.get());
+  }
+
 
   @Override
   public void periodic() {

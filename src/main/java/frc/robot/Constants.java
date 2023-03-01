@@ -14,6 +14,6 @@ package frc.robot;
  */
 public final class Constants {
     public static double bottomArmEncoderVertical = -350;
-    public static double topArmEncoderVertical = 0;
+    public static double topArmEncoderVertical = -230;
     public static double encoderMargin = 15;
 }

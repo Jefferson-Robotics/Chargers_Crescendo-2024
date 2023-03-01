@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.joystickControl;
+import frc.robot.commands.moveEncodeThird;
 import frc.robot.commands.moveEncoder;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.XboxController;
@@ -16,6 +17,7 @@ import frc.robot.commands.AutoDriver;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.Xbox;
 import frc.robot.commands.dockArmEncoder;
+import frc.robot.commands.grab;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 //import frc.robot.commands.turnNinty;
 import frc.robot.commands.rec;
@@ -44,7 +46,7 @@ public class RobotContainer {
   private playBack playB = new playBack(mControl, true, "rec003");
   private armSystem arm = new armSystem();
   private Claw clawControl = new Claw();
-  private moveEncoder movePos = new moveEncoder(arm, -325, -565);
+  
 
   //Camera access with a search.
   //private OpenMV camera = new OpenMV();
@@ -56,6 +58,8 @@ public class RobotContainer {
   private SendableChooser<Command> m_Chooser = new SendableChooser<Command>();
 
   private dockArmEncoder armZero = new dockArmEncoder(arm);
+  private moveEncoder movePos2 = new moveEncoder(arm, 40, -170);
+  private moveEncodeThird movePos3 = new moveEncodeThird(arm, -325, -565);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -91,7 +95,16 @@ public class RobotContainer {
     JoystickButton moveArmZero = new JoystickButton(controller, Button.kB.value);
     moveArmZero.onTrue(armZero);
     JoystickButton moveArmFront = new JoystickButton(controller, Button.kX.value);
-    moveArmFront.onTrue(movePos);
+    moveArmFront.onTrue(movePos2);
+    JoystickButton moveArmBack = new JoystickButton(controller, Button.kY.value);
+    moveArmBack.onTrue(movePos3);
+
+    JoystickButton clawOpen = new JoystickButton(controller, Button.kLeftBumper.value);
+    clawOpen.onTrue(new grab(clawControl, 0));
+    JoystickButton clawCube = new JoystickButton(controller, Button.kRightBumper.value);
+    clawCube.onTrue(new grab(clawControl, 1));
+    JoystickButton clawCone = new JoystickButton(controller, Button.kStart.value);
+    clawCone.onTrue(new grab(clawControl, 2));
   }
 
   /**
