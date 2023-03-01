@@ -14,10 +14,6 @@ public class xboxArm extends CommandBase {
   private armSystem armControl;
   private XboxController controller;
   private Claw clawControl;
-  private double desPosB;
-  private double curPosBottom;
-  private double desPosT;
-  private double curPosTop;
   public xboxArm(armSystem armControl, XboxController controller, Claw clawControl) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.armControl = armControl;
@@ -28,9 +24,7 @@ public class xboxArm extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    desPosB = 0;
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

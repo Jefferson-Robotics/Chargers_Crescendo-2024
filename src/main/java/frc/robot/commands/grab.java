@@ -38,7 +38,7 @@ public class grab extends CommandBase {
     }
     if (position == 1) {
 
-      if (claw.isNotCube() && !claw.isNotCone()) {
+      if (claw.isNotCube() && claw.isNotCone()) {
         claw.setSpeed(1);
       } else {
         isDone = true;
