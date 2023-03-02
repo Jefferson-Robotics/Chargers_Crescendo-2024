@@ -6,10 +6,12 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.armSystem;
 
 public class moveEncodeThird extends CommandBase {
   private armSystem control;
+  private Claw clawSystem;
   private double finalPosTop;
   private double finalPosBottom;
   private double curPosBottom;
@@ -17,9 +19,10 @@ public class moveEncodeThird extends CommandBase {
   private double state;
   private boolean isDone;
   /** Creates a new moveEncodeThird. */
-  public moveEncodeThird(armSystem control, double finalPosBottom, double finalPosTop) {
+  public moveEncodeThird(armSystem control, Claw clawSystem, double finalPosBottom, double finalPosTop) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.control = control;
+    this.clawSystem = clawSystem;
     this.finalPosBottom = finalPosBottom;
     this.finalPosTop = finalPosTop;
     addRequirements(control);
@@ -44,19 +47,25 @@ public class moveEncodeThird extends CommandBase {
         state = 1;
         control.setSpeedBottom(0);
       } else if (finalPosBottom - curPosBottom > 0) {
-        control.setSpeedBottom(-0.4);
+        control.setSpeedBottom(-0.5);
       } else if (finalPosBottom - curPosBottom < 0) {
-        control.setSpeedBottom(0.4);
+        control.setSpeedBottom(0.5);
       }
 
     } else if (state == 1) {
       
       if (finalPosTop-curPosTop > -1 * Constants.encoderMargin && finalPosTop-curPosTop < Constants.encoderMargin) {
-        isDone = true;
+        state = 2;
       } else if (finalPosTop-curPosTop > 0) {
-        control.setSpeedTop(-0.3);
+        control.setSpeedTop(-0.4);
       } else if (finalPosTop-curPosTop < 0) {
-        control.setSpeedTop(0.3);
+        control.setSpeedTop(0.4);
+      }
+    } else if (state == 2) {
+      if (clawSystem.isNotOpen()) {
+        clawSystem.setSpeed(-1);
+      } else {
+        isDone = true;
       }
     }
   }
