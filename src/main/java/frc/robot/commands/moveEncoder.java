@@ -7,11 +7,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.armSystem;
 
 public class moveEncoder extends CommandBase {
   /** Creates a new moveEncoder. */
   private armSystem control;
+  private Claw clawSystem;
   private double finalPosTop;
   private double finalPosBottom;
   private double curPosBottom;
@@ -47,9 +49,9 @@ public class moveEncoder extends CommandBase {
         state = 1;
         control.setSpeedBottom(0);
       } else if (Constants.bottomArmEncoderVertical - curPosBottom > 0) {
-        control.setSpeedBottom(-0.4);
+        control.setSpeedBottom(-0.6);
       } else if (Constants.bottomArmEncoderVertical - curPosBottom < 0) {
-        control.setSpeedBottom(0.4);
+        control.setSpeedBottom(0.6);
       }
 
     } else if (state == 1) {
@@ -58,9 +60,9 @@ public class moveEncoder extends CommandBase {
         state = 2;
         control.setSpeedTop(0);
       } else if (Constants.topArmEncoderVertical - curPosTop > 0) {
-        control.setSpeedTop(-0.4);
+        control.setSpeedTop(-0.6);
       } else if (Constants.topArmEncoderVertical - curPosTop < 0) {
-        control.setSpeedTop(0.4);
+        control.setSpeedTop(0.6);
       }
 
     } else if (state == 2) {
@@ -76,11 +78,17 @@ public class moveEncoder extends CommandBase {
       if (finalPosTop-curPosTop > -1 * Constants.encoderMargin && finalPosTop-curPosTop < Constants.encoderMargin) {
         topDone = true;
       } else if (finalPosTop-curPosTop > 0) {
-        control.setSpeedTop(-0.3);
+        control.setSpeedTop(-0.4);
       } else if (finalPosTop-curPosTop < 0) {
-        control.setSpeedTop(0.3);
+        control.setSpeedTop(0.4);
       }
-    }
+    } /*else if (state == 3) {
+      if (clawSystem.isNotOpen()) {
+        clawSystem.setSpeed(-1);
+      } else {
+        topDone = true;
+      }
+    }*/
   }
 
   // Called once the command ends or is interrupted.

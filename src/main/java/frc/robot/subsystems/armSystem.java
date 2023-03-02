@@ -55,7 +55,7 @@ public class armSystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    System.out.println("Bottom Encoder: " + encoderB.get());
-    System.out.println("Top Encoder: " + encoderT.get());
+    System.out.println("Bottom Encoder ------ " + encoderB.get());
+    System.out.println("Top Encoder --------- " + encoderT.get());
   }
 }

@@ -59,7 +59,7 @@ public class RobotContainer {
 
   private dockArmEncoder armZero = new dockArmEncoder(arm);
   private moveEncoder movePos2 = new moveEncoder(arm, 40, -170);
-  private moveEncodeThird movePos3 = new moveEncodeThird(arm, -325, -565);
+  private moveEncodeThird movePos3 = new moveEncodeThird(arm, clawControl, -610, -490);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
