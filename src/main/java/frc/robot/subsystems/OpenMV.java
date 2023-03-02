@@ -30,11 +30,19 @@ public class OpenMV extends SubsystemBase {
       if (n == 1) {
         ret = Double.parseDouble(s.substring(0, s.indexOf(",")));
       } else if (n == 2) {
-        ret = Double.parseDouble(s.substring(s.indexOf(",")+1, s.indexOf(";")));
+        ret = Double.parseDouble(s.substring(s.indexOf(",")+1, s.indexOf(":")));
       } else if (n == 3) {
-        ret = Double.parseDouble(s.substring(s.indexOf(";")+1, s.indexOf(":")));
+        ret = Double.parseDouble(s.substring(s.indexOf(":")+1, s.indexOf("'")));
       } else if (n == 4) {
-        ret = Double.parseDouble(s.substring(s.indexOf(":")+1));
+        ret = Double.parseDouble(s.substring(s.indexOf("'")+1, s.indexOf(";")));
+      } else if (n == 5) {
+        ret = Double.parseDouble(s.substring(s.indexOf(";")+1, s.indexOf("-")));
+      } else if (n == 6) {
+        ret = Double.parseDouble(s.substring(s.indexOf("-")+1, s.indexOf("$")));
+      } else if (n == 7) {
+        ret = Double.parseDouble(s.substring(s.indexOf("$")+1, s.indexOf("_")));
+      } else if (n == 8) {
+        ret = Double.parseDouble(s.substring(s.indexOf("_")+1));
       }
     } catch(Exception e) {
       ret = -2.0;
@@ -57,6 +65,22 @@ public class OpenMV extends SubsystemBase {
 
   public double getDis() {
     return cach(4);
+  }
+
+  public double getCubePosX() {
+    return cach(5);
+  }
+
+  public double getCubeHeight() {
+    return cach(6);
+  }
+
+  public double getCubeWidth() {
+    return cach(7);
+  }
+
+  public double getCubeDis() {
+    return cach(8);
   }
 
   @Override
