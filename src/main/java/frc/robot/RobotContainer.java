@@ -42,10 +42,11 @@ public class RobotContainer {
   private Joystick rightShaft = new Joystick(1);
   private XboxController controller = new XboxController(2);
   private CANMotorControl mControl = new CANMotorControl();
-  private rec recCommand = new rec(mControl, leftShaft, rightShaft);
-  private playBack playB = new playBack(mControl, true, "rec003");
   private armSystem arm = new armSystem();
   private Claw clawControl = new Claw();
+  private rec recCommand;
+  private playBack playB = new playBack(mControl, true, "rec003");
+  
   
 
   //Camera access with a search.
@@ -83,28 +84,33 @@ public class RobotContainer {
   private void configureButtonBindings() {
     //JoystickButton ninty = new JoystickButton(leftShaft, 7);
     //ninty.whenPressed(turn);
+
+    JoystickButton[] recButtons = new JoystickButton[6];
+
+    recButtons[0] = new JoystickButton(controller, Button.kB.value);
+    recButtons[0].onTrue(armZero);
+    recButtons[1] = new JoystickButton(controller, Button.kX.value);
+    recButtons[1].onTrue(movePos2);
+    recButtons[2] = new JoystickButton(controller, Button.kY.value);
+    recButtons[2].onTrue(movePos3);
+
+    recButtons[3] = new JoystickButton(controller, Button.kLeftBumper.value);
+    recButtons[3].onTrue(new grab(clawControl, 0));
+    recButtons[4] = new JoystickButton(controller, Button.kRightBumper.value);
+    recButtons[4].onTrue(new grab(clawControl, 1));
+    recButtons[5] = new JoystickButton(controller, Button.kStart.value);
+    recButtons[5].onTrue(new grab(clawControl, 2));
+
+
+    recCommand = new rec(mControl, arm, clawControl, leftShaft, rightShaft, controller, recButtons);
+
+
+
     JoystickButton recButton = new JoystickButton(rightShaft, 11);
     JoystickButton recButton2 = new JoystickButton(rightShaft, 10);
     recButton.onTrue(recCommand.until(recButton2));
     JoystickButton playBack = new JoystickButton(rightShaft, 6);
-    playBack.onTrue(playB);
-
-
-
-
-    JoystickButton moveArmZero = new JoystickButton(controller, Button.kB.value);
-    moveArmZero.onTrue(armZero);
-    JoystickButton moveArmFront = new JoystickButton(controller, Button.kX.value);
-    moveArmFront.onTrue(movePos2);
-    JoystickButton moveArmBack = new JoystickButton(controller, Button.kY.value);
-    moveArmBack.onTrue(movePos3);
-
-    JoystickButton clawOpen = new JoystickButton(controller, Button.kLeftBumper.value);
-    clawOpen.onTrue(new grab(clawControl, 0));
-    JoystickButton clawCube = new JoystickButton(controller, Button.kRightBumper.value);
-    clawCube.onTrue(new grab(clawControl, 1));
-    JoystickButton clawCone = new JoystickButton(controller, Button.kStart.value);
-    clawCone.onTrue(new grab(clawControl, 2));
+    playBack.onTrue(playB);    
   }
 
   /**

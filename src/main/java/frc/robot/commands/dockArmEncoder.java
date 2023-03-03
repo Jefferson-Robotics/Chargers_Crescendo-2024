@@ -35,38 +35,17 @@ public class dockArmEncoder extends CommandBase {
     curPosTop = control.getArmEncoderTop();
 
     if (state == 0) {
-
-      if (Constants.bottomArmEncoderVertical - curPosBottom > -1 * Constants.encoderMargin && Constants.bottomArmEncoderVertical - curPosBottom <  Constants.encoderMargin) {
+      if (control.moveBottom(0.5, Constants.bottomArmEncoderVertical)) {
         state = 1;
-        control.setSpeedBottom(0);
-      } else if (Constants.bottomArmEncoderVertical - curPosBottom > 0) {
-        control.setSpeedBottom(-0.5);
-      } else if (Constants.bottomArmEncoderVertical - curPosBottom < 0) {
-        control.setSpeedBottom(0.5);
       }
-
     } else if (state == 1) {
-
-      if (curPosTop > -1 * Constants.encoderMargin && curPosTop <  Constants.encoderMargin) {
+      if (control.moveTop(0.5, 0)) {
         state = 2;
-        control.setSpeedTop(0);
-      } else if (curPosTop < -10) {
-        control.setSpeedTop(-0.5);
-      } else if (curPosTop > -10) {
-        control.setSpeedTop(0.5);
       }
-
     } else if (state == 2) {
-
-      if (curPosBottom > -1 * Constants.encoderMargin && curPosBottom <  Constants.encoderMargin) {
+      if (control.moveBottom(0.5, 0)) {
         isDone = true;
-        control.setSpeedBottom(0);
-      } else if (curPosBottom < 0) {
-        control.setSpeedBottom(-0.5);
-      } else if (curPosBottom > 0) {
-        control.setSpeedBottom(0.5);
       }
-
     }
   }
 

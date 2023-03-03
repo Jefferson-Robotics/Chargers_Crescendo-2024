@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import pabeles.concurrency.ConcurrencyOps.Reset;
+import frc.robot.Constants;
 
 public class armSystem extends SubsystemBase {
   /** Creates a new armSystem. */
@@ -50,6 +51,31 @@ public class armSystem extends SubsystemBase {
   public void resetEncoder() {
     encoderB.reset();
     encoderT.reset();
+  }
+
+
+  public boolean moveBottom(double speed, double finalPos) {
+    if (finalPos - getArmEncoderBottom() > -1 * Constants.encoderMargin && finalPos - getArmEncoderBottom() <  Constants.encoderMargin) {
+      setSpeedBottom(0);
+      return (true);
+    } else if (finalPos - getArmEncoderBottom() > 0) {
+      setSpeedBottom(-1 * speed);
+    } else if (finalPos - getArmEncoderBottom() < 0) {
+      setSpeedBottom(speed);
+    }
+    return (false);
+  }
+  
+  public boolean moveTop(double speed, double finalPos) {
+    if (finalPos - getArmEncoderTop() > -1 * Constants.encoderMargin && finalPos - getArmEncoderTop() <  Constants.encoderMargin) {
+      setSpeedTop(0);
+      return (true);
+    } else if (finalPos - getArmEncoderTop() > 0) {
+      setSpeedTop(-1 * speed);
+    } else if (finalPos - getArmEncoderTop() < 0) {
+      setSpeedTop(speed);
+    }
+    return (false);
   }
 
   @Override

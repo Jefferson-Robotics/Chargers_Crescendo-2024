@@ -19,8 +19,7 @@ public class moveEncoder extends CommandBase {
   private double curPosBottom;
   private double curPosTop;
   private double state;
-  private boolean topDone;
-  private boolean bottomDone;
+  private boolean isDone;
   public moveEncoder(armSystem control, double finalPosBottom, double finalPosTop) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.control = control;
@@ -33,8 +32,7 @@ public class moveEncoder extends CommandBase {
   @Override
   public void initialize() {
     state = 0;
-    topDone = false;
-    bottomDone = false;
+    isDone = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,45 +42,23 @@ public class moveEncoder extends CommandBase {
     curPosTop = control.getArmEncoderTop();
 
     if (state == 0) {
-      
-      if (Constants.bottomArmEncoderVertical - curPosBottom > -1 * Constants.encoderMargin && Constants.bottomArmEncoderVertical - curPosBottom <  Constants.encoderMargin) {
+      if (control.moveBottom(0.6, Constants.bottomArmEncoderVertical)) {
         state = 1;
-        control.setSpeedBottom(0);
-      } else if (Constants.bottomArmEncoderVertical - curPosBottom > 0) {
-        control.setSpeedBottom(-0.6);
-      } else if (Constants.bottomArmEncoderVertical - curPosBottom < 0) {
-        control.setSpeedBottom(0.6);
       }
-
     } else if (state == 1) {
-
-      if (Constants.topArmEncoderVertical - curPosTop > -1 * Constants.encoderMargin && Constants.topArmEncoderVertical - curPosTop <  Constants.encoderMargin) {
+      if (control.moveTop(0.6, Constants.topArmEncoderVertical)) {
         state = 2;
-        control.setSpeedTop(0);
-      } else if (Constants.topArmEncoderVertical - curPosTop > 0) {
-        control.setSpeedTop(-0.6);
-      } else if (Constants.topArmEncoderVertical - curPosTop < 0) {
-        control.setSpeedTop(0.6);
       }
-
     } else if (state == 2) {
-      
-      if (finalPosBottom-curPosBottom > -1 * Constants.encoderMargin && finalPosBottom-curPosBottom < Constants.encoderMargin) {
-        bottomDone = true;
-      } else if (finalPosBottom-curPosBottom > 0) {
-        control.setSpeedBottom(-0.5);
-      } else if (finalPosBottom-curPosBottom < 0) {
-        control.setSpeedBottom(0.5);
+      if (control.moveBottom(0.5, finalPosBottom)) {
+        state = 3;
       }
-
-      if (finalPosTop-curPosTop > -1 * Constants.encoderMargin && finalPosTop-curPosTop < Constants.encoderMargin) {
-        topDone = true;
-      } else if (finalPosTop-curPosTop > 0) {
-        control.setSpeedTop(-0.4);
-      } else if (finalPosTop-curPosTop < 0) {
-        control.setSpeedTop(0.4);
+    } else if (state == 3) {
+      if (control.moveTop(0.4, finalPosTop)) {
+        isDone = true;
       }
-    } /*else if (state == 3) {
+    } 
+    /*else if (state == 3) {
       if (clawSystem.isNotOpen()) {
         clawSystem.setSpeed(-1);
       } else {
@@ -101,6 +77,6 @@ public class moveEncoder extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (topDone && bottomDone);
+    return isDone;
   }
 }

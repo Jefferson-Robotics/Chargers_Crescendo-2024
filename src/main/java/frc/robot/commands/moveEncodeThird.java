@@ -42,24 +42,12 @@ public class moveEncodeThird extends CommandBase {
     curPosTop = control.getArmEncoderTop();
 
     if (state == 0) {
-      
-      if (finalPosBottom - curPosBottom > -1 * Constants.encoderMargin && finalPosBottom - curPosBottom <  Constants.encoderMargin) {
+      if (control.moveBottom(0.5, finalPosBottom)) {
         state = 1;
-        control.setSpeedBottom(0);
-      } else if (finalPosBottom - curPosBottom > 0) {
-        control.setSpeedBottom(-0.5);
-      } else if (finalPosBottom - curPosBottom < 0) {
-        control.setSpeedBottom(0.5);
       }
-
     } else if (state == 1) {
-      
-      if (finalPosTop-curPosTop > -1 * Constants.encoderMargin && finalPosTop-curPosTop < Constants.encoderMargin) {
+      if (control.moveTop(0.4, finalPosTop)) {
         state = 2;
-      } else if (finalPosTop-curPosTop > 0) {
-        control.setSpeedTop(-0.4);
-      } else if (finalPosTop-curPosTop < 0) {
-        control.setSpeedTop(0.4);
       }
     } else if (state == 2) {
       if (clawSystem.isNotOpen()) {

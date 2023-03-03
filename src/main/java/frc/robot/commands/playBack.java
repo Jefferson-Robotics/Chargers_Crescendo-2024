@@ -44,7 +44,7 @@ public class playBack extends CommandBase {
   @Override
   public void execute() {
     String cLine = sc.nextLine();
-    String[] currentArray = cLine.split(",", 2);
+    String[] currentArray = cLine.split(",", 8);
     lPlay = Double.valueOf(currentArray[0]);
     rPlay = Double.valueOf(currentArray[1]);
     if (!isBlue) {
