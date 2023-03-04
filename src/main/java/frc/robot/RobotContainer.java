@@ -12,6 +12,8 @@ import frc.robot.commands.moveEncoder;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.commands.AutoBalanceNavx;
 import frc.robot.commands.AutoDriver;
 import frc.robot.commands.AutoMove;
@@ -38,6 +40,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+  private ShuffleboardTab tab = Shuffleboard.getTab("Playback");
   private Joystick leftShaft = new Joystick(0);
   private Joystick rightShaft = new Joystick(1);
   private XboxController controller = new XboxController(2);
@@ -45,7 +48,7 @@ public class RobotContainer {
   private armSystem arm = new armSystem();
   private Claw clawControl = new Claw();
   private rec recCommand;
-  private playBack playB = new playBack(mControl, arm, clawControl, true, "rec003");
+  private playBack playB = new playBack(mControl, arm, clawControl, tab);
   
   
 
@@ -61,13 +64,20 @@ public class RobotContainer {
   private dockArmEncoder armZero = new dockArmEncoder(arm);
   private moveEncoder movePos2 = new moveEncoder(arm, clawControl, 40, -170);
   private moveEncodeThird movePos3 = new moveEncodeThird(arm, clawControl, -610, -490);
+  private AutoBalanceNavx balance = new AutoBalanceNavx(mControl);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     //m_motorcontrol.setDefaultCommand(new Reader(m_motorcontrol)/*new Drive(m_motorcontrol, controller)*/);
-    m_Chooser.setDefaultOption("Auto Balance", new AutoBalanceNavx(mControl));
-    m_Chooser.addOption("Right Wall Auto (AutoMove)", new AutoMove(mControl));
-    SmartDashboard.putData("Autonomous mode chooser", m_Chooser);
+    /*
+     * m_Chooser.setDefaultOption("Playback", playB);
+    m_Chooser.addOption("Balance", balance);
+    m_Chooser.addOption("Playback with Balance", autoPB);
+    tab.add("Autonomous", m_Chooser);
+     */
+    
+
+
     mControl.setDefaultCommand(joystick);
     arm.setDefaultCommand(armControl);
     // Configure the button bindings
@@ -108,10 +118,12 @@ public class RobotContainer {
 
     JoystickButton recButton = new JoystickButton(rightShaft, 11);
     JoystickButton recButton2 = new JoystickButton(rightShaft, 10);
-
     recButton.onTrue(recCommand.until(recButton2));
+    /*
     JoystickButton playBack = new JoystickButton(rightShaft, 6);
-    playBack.onTrue(playB);    
+    playBack.onTrue(playB);  
+     */
+      
   }
 
   /**
@@ -124,6 +136,6 @@ public class RobotContainer {
   }
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_Chooser.getSelected();
+    return playB;
   }
 }

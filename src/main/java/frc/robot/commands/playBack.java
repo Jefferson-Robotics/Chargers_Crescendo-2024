@@ -5,19 +5,28 @@
 package frc.robot.commands;
 
 import java.io.File;
+import java.util.Map;
 import java.util.Scanner;
 import java.io.IOException;
+
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import frc.robot.subsystems.CANMotorControl;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.armSystem;
-
 
 public class playBack extends CommandBase {
   /** Creates a new playBack. */
   private CANMotorControl playControl;
   private armSystem arm;
   private Claw claw;
+  private ShuffleboardTab tab;
+  private GenericEntry textbox;
+  private GenericEntry allianceTog;
 
   private double lPlay;
   private double rPlay;
@@ -26,18 +35,21 @@ public class playBack extends CommandBase {
   private double oPlay;
   private double cPlay;
 
-  private String name;
-  private boolean isBlue;
   private File rFile;
   private Scanner sc;
-  public playBack(CANMotorControl playControl, armSystem arm, Claw claw, boolean isBlue, String name) {
+  public playBack(CANMotorControl playControl, armSystem arm, Claw claw, ShuffleboardTab tab) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.playControl = playControl;
     this.arm = arm;
     this.claw = claw;
 
-    this.isBlue = isBlue;
-    this.name = name;
+    this.tab = tab;
+    textbox = tab.add("Recording", "default value")
+      .withWidget(BuiltInWidgets.kTextView).getEntry();
+
+    allianceTog = tab.add("Switch Alliance", false)
+      .withWidget(BuiltInWidgets.kToggleSwitch).getEntry();
+
     addRequirements(playControl, arm, claw);
   }
 
@@ -45,7 +57,7 @@ public class playBack extends CommandBase {
   @Override
   public void initialize() {
     try {
-      rFile = new File("/home/lvuser/" + name + ".txt");
+      rFile = new File("/home/lvuser/" + textbox.getString("rec003") + ".txt");
       sc = new Scanner(rFile);
     } catch (IOException e) {
       System.out.println("An error occurred.");
@@ -65,13 +77,13 @@ public class playBack extends CommandBase {
     oPlay = Double.valueOf(currentArray[4]);
     cPlay = Double.valueOf(currentArray[5]);
 
-    if (!isBlue) {
+    if (allianceTog.getBoolean(false)) {
       rPlay = -1 * rPlay;
     }
     this.playControl.drive(lPlay, rPlay);
-    this.arm.setSpeedTop(0.5 * tPlay);
-    this.arm.setSpeedBottom(0.5 * bPlay);
-    this.claw.setSpeed(1 * cPlay + -1 * oPlay);
+    this.arm.setSpeedTop(tPlay);
+    this.arm.setSpeedBottom(bPlay);
+    this.claw.setSpeed(cPlay - oPlay);
   }
 
   // Called once the command ends or is interrupted.
@@ -82,6 +94,8 @@ public class playBack extends CommandBase {
     arm.setSpeedTop(0);
     arm.setSpeedBottom(0);
     claw.setSpeed(0);
+    new ScheduleCommand(new AutoBalanceNavx(playControl)).schedule();
+
   }
 
   // Returns true when the command should end.

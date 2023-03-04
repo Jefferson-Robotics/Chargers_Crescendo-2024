@@ -26,8 +26,16 @@ public class rec extends CommandBase {
   private Joystick rightShaft;
   private XboxController controller;
   private String recFile;
-  private String name = "rec003";
+  private String name = "rec001";
   private FileWriter rFile;
+
+  private double lPlay;
+  private double rPlay;
+  private double tPlay;
+  private double bPlay;
+  private double oPlay;
+  private double cPlay;
+
   public rec(CANMotorControl recControl, armSystem arm, Claw claw, Joystick leftShaft, Joystick rightShaft, XboxController controller) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.recControl = recControl;
@@ -58,18 +66,24 @@ public class rec extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    lPlay = -leftShaft.getY();
+    rPlay = rightShaft.getX();
+    tPlay = 0.5 * controller.getLeftY();
+    bPlay = 0.5 * controller.getRightY();
+    oPlay = controller.getLeftTriggerAxis();
+    cPlay = controller.getRightTriggerAxis();
     try {
-      rFile.append(String.valueOf(-leftShaft.getY()) + "," + String.valueOf(rightShaft.getX()) + "," + String.valueOf(controller.getLeftY()) + "," + String.valueOf(controller.getRightY()) + "," + String.valueOf(controller.getLeftTriggerAxis()) + "," + String.valueOf(controller.getRightTriggerAxis()) + "\n");
+      rFile.append(String.valueOf(lPlay) + "," + String.valueOf(rPlay) + "," + String.valueOf(tPlay) + "," + String.valueOf(bPlay) + "," + String.valueOf(oPlay) + "," + String.valueOf(cPlay) + "\n");
     } catch (IOException e) {
       System.out.println("An error occurred.");
       e.printStackTrace();
     }
-    this.recControl.drive(-leftShaft.getY(), rightShaft.getX());
-    this.arm.setSpeedTop(0.5 * controller.getLeftY());
-    this.arm.setSpeedBottom(0.5 * controller.getRightY());
-    this.claw.setSpeed(1 * controller.getRightTriggerAxis() + -1 * controller.getLeftTriggerAxis());
-    SmartDashboard.putNumber("Current recording value of Left Stick", -leftShaft.getY());
-    SmartDashboard.putNumber("Current recording value of Right Stick", rightShaft.getX());
+    this.recControl.drive(lPlay, rPlay);
+    this.arm.setSpeedTop(tPlay);
+    this.arm.setSpeedBottom(bPlay);
+    this.claw.setSpeed(cPlay - oPlay);
+    //SmartDashboard.putNumber("Current recording value of Left Stick", -leftShaft.getY());
+    //SmartDashboard.putNumber("Current recording value of Right Stick", rightShaft.getX());
   }
 
   // Called once the command ends or is interrupted.
