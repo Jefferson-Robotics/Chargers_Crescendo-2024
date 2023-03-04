@@ -9,23 +9,36 @@ import java.util.Scanner;
 import java.io.IOException;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.CANMotorControl;
+import frc.robot.subsystems.Claw;
+import frc.robot.subsystems.armSystem;
 
 
 public class playBack extends CommandBase {
   /** Creates a new playBack. */
   private CANMotorControl playControl;
+  private armSystem arm;
+  private Claw claw;
+
   private double lPlay;
   private double rPlay;
+  private double tPlay;
+  private double bPlay;
+  private double oPlay;
+  private double cPlay;
+
   private String name;
   private boolean isBlue;
   private File rFile;
   private Scanner sc;
-  public playBack(CANMotorControl playControl, boolean isBlue, String name) {
+  public playBack(CANMotorControl playControl, armSystem arm, Claw claw, boolean isBlue, String name) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.playControl = playControl;
+    this.arm = arm;
+    this.claw = claw;
+
     this.isBlue = isBlue;
     this.name = name;
-    addRequirements(playControl);
+    addRequirements(playControl, arm, claw);
   }
 
   // Called when the command is initially scheduled.
@@ -44,19 +57,31 @@ public class playBack extends CommandBase {
   @Override
   public void execute() {
     String cLine = sc.nextLine();
-    String[] currentArray = cLine.split(",", 8);
+    String[] currentArray = cLine.split(",", 6);
     lPlay = Double.valueOf(currentArray[0]);
     rPlay = Double.valueOf(currentArray[1]);
+    tPlay = Double.valueOf(currentArray[2]);
+    bPlay = Double.valueOf(currentArray[3]);
+    oPlay = Double.valueOf(currentArray[4]);
+    cPlay = Double.valueOf(currentArray[5]);
+
     if (!isBlue) {
       rPlay = -1 * rPlay;
     }
     this.playControl.drive(lPlay, rPlay);
+    this.arm.setSpeedTop(0.5 * tPlay);
+    this.arm.setSpeedBottom(0.5 * bPlay);
+    this.claw.setSpeed(1 * cPlay + -1 * oPlay);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     sc.close();
+    playControl.drive(0, 0);
+    arm.setSpeedTop(0);
+    arm.setSpeedBottom(0);
+    claw.setSpeed(0);
   }
 
   // Returns true when the command should end.

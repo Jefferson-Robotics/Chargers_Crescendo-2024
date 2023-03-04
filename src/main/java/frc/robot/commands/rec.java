@@ -25,11 +25,10 @@ public class rec extends CommandBase {
   private Joystick leftShaft;
   private Joystick rightShaft;
   private XboxController controller;
-  private JoystickButton[] buttons;
   private String recFile;
   private String name = "rec003";
   private FileWriter rFile;
-  public rec(CANMotorControl recControl, armSystem arm, Claw claw, Joystick leftShaft, Joystick rightShaft, XboxController controller, JoystickButton[] buttons) {
+  public rec(CANMotorControl recControl, armSystem arm, Claw claw, Joystick leftShaft, Joystick rightShaft, XboxController controller) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.recControl = recControl;
     this.arm = arm;
@@ -37,7 +36,6 @@ public class rec extends CommandBase {
     this.leftShaft = leftShaft;
     this.rightShaft = rightShaft;
     this.controller = controller;
-    this.buttons = buttons;
     //this.name = name;
     addRequirements(recControl, arm, claw);
   }
@@ -61,13 +59,15 @@ public class rec extends CommandBase {
   @Override
   public void execute() {
     try {
-      rFile.append(String.valueOf(-leftShaft.getY()) + "," + String.valueOf(rightShaft.getX()) + "," + String.valueOf(buttons[0].getAsBoolean()) + "," + String.valueOf(buttons[1].getAsBoolean()) + "," + String.valueOf(buttons[2].getAsBoolean()) + "," + String.valueOf(buttons[3].getAsBoolean()) + "," + String.valueOf(buttons[4].getAsBoolean()) + "," + String.valueOf(buttons[5].getAsBoolean()) + "\n");
-      System.out.println(String.valueOf(-leftShaft.getY()) + "," + String.valueOf(rightShaft.getX()) + "," + String.valueOf(buttons[0].getAsBoolean()) + "," + String.valueOf(buttons[1].getAsBoolean()) + "," + String.valueOf(buttons[2].getAsBoolean()) + "," + String.valueOf(buttons[3].getAsBoolean()) + "," + String.valueOf(buttons[4].getAsBoolean()) + "," + String.valueOf(buttons[5].getAsBoolean()) + "\n");
+      rFile.append(String.valueOf(-leftShaft.getY()) + "," + String.valueOf(rightShaft.getX()) + "," + String.valueOf(controller.getLeftY()) + "," + String.valueOf(controller.getRightY()) + "," + String.valueOf(controller.getLeftTriggerAxis()) + "," + String.valueOf(controller.getRightTriggerAxis()) + "\n");
     } catch (IOException e) {
       System.out.println("An error occurred.");
       e.printStackTrace();
     }
     this.recControl.drive(-leftShaft.getY(), rightShaft.getX());
+    this.arm.setSpeedTop(0.5 * controller.getLeftY());
+    this.arm.setSpeedBottom(0.5 * controller.getRightY());
+    this.claw.setSpeed(1 * controller.getRightTriggerAxis() + -1 * controller.getLeftTriggerAxis());
     SmartDashboard.putNumber("Current recording value of Left Stick", -leftShaft.getY());
     SmartDashboard.putNumber("Current recording value of Right Stick", rightShaft.getX());
   }

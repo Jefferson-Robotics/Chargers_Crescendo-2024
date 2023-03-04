@@ -25,7 +25,7 @@ public class moveEncodeThird extends CommandBase {
     this.clawSystem = clawSystem;
     this.finalPosBottom = finalPosBottom;
     this.finalPosTop = finalPosTop;
-    addRequirements(control);
+    addRequirements(control, clawSystem);
   }
 
   // Called when the command is initially scheduled.
@@ -53,6 +53,7 @@ public class moveEncodeThird extends CommandBase {
       if (clawSystem.isNotOpen()) {
         clawSystem.setSpeed(-1);
       } else {
+        clawSystem.setSpeed(0);
         isDone = true;
       }
     }
@@ -63,6 +64,7 @@ public class moveEncodeThird extends CommandBase {
   public void end(boolean interrupted) {
     control.setSpeedTop(0);
     control.setSpeedBottom(0);
+    clawSystem.setSpeed(0);
   }
 
   // Returns true when the command should end.

@@ -20,12 +20,13 @@ public class moveEncoder extends CommandBase {
   private double curPosTop;
   private double state;
   private boolean isDone;
-  public moveEncoder(armSystem control, double finalPosBottom, double finalPosTop) {
+  public moveEncoder(armSystem control, Claw clawSystem, double finalPosBottom, double finalPosTop) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.control = control;
+    this.clawSystem = clawSystem;
     this.finalPosBottom = finalPosBottom;
     this.finalPosTop = finalPosTop;
-    addRequirements(control);
+    addRequirements(control, clawSystem);
   }
 
   // Called when the command is initially scheduled.
@@ -55,16 +56,16 @@ public class moveEncoder extends CommandBase {
       }
     } else if (state == 3) {
       if (control.moveTop(0.4, finalPosTop)) {
-        isDone = true;
+        state = 4;
       }
-    } 
-    /*else if (state == 3) {
+    } else if (state == 4) {
       if (clawSystem.isNotOpen()) {
         clawSystem.setSpeed(-1);
       } else {
-        topDone = true;
+        clawSystem.setSpeed(0);
+        isDone = true;
       }
-    }*/
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -72,6 +73,7 @@ public class moveEncoder extends CommandBase {
   public void end(boolean interrupted) {
     control.setSpeedTop(0);
     control.setSpeedBottom(0);
+    clawSystem.setSpeed(0);
   }
 
   // Returns true when the command should end.

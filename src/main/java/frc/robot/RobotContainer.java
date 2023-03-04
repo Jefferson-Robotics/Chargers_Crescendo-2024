@@ -45,7 +45,7 @@ public class RobotContainer {
   private armSystem arm = new armSystem();
   private Claw clawControl = new Claw();
   private rec recCommand;
-  private playBack playB = new playBack(mControl, true, "rec003");
+  private playBack playB = new playBack(mControl, arm, clawControl, true, "rec003");
   
   
 
@@ -59,7 +59,7 @@ public class RobotContainer {
   private SendableChooser<Command> m_Chooser = new SendableChooser<Command>();
 
   private dockArmEncoder armZero = new dockArmEncoder(arm);
-  private moveEncoder movePos2 = new moveEncoder(arm, 40, -170);
+  private moveEncoder movePos2 = new moveEncoder(arm, clawControl, 40, -170);
   private moveEncodeThird movePos3 = new moveEncodeThird(arm, clawControl, -610, -490);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -85,29 +85,30 @@ public class RobotContainer {
     //JoystickButton ninty = new JoystickButton(leftShaft, 7);
     //ninty.whenPressed(turn);
 
-    JoystickButton[] recButtons = new JoystickButton[6];
+    JoystickButton dockArmButton = new JoystickButton(controller, Button.kBack.value);
+    dockArmButton.onTrue(armZero);
+    JoystickButton coneTwoButton= new JoystickButton(controller, Button.kX.value);
+    coneTwoButton.onTrue(movePos2);
+    JoystickButton coneThreeButton = new JoystickButton(controller, Button.kY.value);
+    coneThreeButton.onTrue(movePos3);
+    JoystickButton cubeTwoButton = new JoystickButton(controller, Button.kA.value);
+    JoystickButton cubeThreeButton = new JoystickButton(controller, Button.kB.value);
 
-    recButtons[0] = new JoystickButton(controller, Button.kB.value);
-    recButtons[0].onTrue(armZero);
-    recButtons[1] = new JoystickButton(controller, Button.kX.value);
-    recButtons[1].onTrue(movePos2);
-    recButtons[2] = new JoystickButton(controller, Button.kY.value);
-    recButtons[2].onTrue(movePos3);
-
-    recButtons[3] = new JoystickButton(controller, Button.kLeftBumper.value);
-    recButtons[3].onTrue(new grab(clawControl, 0));
-    recButtons[4] = new JoystickButton(controller, Button.kRightBumper.value);
-    recButtons[4].onTrue(new grab(clawControl, 1));
-    recButtons[5] = new JoystickButton(controller, Button.kStart.value);
-    recButtons[5].onTrue(new grab(clawControl, 2));
+    JoystickButton clawOpenButton = new JoystickButton(controller, Button.kLeftBumper.value);
+    clawOpenButton.onTrue(new grab(clawControl, 0));
+    JoystickButton clawCubeButton = new JoystickButton(controller, Button.kRightBumper.value);
+    clawCubeButton.onTrue(new grab(clawControl, 1));
+    JoystickButton clawConeButton = new JoystickButton(controller, Button.kStart.value);
+    clawConeButton.onTrue(new grab(clawControl, 2));
 
 
-    recCommand = new rec(mControl, arm, clawControl, leftShaft, rightShaft, controller, recButtons);
+    recCommand = new rec(mControl, arm, clawControl, leftShaft, rightShaft, controller);
 
 
 
     JoystickButton recButton = new JoystickButton(rightShaft, 11);
     JoystickButton recButton2 = new JoystickButton(rightShaft, 10);
+
     recButton.onTrue(recCommand.until(recButton2));
     JoystickButton playBack = new JoystickButton(rightShaft, 6);
     playBack.onTrue(playB);    
