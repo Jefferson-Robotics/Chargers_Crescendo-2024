@@ -94,8 +94,6 @@ public class playBack extends CommandBase {
     arm.setSpeedTop(0);
     arm.setSpeedBottom(0);
     claw.setSpeed(0);
-    new ScheduleCommand(new AutoBalanceNavx(playControl)).schedule();
-
   }
 
   // Returns true when the command should end.

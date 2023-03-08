@@ -45,7 +45,7 @@ public class RobotContainer {
   private Joystick rightShaft = new Joystick(1);
   private XboxController controller = new XboxController(2);
   private CANMotorControl mControl = new CANMotorControl();
-  private armSystem arm = new armSystem();
+  private armSystem arm = new armSystem(tab);
   private Claw clawControl = new Claw();
   private rec recCommand;
   private playBack playB = new playBack(mControl, arm, clawControl, tab);

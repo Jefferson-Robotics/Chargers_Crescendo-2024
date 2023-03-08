@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import pabeles.concurrency.ConcurrencyOps.Reset;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class armSystem extends SubsystemBase {
   /** Creates a new armSystem. */
@@ -25,7 +27,7 @@ public class armSystem extends SubsystemBase {
   private Encoder encoderT = new Encoder(2,3);
 
 
-  public armSystem() { 
+  public armSystem(ShuffleboardTab tab) {
     botLeft.setNeutralMode(NeutralMode.Brake);
     botRight.setNeutralMode(NeutralMode.Brake);
     topLeft.setNeutralMode(NeutralMode.Brake);

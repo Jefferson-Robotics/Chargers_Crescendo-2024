@@ -35,7 +35,7 @@ public class AutoBalanceNavx extends CommandBase {
     }
     if (stage == 1) {
       //drive = (2/Math.PI) * Math.atan(Math.min(Math.max(m_control.getAngleY()/10,-45), 45));
-      drive = Math.tan(Math.toRadians(Math.min(Math.max(-1 * m_control.getAngleY(),-11),11))*7) / 8;
+      drive = Math.tan(Math.toRadians(Math.min(Math.max(-1 * m_control.getAngleY(),-15),15))*0.4) / 0.2;
       /*
       if (-1 < m_control.getAngleY() && m_control.getAngleY() < 1) {
         isFinished = true;
@@ -43,7 +43,7 @@ public class AutoBalanceNavx extends CommandBase {
       */
     }
     System.out.println("Drive: "+drive);
-    m_control.drive(Math.min(Math.max(drive,-1), 1),0);
+    m_control.drive(Math.min(Math.max(drive,-0.7), 0.7),0);
   }
 
   // Called once the command ends or is interrupted.
