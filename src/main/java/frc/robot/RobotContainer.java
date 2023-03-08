@@ -62,7 +62,7 @@ public class RobotContainer {
   private SendableChooser<Command> m_Chooser = new SendableChooser<Command>();
 
   private dockArmEncoder armZero = new dockArmEncoder(arm);
-  private moveEncoder movePos2 = new moveEncoder(arm, clawControl, 40, -170);
+  private moveEncoder movePos2 = new moveEncoder(arm, clawControl, 20, -170);
   private moveEncodeThird movePos3 = new moveEncodeThird(arm, clawControl, -570, -490);
   private moveEncoder movePos2Cube = new moveEncoder(arm, clawControl, 40, -170);
   private moveEncodeThird movePos3Cube = new moveEncodeThird(arm, clawControl, -570, -490);

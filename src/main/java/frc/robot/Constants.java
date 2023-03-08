@@ -13,7 +13,7 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static double bottomArmEncoderVertical = -350;
-    public static double topArmEncoderVertical = -230;
+    public static double bottomArmEncoderVertical = -230;
+    public static double topArmEncoderVertical = -350;
     public static double encoderMargin = 15;
 }

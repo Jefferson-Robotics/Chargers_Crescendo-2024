@@ -30,12 +30,12 @@ public class AutoBalanceNavx extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_control.getAngleY() > 20) {
+    if (m_control.getAngleY() < -10) {
       stage = 1;
     }
     if (stage == 1) {
       //drive = (2/Math.PI) * Math.atan(Math.min(Math.max(m_control.getAngleY()/10,-45), 45));
-      drive = Math.tan(Math.toRadians(Math.min(Math.max(m_control.getAngleY(),-11),11))*7) / 8;
+      drive = Math.tan(Math.toRadians(Math.min(Math.max(-1 * m_control.getAngleY(),-11),11))*7) / 8;
       /*
       if (-1 < m_control.getAngleY() && m_control.getAngleY() < 1) {
         isFinished = true;
