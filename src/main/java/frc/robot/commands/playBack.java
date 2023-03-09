@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.AutoB;
 import frc.robot.subsystems.CANMotorControl;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.armSystem;
@@ -94,6 +96,8 @@ public class playBack extends CommandBase {
     arm.setSpeedTop(0);
     arm.setSpeedBottom(0);
     claw.setSpeed(0);
+
+    new SequentialCommandGroup(new AutoB(playControl)).schedule();
   }
 
   // Returns true when the command should end.

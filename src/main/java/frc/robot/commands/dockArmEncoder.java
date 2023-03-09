@@ -39,11 +39,11 @@ public class dockArmEncoder extends CommandBase {
         state = 1;
       }
     } else if (state == 1) {
-      if (control.moveTop(0.5, 0)) {
+      if (control.moveTop(0.3, 0)) {
         state = 2;
       }
     } else if (state == 2) {
-      if (control.moveBottom(0.5, 0)) {
+      if (control.moveBottom(0.3, 0)) {
         isDone = true;
       }
     }

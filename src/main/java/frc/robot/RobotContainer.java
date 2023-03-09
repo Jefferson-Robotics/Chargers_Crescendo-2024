@@ -62,10 +62,8 @@ public class RobotContainer {
   private SendableChooser<Command> m_Chooser = new SendableChooser<Command>();
 
   private dockArmEncoder armZero = new dockArmEncoder(arm);
-  private moveEncoder movePos2 = new moveEncoder(arm, clawControl, 20, -170);
-  private moveEncodeThird movePos3 = new moveEncodeThird(arm, clawControl, -570, -490);
-  private moveEncoder movePos2Cube = new moveEncoder(arm, clawControl, 40, -170);
-  private moveEncodeThird movePos3Cube = new moveEncodeThird(arm, clawControl, -570, -490);
+  private moveEncoder movePos2 = new moveEncoder(arm, clawControl, 0, -170);
+  private moveEncodeThird movePos3 = new moveEncodeThird(arm, clawControl, -570, -460);
   private AutoBalanceNavx balance = new AutoBalanceNavx(mControl);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -97,16 +95,13 @@ public class RobotContainer {
     //JoystickButton ninty = new JoystickButton(leftShaft, 7);
     //ninty.whenPressed(turn);
 
-    JoystickButton dockArmButton = new JoystickButton(controller, Button.kBack.value);
+    JoystickButton dockArmButton = new JoystickButton(controller, Button.kB.value);
     dockArmButton.onTrue(armZero);
     JoystickButton coneTwoButton= new JoystickButton(controller, Button.kX.value);
     coneTwoButton.onTrue(movePos2);
     JoystickButton coneThreeButton = new JoystickButton(controller, Button.kY.value);
     coneThreeButton.onTrue(movePos3);
-    JoystickButton cubeTwoButton = new JoystickButton(controller, Button.kA.value);
-    cubeTwoButton.onTrue(movePos2Cube);
-    JoystickButton cubeThreeButton = new JoystickButton(controller, Button.kB.value);
-    cubeThreeButton.onTrue(movePos3Cube);
+
 
     JoystickButton clawOpenButton = new JoystickButton(controller, Button.kLeftBumper.value);
     clawOpenButton.onTrue(new grab(clawControl, 0));

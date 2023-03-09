@@ -66,8 +66,8 @@ public class rec extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    lPlay = -leftShaft.getY();
-    rPlay = rightShaft.getX();
+    lPlay = -0.7 * leftShaft.getY();
+    rPlay = 0.7 * rightShaft.getX();
     tPlay = 0.5 * controller.getLeftY();
     bPlay = 0.5 * controller.getRightY();
     oPlay = controller.getLeftTriggerAxis();

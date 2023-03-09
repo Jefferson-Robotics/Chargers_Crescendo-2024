@@ -36,7 +36,7 @@ public class CANMotorControl extends SubsystemBase {
   }
 
   public void drive(double y,double x){
-    drive.arcadeDrive(0.5*x, y*-0.7);
+    drive.arcadeDrive(x, -1 * y);
   }
   public double getEncoderCount(){
     return lslave.getSelectedSensorPosition();
