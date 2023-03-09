@@ -55,15 +55,15 @@ public class moveEncodeThird extends CommandBase {
       }
     } else if (state == 3) {
       if (control.moveTop(0.08, finalPosTop)) {
-        state = 4;
+        isDone = true;
       }
-    } else if (state == 4) {
+    } /*else if (state == 4) {
       if (clawSystem.isNotOpen()) {
         clawSystem.setSpeed(-1);
       } else {
         clawSystem.setSpeed(0);
         isDone = true;
-      }
+      }*/
     }
   }
 
