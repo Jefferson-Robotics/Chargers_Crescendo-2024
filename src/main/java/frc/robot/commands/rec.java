@@ -26,7 +26,7 @@ public class rec extends CommandBase {
   private Joystick rightShaft;
   private XboxController controller;
   private String recFile;
-  private String name = "rec001";
+  private String name = "rec002";
   private FileWriter rFile;
 
   private double lPlay;
@@ -66,8 +66,8 @@ public class rec extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    lPlay = -0.7 * leftShaft.getY();
-    rPlay = 0.7 * rightShaft.getX();
+    lPlay = -0.8 * leftShaft.getY();
+    rPlay = 0.6 * rightShaft.getX();
     tPlay = 0.5 * controller.getLeftY();
     bPlay = 0.5 * controller.getRightY();
     oPlay = controller.getLeftTriggerAxis();

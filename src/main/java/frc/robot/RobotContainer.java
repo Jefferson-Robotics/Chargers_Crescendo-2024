@@ -10,14 +10,19 @@ import frc.robot.commands.joystickControl;
 import frc.robot.commands.moveEncodeThird;
 import frc.robot.commands.moveEncoder;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import frc.robot.commands.AutoB;
+import frc.robot.commands.AutoBTimedGoobo;
 import frc.robot.commands.AutoBalanceNavx;
 import frc.robot.commands.AutoDriver;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.Xbox;
+import frc.robot.commands.cancelAll;
 import frc.robot.commands.dockArmEncoder;
 import frc.robot.commands.grab;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -44,7 +49,7 @@ public class RobotContainer {
   private Joystick leftShaft = new Joystick(0);
   private Joystick rightShaft = new Joystick(1);
   private XboxController controller = new XboxController(2);
-  private CANMotorControl mControl = new CANMotorControl();
+  private CANMotorControl mControl = new CANMotorControl(tab);
   private armSystem arm = new armSystem(tab);
   private Claw clawControl = new Claw();
   private rec recCommand;
@@ -62,9 +67,9 @@ public class RobotContainer {
   private SendableChooser<Command> m_Chooser = new SendableChooser<Command>();
 
   private dockArmEncoder armZero = new dockArmEncoder(arm);
-  private moveEncoder movePos2 = new moveEncoder(arm, clawControl, 0, -170);
-  private moveEncodeThird movePos3 = new moveEncodeThird(arm, clawControl, -570, -460);
-  private AutoBalanceNavx balance = new AutoBalanceNavx(mControl);
+  private moveEncoder movePos2 = new moveEncoder(arm, clawControl, -5, -170);
+  private moveEncodeThird movePos3 = new moveEncodeThird(arm, clawControl, -550, -400);
+  private AutoB balance = new AutoB(mControl);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -94,6 +99,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
     //JoystickButton ninty = new JoystickButton(leftShaft, 7);
     //ninty.whenPressed(turn);
+    JoystickButton cancelCommands = new JoystickButton(rightShaft,2);
+    cancelCommands.onTrue(new cancelAll(mControl, arm, clawControl));
+
 
     JoystickButton dockArmButton = new JoystickButton(controller, Button.kB.value);
     dockArmButton.onTrue(armZero);
@@ -135,6 +143,6 @@ public class RobotContainer {
   }
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return playB;
+    return new AutoBTimedGoobo(mControl);
   }
 }

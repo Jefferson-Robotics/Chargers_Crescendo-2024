@@ -97,7 +97,7 @@ public class playBack extends CommandBase {
     arm.setSpeedBottom(0);
     claw.setSpeed(0);
 
-    new SequentialCommandGroup(new AutoB(playControl)).schedule();
+    new SequentialCommandGroup(new AutoBTimed(playControl)).schedule();
   }
 
   // Returns true when the command should end.

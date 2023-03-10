@@ -31,7 +31,7 @@ public class joystickControl extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.drive(-0.7*leftShaft.getY(), 0.7*rightShaft.getX());
+    m_subsystem.drive(-0.8*leftShaft.getY(), 0.6*rightShaft.getX());
   }
 
   // Called once the command ends or is interrupted.

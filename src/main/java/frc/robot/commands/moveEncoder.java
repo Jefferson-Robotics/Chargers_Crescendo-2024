@@ -56,16 +56,16 @@ public class moveEncoder extends CommandBase {
       }
     } else if (state == 3) {
       if (control.moveTop(0.15, finalPosTop)) {
-        state = 4;
+        isDone = true;
       }
-    } else if (state == 4) {
+    } /*else if (state == 4) {
       if (clawSystem.isNotOpen()) {
         clawSystem.setSpeed(-1);
       } else {
         clawSystem.setSpeed(0);
         isDone = true;
       }
-    }
+    } */
   }
 
   // Called once the command ends or is interrupted.
