@@ -21,6 +21,7 @@ import frc.robot.commands.AutoBTimedGoobo;
 import frc.robot.commands.AutoBalanceNavx;
 import frc.robot.commands.AutoDriver;
 import frc.robot.commands.AutoMove;
+import frc.robot.commands.PlaceAndBalance;
 import frc.robot.commands.Xbox;
 import frc.robot.commands.cancelAll;
 import frc.robot.commands.dockArmEncoder;
@@ -68,7 +69,7 @@ public class RobotContainer {
 
   private dockArmEncoder armZero = new dockArmEncoder(arm);
   private moveEncoder movePos2 = new moveEncoder(arm, clawControl, -5, -170);
-  private moveEncodeThird movePos3 = new moveEncodeThird(arm, clawControl, -550, -400);
+  private moveEncodeThird movePos3 = new moveEncodeThird(arm, clawControl, -550, -100);
   private AutoB balance = new AutoB(mControl);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -143,6 +144,6 @@ public class RobotContainer {
   }
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new AutoBTimedGoobo(mControl);
+    return new PlaceAndBalance(mControl, arm, clawControl);
   }
 }
