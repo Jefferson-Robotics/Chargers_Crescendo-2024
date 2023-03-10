@@ -41,10 +41,7 @@ public class AutoBTimedGoobo extends CommandBase {
     else
       m_control.drive((x * -1) + (Math.abs(m_control.getAccer() * .4 )),0);
   } 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    
+  private void driveWeighted(){
     speed = 0;
     angle = m_control.getAngleY()*-1;
     endTime = Timer.getFPGATimestamp();
@@ -86,7 +83,7 @@ public class AutoBTimedGoobo extends CommandBase {
       drive(.2,angle);
     } else if (angle < 15 && angle > -15) {
       System.out.println("4");
-      drive(.3,angle);
+      drive(.25,angle);
     } else if (angle < 20 && angle > -20) {
       System.out.println("5");
       drive(.3,angle);
@@ -95,11 +92,47 @@ public class AutoBTimedGoobo extends CommandBase {
       m_control.drive(0,0);
     }
   } else {
-    m_control.drive(.5,0);
+      m_control.drive(.5,0);
+    }
   }
-    //drive(speed, angle);
-    //m_control.drive(.25, 0);
-    //System.out.println("-------Stage-------" + stage);
+
+  private void driveNoWeight(){
+    speed = 0;
+    angle = m_control.getAngleY()*-1;
+    endTime = Timer.getFPGATimestamp();
+    if (endTime >= startTime + 2.3) {
+       /*if (Math.abs(m_control.getAccer()) > .25) {
+        System.out.println("1");
+        drive(0,angle);
+      } else*/
+       if (angle < 2 && angle > -2) {
+        System.out.println("1");
+        drive(.13,angle);
+      } else if (angle < 5 && angle > -5) {
+        System.out.println("2");
+        drive(.17,angle);
+      } else if (angle < 10 && angle > -10) {
+        System.out.println("3");
+        drive(.19,angle);
+      } else if (angle < 15 && angle > -15) {
+        System.out.println("4");
+        drive(.25,angle);
+      } else if (angle < 20 && angle > -20) {
+        System.out.println("5");
+        drive(.24,angle);
+      } else {
+        System.out.println("6");
+        m_control.drive(0,0);
+      }
+    } else {
+      m_control.drive(.5,0);
+    }
+  }
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    driveNoWeight();
+    //driveWeighted();
   }
 
   // Called once the command ends or is interrupted.
