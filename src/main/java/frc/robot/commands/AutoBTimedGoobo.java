@@ -45,7 +45,7 @@ public class AutoBTimedGoobo extends CommandBase {
     speed = 0;
     angle = m_control.getAngleY()*-1;
     endTime = Timer.getFPGATimestamp();
-    if (endTime >= startTime + 2.3) {
+    if (endTime >= startTime + 2.1) {
        /*if (Math.abs(m_control.getAccer()) > .25) {
         System.out.println("1");
         drive(0,angle);
@@ -100,7 +100,7 @@ public class AutoBTimedGoobo extends CommandBase {
     speed = 0;
     angle = m_control.getAngleY()*-1;
     endTime = Timer.getFPGATimestamp();
-    if (endTime >= startTime + 2.3) {
+    if (endTime >= startTime + 1.7) {
        /*if (Math.abs(m_control.getAccer()) > .25) {
         System.out.println("1");
         drive(0,angle);
@@ -125,7 +125,7 @@ public class AutoBTimedGoobo extends CommandBase {
         m_control.drive(0,0);
       }
     } else {
-      m_control.drive(.5,0);
+      m_control.drive(.6,0);
     }
   }
   // Called every time the scheduler runs while the command is scheduled.

@@ -47,15 +47,15 @@ public class moveEncoder extends CommandBase {
         state = 1;
       }
     } else if (state == 1) {
-      if (control.moveTop(0.4, Constants.topArmEncoderVertical)) {
+      if (control.moveTop(0.6, Constants.topArmEncoderVertical)) {
         state = 2;
       }
     } else if (state == 2) {
-      if (control.moveBottom(0.25, finalPosBottom)) {
+      if (control.moveBottom(0.3, finalPosBottom)) {
         state = 3;
       }
     } else if (state == 3) {
-      if (control.moveTop(0.15, finalPosTop)) {
+      if (control.moveTop(0.25, finalPosTop)) {
         isDone = true;
       }
     } /*else if (state == 4) {

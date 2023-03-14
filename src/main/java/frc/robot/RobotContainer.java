@@ -68,8 +68,8 @@ public class RobotContainer {
   private SendableChooser<Command> m_Chooser = new SendableChooser<Command>();
 
   private dockArmEncoder armZero = new dockArmEncoder(arm);
-  private moveEncoder movePos2 = new moveEncoder(arm, clawControl, -5, -170);
-  private moveEncodeThird movePos3 = new moveEncodeThird(arm, clawControl, -550, -100);
+  private moveEncoder movePos2 = new moveEncoder(arm, clawControl, 80, -170);
+  private moveEncodeThird movePos3 = new moveEncodeThird(arm, clawControl, -550, -500);
   private AutoB balance = new AutoB(mControl);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -102,6 +102,8 @@ public class RobotContainer {
     //ninty.whenPressed(turn);
     JoystickButton cancelCommands = new JoystickButton(rightShaft,2);
     cancelCommands.onTrue(new cancelAll(mControl, arm, clawControl));
+    JoystickButton release = new JoystickButton(leftShaft, 1);
+    release.onTrue(new grab(clawControl, 0));
 
 
     JoystickButton dockArmButton = new JoystickButton(controller, Button.kB.value);
