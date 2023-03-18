@@ -30,7 +30,7 @@ public class AutoDriver extends CommandBase {
   @Override
   public void initialize() {
     encoderCount = m_subsystem.getEncoderCount();
-isFinished = false;
+    isFinished = false;
   }
 
   /**
@@ -47,7 +47,7 @@ isFinished = false;
       direction = -1;
     }
     if ((m_subsystem.getEncoderCount() <= encoderCount + ((38340)/3 * Math.abs(ft))) || m_subsystem.getEncoderCount() >= encoderCount - ((38340)/3 * Math.abs(ft))){
-      m_subsystem.drive(-direction * 0.6,0);
+      m_subsystem.drive(direction * 0.6,0);
     } else {
       isFinished = true;
     }

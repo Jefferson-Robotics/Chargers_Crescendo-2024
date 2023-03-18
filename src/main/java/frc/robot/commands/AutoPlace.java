@@ -5,18 +5,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Claw;
+import frc.robot.subsystems.armSystem;
 
-public class grab extends CommandBase {
-  private int position;
-  private Claw claw;
+public class AutoPlace extends CommandBase {
+  /** Creates a new AutoPlace. */
+  private armSystem arm;
   private boolean isDone;
-  /** Creates a new grab. */
-  public grab(Claw claw, int position) {
+  public AutoPlace(armSystem arm) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.position = position;
-    this.claw = claw;
-    addRequirements(claw);
+    this.arm = arm;
+    addRequirements(arm);
   }
 
   // Called when the command is initially scheduled.
@@ -28,36 +26,15 @@ public class grab extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (position == 0) {
-      //OPEN
-      if (claw.isNotOpen()) {
-        claw.setSpeed(-1);
-      } else {
-        isDone = true;
-      }
-    }
-    if (position == 1) {
-      //CUBE
-      if (claw.isNotCube() && claw.isNotCone()) {
-        claw.setSpeed(1);
-      } else {
-        isDone = true;
-      }
-    }
-    if (position == 2) {
-      //CONE
-      if (claw.isNotCone()) {
-        claw.setSpeed(1);
-      } else {
-        isDone = true;
-      }
+    if (arm.moveBottom(0.6, -520)) {
+      isDone = true;
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    claw.setSpeed(0);
+    arm.setSpeedBottom(0);
   }
 
   // Returns true when the command should end.

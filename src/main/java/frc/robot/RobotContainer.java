@@ -7,8 +7,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.joystickControl;
+import frc.robot.commands.moveDistance;
 import frc.robot.commands.moveEncodeThird;
 import frc.robot.commands.moveEncoder;
+import frc.robot.commands.newAuto;
+import frc.robot.commands.newBalance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -146,6 +149,8 @@ public class RobotContainer {
   }
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new PlaceAndBalance(mControl, arm, clawControl);
+    //return new PlaceAndBalance(mControl, arm, clawControl);
+    //return new newAuto(mControl, arm, clawControl);
+    return new newBalance(mControl);
   }
 }

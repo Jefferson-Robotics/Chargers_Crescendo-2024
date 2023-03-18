@@ -43,19 +43,19 @@ public class moveEncoder extends CommandBase {
     curPosTop = control.getArmEncoderTop();
 
     if (state == 0) {
-      if (control.moveBottom(0.5, Constants.bottomArmEncoderVertical)) {
+      if (control.moveBottom(0.7, Constants.bottomArmEncoderVertical)) {
         state = 1;
       }
     } else if (state == 1) {
-      if (control.moveTop(0.6, Constants.topArmEncoderVertical)) {
+      if (control.moveTop(0.7, Constants.topArmEncoderVertical)) {
         state = 2;
       }
     } else if (state == 2) {
-      if (control.moveBottom(0.3, finalPosBottom)) {
+      if (control.moveBottom(0.4, finalPosBottom)) {
         state = 3;
       }
     } else if (state == 3) {
-      if (control.moveTop(0.25, finalPosTop)) {
+      if (control.moveTop(0.3, finalPosTop)) {
         isDone = true;
       }
     } /*else if (state == 4) {

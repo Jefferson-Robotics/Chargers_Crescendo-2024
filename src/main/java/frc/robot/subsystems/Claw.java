@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Claw extends SubsystemBase {
@@ -19,6 +20,7 @@ public class Claw extends SubsystemBase {
   private DigitalInput cube = new DigitalInput(6);
   private DigitalInput cone = new DigitalInput(5);
   
+  private DutyCycleEncoder encoder = new DutyCycleEncoder(7);
   
 
 
@@ -44,5 +46,6 @@ public class Claw extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    System.out.println("Claw Encoder <<<<<<< " + encoder.getAbsolutePosition());
   }
 }

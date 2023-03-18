@@ -5,18 +5,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Claw;
+import frc.robot.subsystems.CANMotorControl;
 
-public class grab extends CommandBase {
-  private int position;
-  private Claw claw;
+public class newBalance extends CommandBase {
+  /** Creates a new newBalance. */
+  private CANMotorControl drive;
+  private double angle;
   private boolean isDone;
-  /** Creates a new grab. */
-  public grab(Claw claw, int position) {
+  private double speed;
+  public newBalance(CANMotorControl drive) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.position = position;
-    this.claw = claw;
-    addRequirements(claw);
+    this.drive = drive;
+    addRequirements(drive);
   }
 
   // Called when the command is initially scheduled.
@@ -28,36 +28,21 @@ public class grab extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (position == 0) {
-      //OPEN
-      if (claw.isNotOpen()) {
-        claw.setSpeed(-1);
-      } else {
-        isDone = true;
-      }
+    angle = drive.getAngleY();
+
+    if (angle <= 0) {
+      speed = -0.2*Math.pow(angle, 1/3) - 0.03 *angle;
+    } else {
+      speed = -0.2*Math.pow(angle-5, 1/3) - 0.03 *(angle-5);
     }
-    if (position == 1) {
-      //CUBE
-      if (claw.isNotCube() && claw.isNotCone()) {
-        claw.setSpeed(1);
-      } else {
-        isDone = true;
-      }
-    }
-    if (position == 2) {
-      //CONE
-      if (claw.isNotCone()) {
-        claw.setSpeed(1);
-      } else {
-        isDone = true;
-      }
-    }
+
+    drive.drive(speed, 0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    claw.setSpeed(0);
+    drive.drive(0, 0);
   }
 
   // Returns true when the command should end.

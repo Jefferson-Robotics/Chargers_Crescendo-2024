@@ -38,12 +38,12 @@ public class CANMotorControl extends SubsystemBase {
     drive = new DifferentialDrive(lmaster,rmaster);
     //this.tab = tab;
     //shuffleboardInput = tab.add("SpeedInput", BuiltInWidgets.kTextView).getEntry();
-    /*
-    rslave.configOpenloopRamp(0.1);
-    rmaster.configOpenloopRamp(0.1);
-    lslave.configOpenloopRamp(0.1);
-    lmaster.configOpenloopRamp(0.1);
-     */
+    
+    rslave.configOpenloopRamp(0.25);
+    rmaster.configOpenloopRamp(0.25);
+    lslave.configOpenloopRamp(0.25);
+    lmaster.configOpenloopRamp(0.25);
+    
     
   }
 
@@ -80,6 +80,7 @@ public class CANMotorControl extends SubsystemBase {
     //graph.setDoubleArray(data.toArray(new Double[0]));
     System.out.println("Angle:" + getAngleY());
     System.out.println("Accer: " + getAccer());
+    System.out.println("MOTORS:       " + getEncoderCount());
     //Double.parseDouble(shuffleboardInput.getString("-1"));
 
 

@@ -42,11 +42,11 @@ public class moveEncodeThird extends CommandBase {
     curPosTop = control.getArmEncoderTop();
 
     if (state == 0) {
-      if (control.moveBottom(0.6, finalPosBottom)) {
+      if (control.moveBottom(0.8, finalPosBottom)) {
         state = 1;
       }
     } else if (state == 1) {
-      if (control.moveTop(0.5, -340)) {
+      if (control.moveTop(0.7, -340)) {
         state = 2;
       }
     } else if (state == 2) {
@@ -54,7 +54,7 @@ public class moveEncodeThird extends CommandBase {
         state = 3;
       }
     } else if (state == 3) {
-      if (control.moveTop(0.15, finalPosTop)) {
+      if (control.moveTop(0.25, finalPosTop)) {
         isDone = true;
       }
     } /*else if (state == 4) {
