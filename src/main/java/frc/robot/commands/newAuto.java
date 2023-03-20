@@ -18,6 +18,6 @@ public class newAuto extends SequentialCommandGroup {
   public newAuto(CANMotorControl drive, armSystem arm, Claw claw) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new AutoPlace(arm), new grab(claw, 0), new ParallelCommandGroup(new AutoDock(arm), new moveDistance(drive, 7.5, 0.6)), new moveDistance(drive, 6, 0.4), new moveDistance(drive, -6, 0.6), new newBalance(drive));
+    addCommands(new AutoPlace(arm), new grab(claw, 0), new ParallelCommandGroup(new AutoDock(arm), new moveDistance(drive, 8, 0.6)), new resetArmEncoders(arm), new moveDistance(drive, 5.5, 0.4), new moveDistance(drive, -6, 0.6), new newBalance(drive));
   }
 }

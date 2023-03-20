@@ -16,9 +16,9 @@ public class Claw extends SubsystemBase {
   /** Creates a new Claw. */
   private TalonSRX Gripper = new TalonSRX(4);
   
-  private DigitalInput open = new DigitalInput(4);
-  private DigitalInput cube = new DigitalInput(6);
-  private DigitalInput cone = new DigitalInput(5);
+ // private DigitalInput open = new DigitalInput(4);
+  //private DigitalInput cube = new DigitalInput(6);
+  //private DigitalInput cone = new DigitalInput(5);
   
   private DutyCycleEncoder encoder = new DutyCycleEncoder(7);
   
@@ -28,11 +28,15 @@ public class Claw extends SubsystemBase {
 
   public void setSpeed(double speedClaw) {
     Gripper.set(TalonSRXControlMode.PercentOutput, -speedClaw);
-    if (!open.get() && speedClaw < 0) {
+    if ((encoderPos() > 0.74 && speedClaw < 0) || (encoderPos() < 0.25 && speedClaw > 0)) {
       Gripper.set(ControlMode.PercentOutput, 0);
     } 
   }
-  public boolean isNotOpen() {
+  public double encoderPos() {
+    return(encoder.getAbsolutePosition());
+  }
+  /*
+   * public boolean isNotOpen() {
     return(open.get());
   }
   public boolean isNotCube() {
@@ -41,6 +45,8 @@ public class Claw extends SubsystemBase {
   public boolean isNotCone() {
     return(cone.get());
   }
+   */
+  
 
 
   @Override

@@ -4,28 +4,36 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.armSystem;
 
-public class dockArmEncoder extends CommandBase {
-  /** Creates a new dockArmEncoder. */
+public class moveEncoderFront extends CommandBase {
+  /** Creates a new moveEncoder. */
   private armSystem control;
-  private boolean isDone;
-  private double state;
+  private Claw clawSystem;
+  private double finalPosTop;
+  private double finalPosBottom;
   private double curPosBottom;
   private double curPosTop;
-  public dockArmEncoder(armSystem control) {
+  private double state;
+  private boolean isDone;
+  public moveEncoderFront(armSystem control, Claw clawSystem, double finalPosBottom, double finalPosTop) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.control = control;
-    addRequirements(control);
+    this.clawSystem = clawSystem;
+    this.finalPosBottom = finalPosBottom;
+    this.finalPosTop = finalPosTop;
+    addRequirements(control, clawSystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    isDone = false;
     state = 0;
+    isDone = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,25 +43,34 @@ public class dockArmEncoder extends CommandBase {
     curPosTop = control.getArmEncoderTop();
 
     if (state == 0) {
-      if (control.moveBottom(0.8, Constants.bottomArmEncoderVertical)) {
+      if (control.moveBottom(0.7, Constants.bottomArmEncoderVertical)) {
         state = 1;
       }
     } else if (state == 1) {
-      if (control.moveTop(0.5, 0)) {
+      if (control.moveTop(0.7, finalPosTop)) {
         state = 2;
       }
     } else if (state == 2) {
-      if (control.moveBottom(0.5, 0)) {
+      if (control.moveBottom(0.4, finalPosBottom)) {
         isDone = true;
       }
-    }
+    } 
+     /*else if (state == 4) {
+      if (clawSystem.isNotOpen()) {
+        clawSystem.setSpeed(-1);
+      } else {
+        clawSystem.setSpeed(0);
+        isDone = true;
+      }
+    } */
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    control.setSpeedBottom(0);
     control.setSpeedTop(0);
+    control.setSpeedBottom(0);
+    clawSystem.setSpeed(0);
   }
 
   // Returns true when the command should end.
@@ -62,4 +79,3 @@ public class dockArmEncoder extends CommandBase {
     return isDone;
   }
 }
-

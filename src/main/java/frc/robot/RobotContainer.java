@@ -10,6 +10,7 @@ import frc.robot.commands.joystickControl;
 import frc.robot.commands.moveDistance;
 import frc.robot.commands.moveEncodeThird;
 import frc.robot.commands.moveEncoder;
+import frc.robot.commands.moveEncoderFront;
 import frc.robot.commands.newAuto;
 import frc.robot.commands.newBalance;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -32,6 +33,7 @@ import frc.robot.commands.grab;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 //import frc.robot.commands.turnNinty;
 import frc.robot.commands.rec;
+import frc.robot.commands.resetArmEncoders;
 import frc.robot.commands.xboxArm;
 import frc.robot.commands.playBack;
 import frc.robot.subsystems.CANMotorControl;
@@ -70,8 +72,10 @@ public class RobotContainer {
   private xboxArm armControl = new xboxArm(arm, controller, clawControl);
   private SendableChooser<Command> m_Chooser = new SendableChooser<Command>();
 
+  private resetArmEncoders reset = new resetArmEncoders(arm);
   private dockArmEncoder armZero = new dockArmEncoder(arm);
-  private moveEncoder movePos2 = new moveEncoder(arm, clawControl, 80, -170);
+  private moveEncoderFront movePos1 = new moveEncoderFront(arm, clawControl, 90, -80);
+  private moveEncoder movePos2 = new moveEncoder(arm, clawControl, 90, -170);
   private moveEncodeThird movePos3 = new moveEncodeThird(arm, clawControl, -550, -500);
   private AutoB balance = new AutoB(mControl);
 
@@ -107,10 +111,16 @@ public class RobotContainer {
     cancelCommands.onTrue(new cancelAll(mControl, arm, clawControl));
     JoystickButton release = new JoystickButton(leftShaft, 1);
     release.onTrue(new grab(clawControl, 0));
+    JoystickButton resetArmEncoders1 = new JoystickButton(rightShaft, 10);
+    resetArmEncoders1.onTrue(reset);
+    JoystickButton resetArmEncoders2 = new JoystickButton(rightShaft, 11);
+    resetArmEncoders2.onTrue(reset);
 
 
     JoystickButton dockArmButton = new JoystickButton(controller, Button.kB.value);
     dockArmButton.onTrue(armZero);
+    JoystickButton frontOneButton = new JoystickButton(controller, Button.kA.value);
+    frontOneButton.onTrue(movePos1);
     JoystickButton coneTwoButton= new JoystickButton(controller, Button.kX.value);
     coneTwoButton.onTrue(movePos2);
     JoystickButton coneThreeButton = new JoystickButton(controller, Button.kY.value);
@@ -127,12 +137,11 @@ public class RobotContainer {
 
     recCommand = new rec(mControl, arm, clawControl, leftShaft, rightShaft, controller);
 
-
-
+    /* 
     JoystickButton recButton = new JoystickButton(rightShaft, 11);
     JoystickButton recButton2 = new JoystickButton(rightShaft, 10);
     recButton.onTrue(recCommand.until(recButton2));
-    /*
+
     JoystickButton playBack = new JoystickButton(rightShaft, 6);
     playBack.onTrue(playB);  
      */
@@ -150,7 +159,6 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     //return new PlaceAndBalance(mControl, arm, clawControl);
-    //return new newAuto(mControl, arm, clawControl);
-    return new newBalance(mControl);
+    return new newAuto(mControl, arm, clawControl);
   }
 }

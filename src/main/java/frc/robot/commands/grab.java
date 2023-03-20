@@ -30,7 +30,7 @@ public class grab extends CommandBase {
   public void execute() {
     if (position == 0) {
       //OPEN
-      if (claw.isNotOpen()) {
+      if (claw.encoderPos() < 0.74) {
         claw.setSpeed(-1);
       } else {
         isDone = true;
@@ -38,7 +38,7 @@ public class grab extends CommandBase {
     }
     if (position == 1) {
       //CUBE
-      if (claw.isNotCube() && claw.isNotCone()) {
+      if (claw.encoderPos() > 0.55) {
         claw.setSpeed(1);
       } else {
         isDone = true;
@@ -46,7 +46,7 @@ public class grab extends CommandBase {
     }
     if (position == 2) {
       //CONE
-      if (claw.isNotCone()) {
+      if (claw.encoderPos() > 0.25) {
         claw.setSpeed(1);
       } else {
         isDone = true;
