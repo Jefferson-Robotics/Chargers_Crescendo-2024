@@ -40,6 +40,7 @@ import frc.robot.subsystems.CANMotorControl;
 import frc.robot.subsystems.OpenMV;
 import frc.robot.subsystems.armSystem;
 import frc.robot.subsystems.Claw;
+import frc.robot.subsystems.proxSensor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
@@ -58,6 +59,7 @@ public class RobotContainer {
   private CANMotorControl mControl = new CANMotorControl(tab);
   private armSystem arm = new armSystem(tab);
   private Claw clawControl = new Claw();
+  private proxSensor prox = new proxSensor();
   private rec recCommand;
   private playBack playB = new playBack(mControl, arm, clawControl, tab);
   
