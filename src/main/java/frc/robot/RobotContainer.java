@@ -4,45 +4,33 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.commands.joystickControl;
-import frc.robot.commands.moveDistance;
-import frc.robot.commands.moveEncodeThird;
-import frc.robot.commands.moveEncoder;
-import frc.robot.commands.moveEncoderFront;
-import frc.robot.commands.newAuto;
-import frc.robot.commands.newBalance;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import frc.robot.commands.AutoB;
-import frc.robot.commands.AutoBTimedGoobo;
-import frc.robot.commands.AutoBalanceNavx;
-import frc.robot.commands.AutoDriver;
-import frc.robot.commands.AutoMove;
-import frc.robot.commands.PlaceAndBalance;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.Xbox;
 import frc.robot.commands.cancelAll;
 import frc.robot.commands.dockArmEncoder;
 import frc.robot.commands.grab;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.joystickControl;
+import frc.robot.commands.moveEncodeThird;
+import frc.robot.commands.moveEncoder;
+import frc.robot.commands.newAuto;
+import frc.robot.commands.newBalance;
 //import frc.robot.commands.turnNinty;
 import frc.robot.commands.rec;
 import frc.robot.commands.resetArmEncoders;
 import frc.robot.commands.xboxArm;
-import frc.robot.commands.playBack;
 import frc.robot.subsystems.CANMotorControl;
-import frc.robot.subsystems.OpenMV;
-import frc.robot.subsystems.armSystem;
 import frc.robot.subsystems.Claw;
-import frc.robot.subsystems.proxSensor;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import frc.robot.subsystems.armSystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -52,19 +40,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private ShuffleboardTab tab = Shuffleboard.getTab("Playback");
+  private ShuffleboardTab tab = Shuffleboard.getTab("Game Display");
   private Joystick leftShaft = new Joystick(0);
   private Joystick rightShaft = new Joystick(1);
   private XboxController controller = new XboxController(2);
   private CANMotorControl mControl = new CANMotorControl(tab);
   private armSystem arm = new armSystem(tab);
-  private Claw clawControl = new Claw();
-  private proxSensor prox = new proxSensor();
+  private Claw clawControl = new Claw(tab);
   private rec recCommand;
-  private playBack playB = new playBack(mControl, arm, clawControl, tab);
+  //private playBack playB = new playBack(mControl, arm, clawControl, tab);
   
-  
-
+  private UsbCamera camera = CameraServer.startAutomaticCapture("Camera", 0);
   //Camera access with a search.
   //private OpenMV camera = new OpenMV();
 
@@ -76,10 +62,13 @@ public class RobotContainer {
 
   private resetArmEncoders reset = new resetArmEncoders(arm);
   private dockArmEncoder armZero = new dockArmEncoder(arm);
-  private moveEncoderFront movePos1 = new moveEncoderFront(arm, clawControl, 90, -80);
-  private moveEncoder movePos2 = new moveEncoder(arm, clawControl, 90, -170);
-  private moveEncodeThird movePos3 = new moveEncodeThird(arm, clawControl, -550, -500);
-  private AutoB balance = new AutoB(mControl);
+  private moveEncoder movePos1 = new moveEncoder(arm, Constants.bottomFrontStop, -100);
+  private moveEncoder movePos2 = new moveEncoder(arm, Constants.bottomFrontStop, -260);
+  private moveEncodeThird movePos3 = new moveEncodeThird(arm, Constants.bottomBackStop, Constants.topBackStop);
+  private grab open = new grab(clawControl, 0);
+  private grab cube = new grab(clawControl, 1);
+  private grab cone = new grab(clawControl, 2);
+  private newBalance balance = new newBalance(mControl);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -90,6 +79,8 @@ public class RobotContainer {
     m_Chooser.addOption("Playback with Balance", autoPB);
     tab.add("Autonomous", m_Chooser);
      */
+    camera.setResolution(320, 240);
+    camera.setFPS(5);
     
 
 
@@ -111,30 +102,40 @@ public class RobotContainer {
     //ninty.whenPressed(turn);
     JoystickButton cancelCommands = new JoystickButton(rightShaft,2);
     cancelCommands.onTrue(new cancelAll(mControl, arm, clawControl));
-    JoystickButton release = new JoystickButton(leftShaft, 1);
-    release.onTrue(new grab(clawControl, 0));
+
     JoystickButton resetArmEncoders1 = new JoystickButton(rightShaft, 10);
     resetArmEncoders1.onTrue(reset);
     JoystickButton resetArmEncoders2 = new JoystickButton(rightShaft, 11);
     resetArmEncoders2.onTrue(reset);
+    JoystickButton balanceButton = new JoystickButton(leftShaft, 2);
+    balanceButton.onTrue(balance);
+
+    /* 
+    JoystickButton joyOpen = new JoystickButton(leftShaft, 1);
+    joyOpen.onTrue(open);
+    JoystickButton joyCube = new JoystickButton(rightShaft, 1);
+    joyCube.onTrue(cube);
+    JoystickButton joyCone = new JoystickButton(rightShaft, 3);
+    joyCone.onTrue(cone);
+    */
+
 
 
     JoystickButton dockArmButton = new JoystickButton(controller, Button.kB.value);
     dockArmButton.onTrue(armZero);
     JoystickButton frontOneButton = new JoystickButton(controller, Button.kA.value);
     frontOneButton.onTrue(movePos1);
-    JoystickButton coneTwoButton= new JoystickButton(controller, Button.kX.value);
+    JoystickButton coneTwoButton = new JoystickButton(controller, Button.kX.value);
     coneTwoButton.onTrue(movePos2);
     JoystickButton coneThreeButton = new JoystickButton(controller, Button.kY.value);
     coneThreeButton.onTrue(movePos3);
 
-
     JoystickButton clawOpenButton = new JoystickButton(controller, Button.kLeftBumper.value);
-    clawOpenButton.onTrue(new grab(clawControl, 0));
+    clawOpenButton.onTrue(open);
     JoystickButton clawCubeButton = new JoystickButton(controller, Button.kRightBumper.value);
-    clawCubeButton.onTrue(new grab(clawControl, 1));
+    clawCubeButton.onTrue(cube);
     JoystickButton clawConeButton = new JoystickButton(controller, Button.kStart.value);
-    clawConeButton.onTrue(new grab(clawControl, 2));
+    clawConeButton.onTrue(cone);
 
 
     recCommand = new rec(mControl, arm, clawControl, leftShaft, rightShaft, controller);
@@ -162,5 +163,6 @@ public class RobotContainer {
     // An ExampleCommand will run in autonomous
     //return new PlaceAndBalance(mControl, arm, clawControl);
     return new newAuto(mControl, arm, clawControl);
+    //return new moveDistance(mControl, 10, 0.6);
   }
 }

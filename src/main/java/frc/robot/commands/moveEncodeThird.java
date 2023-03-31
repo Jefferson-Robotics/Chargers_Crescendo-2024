@@ -11,28 +11,30 @@ import frc.robot.subsystems.armSystem;
 
 public class moveEncodeThird extends CommandBase {
   private armSystem control;
-  private Claw clawSystem;
   private double finalPosTop;
   private double finalPosBottom;
   private double curPosBottom;
   private double curPosTop;
-  private double state;
-  private boolean isDone;
+  private double stateB;
+  private double stateT;
+  private boolean bottomDone;
+  private boolean topDone;
   /** Creates a new moveEncodeThird. */
-  public moveEncodeThird(armSystem control, Claw clawSystem, double finalPosBottom, double finalPosTop) {
+  public moveEncodeThird(armSystem control, double finalPosBottom, double finalPosTop) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.control = control;
-    this.clawSystem = clawSystem;
     this.finalPosBottom = finalPosBottom;
     this.finalPosTop = finalPosTop;
-    addRequirements(control, clawSystem);
+    addRequirements(control);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    state = 0;
-    isDone = false;
+    stateB = 0;
+    stateT = 0;
+    bottomDone = false;
+    topDone = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,7 +43,35 @@ public class moveEncodeThird extends CommandBase {
     curPosBottom = control.getArmEncoderBottom();
     curPosTop = control.getArmEncoderTop();
 
-    if (state == 0) {
+    if (stateB == 0) {
+      if (control.moveBottom(1, Constants.bottomArmEncoderVertical)) {
+        stateB = 1;
+        stateT = 1;
+      } 
+    } else if (stateB == 1) {
+      if (control.moveBottom(1, finalPosBottom)) {
+        stateB = 2;
+        bottomDone = true;
+      } 
+    } 
+
+    if (stateT == 1) {
+      if (control.moveTop(1, -340)) {
+        stateT = 2;
+      }
+    } else if (stateT == 2) {
+      if (control.moveTop(0.5, -390)) {
+        stateT = 3;
+      }
+    } else if (stateT == 3) {
+      if (control.moveTop(0.3, finalPosTop)) {
+        stateT = 4;
+        topDone = true;
+      }
+    }
+    
+
+    /*if (state == 0) {
       if (control.moveBottom(0.8, finalPosBottom)) {
         state = 1;
       }
@@ -57,7 +87,7 @@ public class moveEncodeThird extends CommandBase {
       if (control.moveTop(0.25, finalPosTop)) {
         isDone = true;
       }
-    } /*else if (state == 4) {
+    } else if (state == 4) {
       if (clawSystem.isNotOpen()) {
         clawSystem.setSpeed(-1);
       } else {
@@ -72,12 +102,11 @@ public class moveEncodeThird extends CommandBase {
   public void end(boolean interrupted) {
     control.setSpeedTop(0);
     control.setSpeedBottom(0);
-    clawSystem.setSpeed(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isDone;
+    return (topDone && bottomDone);
   }
 }

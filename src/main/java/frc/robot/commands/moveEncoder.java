@@ -13,20 +13,18 @@ import frc.robot.subsystems.armSystem;
 public class moveEncoder extends CommandBase {
   /** Creates a new moveEncoder. */
   private armSystem control;
-  private Claw clawSystem;
   private double finalPosTop;
   private double finalPosBottom;
   private double curPosBottom;
   private double curPosTop;
   private double state;
   private boolean isDone;
-  public moveEncoder(armSystem control, Claw clawSystem, double finalPosBottom, double finalPosTop) {
+  public moveEncoder(armSystem control, double finalPosBottom, double finalPosTop) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.control = control;
-    this.clawSystem = clawSystem;
     this.finalPosBottom = finalPosBottom;
     this.finalPosTop = finalPosTop;
-    addRequirements(control, clawSystem);
+    addRequirements(control);
   }
 
   // Called when the command is initially scheduled.
@@ -43,19 +41,15 @@ public class moveEncoder extends CommandBase {
     curPosTop = control.getArmEncoderTop();
 
     if (state == 0) {
-      if (control.moveBottom(0.7, Constants.bottomArmEncoderVertical)) {
+      if (control.moveBottom(1, Constants.bottomArmEncoderVertical)) {
         state = 1;
       }
     } else if (state == 1) {
-      if (control.moveTop(0.7, Constants.topArmEncoderVertical)) {
+      if (control.moveTop(1, finalPosTop)) {
         state = 2;
       }
     } else if (state == 2) {
-      if (control.moveBottom(0.4, finalPosBottom)) {
-        state = 3;
-      }
-    } else if (state == 3) {
-      if (control.moveTop(0.3, finalPosTop)) {
+      if (control.moveBottom(0.7, finalPosBottom)) {
         isDone = true;
       }
     } /*else if (state == 4) {
@@ -73,7 +67,6 @@ public class moveEncoder extends CommandBase {
   public void end(boolean interrupted) {
     control.setSpeedTop(0);
     control.setSpeedBottom(0);
-    clawSystem.setSpeed(0);
   }
 
   // Returns true when the command should end.

@@ -7,16 +7,17 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.armSystem;
 
-public class AutoDock extends CommandBase {
+public class SimpleBottomEncoder extends CommandBase {
   /** Creates a new AutoDock. */
   private armSystem arm;
   private boolean isDone;
-  private double bottomPos;
-  private double topPos;
-  private double state;
-  public AutoDock(armSystem arm) {
+  private double speed;
+  private double finalPos;
+  public SimpleBottomEncoder(armSystem arm, double speed, double finalPos) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.arm = arm;
+    this.speed = speed;
+    this.finalPos = finalPos;
     addRequirements(arm);
   }
 
@@ -24,23 +25,13 @@ public class AutoDock extends CommandBase {
   @Override
   public void initialize() {
     isDone = false;
-    state = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    bottomPos = arm.getArmEncoderBottom();
-    topPos = arm.getArmEncoderTop();
-
-    if (state == 0) {
-      if (arm.moveTop(0.7, 570)) {
-        state = 1;
-      }
-    } else if (state == 1) {
-      if (arm.moveBottom(0.6, -120)) {
-        isDone = true;
-      }
+    if (arm.moveBottom(speed, finalPos)) {
+      isDone = true;
     }
   }
 

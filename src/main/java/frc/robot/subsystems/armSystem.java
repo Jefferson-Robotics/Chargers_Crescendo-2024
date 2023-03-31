@@ -4,10 +4,13 @@
 
 package frc.robot.subsystems;
 
+import java.util.Map;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
@@ -15,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import pabeles.concurrency.ConcurrencyOps.Reset;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class armSystem extends SubsystemBase {
@@ -26,12 +30,23 @@ public class armSystem extends SubsystemBase {
   private TalonSRX topRight = new TalonSRX(5);
   private Encoder encoderT = new Encoder(2,3);
 
+  private ComplexWidget bottomEncoderBox;
+  private ComplexWidget topEncoderBox;
+  private boolean isDocked = true;
+  private GenericEntry dockedBox;
 
   public armSystem(ShuffleboardTab tab) {
     botLeft.setNeutralMode(NeutralMode.Brake);
     botRight.setNeutralMode(NeutralMode.Brake);
     topLeft.setNeutralMode(NeutralMode.Brake);
     topRight.setNeutralMode(NeutralMode.Brake);
+
+    bottomEncoderBox = tab.add("Bottom Encoder", encoderB).withWidget(BuiltInWidgets.kEncoder);
+    topEncoderBox = tab.add("Top Encoder", encoderT).withWidget(BuiltInWidgets.kEncoder);
+
+    dockedBox = tab.add("Docked Position", isDocked)
+    .withWidget(BuiltInWidgets.kBooleanBox)
+    .withProperties(Map.of("colorWhenTrue","orange","colorWhenFalse","grey")).getEntry();
   }
   public void setSpeedBottom(double speedB) {
     botLeft.set(TalonSRXControlMode.PercentOutput, speedB);
@@ -48,6 +63,14 @@ public class armSystem extends SubsystemBase {
   
   public double getArmEncoderTop(){
     return encoderT.get();
+  }
+
+  public boolean isFullyDocked() {
+    if ((getArmEncoderBottom() < 20 && getArmEncoderBottom() > -10) && (getArmEncoderTop() < 20 && getArmEncoderTop() > -40)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public void resetEncoder() {
@@ -83,6 +106,10 @@ public class armSystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    isDocked = isFullyDocked();
+
+    dockedBox.setBoolean(isDocked);
+
     System.out.println("Bottom Encoder ------ " + encoderB.get());
     System.out.println("Top Encoder --------- " + encoderT.get());
   }

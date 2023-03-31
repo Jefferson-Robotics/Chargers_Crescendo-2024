@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.CANMotorControl;
 import frc.robot.subsystems.Claw;
@@ -17,6 +18,6 @@ public class PlaceAndBalance extends SequentialCommandGroup {
   public PlaceAndBalance(CANMotorControl drive, armSystem arm, Claw claw) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new grab(claw, 1), new moveEncodeThird(arm, claw, -550, -500), new grab(claw, 0), new dockArmEncoder(arm), new AutoBTimedGoobo(drive));
+    addCommands(new grab(claw, 1), new moveEncodeThird(arm, -550, -500), new grab(claw, 0), new dockArmEncoder(arm), new AutoBTimedGoobo(drive));
   }
 }

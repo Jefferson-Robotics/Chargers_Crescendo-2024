@@ -4,8 +4,10 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.subsystems.CANMotorControl;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.armSystem;
@@ -18,6 +20,8 @@ public class newAuto extends SequentialCommandGroup {
   public newAuto(CANMotorControl drive, armSystem arm, Claw claw) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new AutoPlace(arm), new grab(claw, 0), new ParallelCommandGroup(new AutoDock(arm), new moveDistance(drive, 8, 0.6)), new resetArmEncoders(arm), new moveDistance(drive, 5.5, 0.4), new moveDistance(drive, -6, 0.6), new newBalance(drive));
+    //addCommands(new moveEncodeThird(arm, -550, -550), new grab(claw, 0), new dockArmEncoder(arm), new moveDistance(drive, 7, 0.6), new newBalance(drive));
+    addCommands(new moveEncodeThird(arm, -550, -550), new grab(claw, 0), new dockArmEncoderAuto(arm), new moveDistance(drive, 8, 0.7), new moveDistance(drive, 5.5, 0.4), new moveDistance(drive, -5.5, 0.6), new newBalance(drive));
+    //addCommands(new moveEncodeThird(arm, -550, -550), new grab(claw, 0), new SimpleBottomEncoder(arm, 0.8, Constants.bottomFrontStop), new moveDistance(drive, 8, 0.7), new moveDistance(drive, 5.5, 0.4), new moveDistance(drive, -5.5, 0.6), new newBalance(drive));
   }
 }
