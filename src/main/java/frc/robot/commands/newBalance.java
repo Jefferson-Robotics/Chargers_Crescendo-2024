@@ -48,10 +48,10 @@ public class newBalance extends CommandBase {
       drive(.19,angle);
     } else if (angle < 15 && angle > -15) {
       System.out.println("4");
-      drive(.25,angle);
+      drive(.30,angle);
     } else if (angle < 20 && angle > -20) {
       System.out.println("5");
-      drive(.24,angle);
+      drive(.35,angle);
     } else {
       System.out.println("6");
       drive.drive(0,0);

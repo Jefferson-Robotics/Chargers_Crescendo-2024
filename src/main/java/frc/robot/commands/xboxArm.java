@@ -30,7 +30,7 @@ public class xboxArm extends CommandBase {
   @Override
   public void execute() {
     armControl.setSpeedTop(.5 * controller.getLeftY());
-    armControl.setSpeedBottom(.5 * controller.getRightY());
+    armControl.setSpeedBottom(.7 * controller.getRightY());
     clawControl.setSpeed(1 * controller.getRightTriggerAxis() + -1 * controller.getLeftTriggerAxis());
   }
 

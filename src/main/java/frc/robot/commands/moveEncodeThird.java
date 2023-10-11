@@ -64,7 +64,7 @@ public class moveEncodeThird extends CommandBase {
         stateT = 3;
       }
     } else if (stateT == 3) {
-      if (control.moveTop(0.3, finalPosTop)) {
+      if (control.moveTop(0.2, finalPosTop)) {
         stateT = 4;
         topDone = true;
       }
