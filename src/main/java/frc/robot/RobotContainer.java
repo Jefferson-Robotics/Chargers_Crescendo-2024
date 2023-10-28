@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.PlaceAndBalance;
 import frc.robot.commands.Xbox;
 import frc.robot.commands.cancelAll;
 import frc.robot.commands.dockArmEncoder;
@@ -22,6 +23,7 @@ import frc.robot.commands.grab;
 import frc.robot.commands.joystickControl;
 import frc.robot.commands.moveEncodeThird;
 import frc.robot.commands.moveEncoder;
+import frc.robot.commands.moveDistance;
 import frc.robot.commands.newAuto;
 import frc.robot.commands.newBalance;
 //import frc.robot.commands.turnNinty;
@@ -163,6 +165,6 @@ public class RobotContainer {
     // An ExampleCommand will run in autonomous
     //return new PlaceAndBalance(mControl, arm, clawControl);
     return new newAuto(mControl, arm, clawControl);
-    //return new moveDistance(mControl, 10, 0.6);
+    //return new moveDistance(mControl, 10, 0.6); 
   }
 }

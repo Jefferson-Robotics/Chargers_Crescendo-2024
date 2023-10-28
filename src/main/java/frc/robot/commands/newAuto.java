@@ -20,7 +20,9 @@ public class newAuto extends SequentialCommandGroup {
   public newAuto(CANMotorControl drive, armSystem arm, Claw claw) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    //18 point - Place and move - addCommands(new moveEncodeThird(arm, -550, -550), new grab(claw, 0), new dockArmEncoder(arm), new moveDistance(drive, 7, 0.7), new newBalance(drive));
+    //18 point - Place and move -
+    //addCommands(new moveEncodeThird(arm, -550, -550), new grab(claw, 0), new dockArmEncoder(arm), new moveDistance(drive, 7, 0.7), new newBalance(drive));
+    // 21 point - Place and balance -
     addCommands(new moveEncodeThird(arm, -550, -550), new grab(claw, 0), new dockArmEncoderAuto(arm), new moveDistance(drive, 8, 0.7), new moveDistance(drive, 6.5, 0.4), new moveDistance(drive, -6.5, 0.6), new newBalance(drive));
     //addCommands(new moveEncodeThird(arm, -550, -550), new grab(claw, 0), new SimpleBottomEncoder(arm, 0.8, Constants.bottomFrontStop), new moveDistance(drive, 8, 0.7), new moveDistance(drive, 5.5, 0.4), new moveDistance(drive, -5.5, 0.6), new newBalance(drive));
   }
