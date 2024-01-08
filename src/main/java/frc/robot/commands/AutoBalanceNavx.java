@@ -42,7 +42,7 @@ public class AutoBalanceNavx extends CommandBase {
       }
       */
     }
-    System.out.println("Drive: "+drive);
+    //System.out.println("Drive: "+drive);
     m_control.drive(Math.min(Math.max(drive,-1), 1),0);
   }
 

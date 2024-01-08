@@ -17,7 +17,7 @@ public class OpenMV extends SubsystemBase {
     try{
       camera = new SerialPort(115200, Port.kUSB);
       } catch(Exception e){
-        System.out.println("FUCK YOU");
+        //System.out.println("FUCK YOU");
       }
   }
 

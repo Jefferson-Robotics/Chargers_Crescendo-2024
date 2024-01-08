@@ -26,7 +26,8 @@ public class rec extends CommandBase {
   private Joystick rightShaft;
   private XboxController controller;
   private String recFile;
-  private String name = "rec002";
+  private String recFileName;
+  private Integer fileID;
   private FileWriter rFile;
 
   private double lPlay;
@@ -36,7 +37,7 @@ public class rec extends CommandBase {
   private double oPlay;
   private double cPlay;
 
-  public rec(CANMotorControl recControl, armSystem arm, Claw claw, Joystick leftShaft, Joystick rightShaft, XboxController controller) {
+  public rec(CANMotorControl recControl, armSystem arm, Claw claw, Joystick leftShaft, Joystick rightShaft, XboxController controller, String recFileNameParam, Integer fileIDParam) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.recControl = recControl;
     this.arm = arm;
@@ -44,6 +45,8 @@ public class rec extends CommandBase {
     this.leftShaft = leftShaft;
     this.rightShaft = rightShaft;
     this.controller = controller;
+    this.recFileName = recFileNameParam;
+    this.fileID = fileIDParam;
     //this.name = name;
     addRequirements(recControl, arm, claw);
   }
@@ -51,13 +54,13 @@ public class rec extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    recFile = "/home/lvuser/" + name + ".txt";
+    recFile = "/home/lvuser/" + recFileName + fileID + ".txt";
     try {
           rFile = new FileWriter(recFile);
-          System.out.println("File created: " + rFile);
+         //System.out.println("File created: " + rFile);
           
         } catch (IOException e) {
-          System.out.println("An error occurred.");
+         //System.out.println("An error occurred.");
           e.printStackTrace();
     }
     }
@@ -75,7 +78,7 @@ public class rec extends CommandBase {
     try {
       rFile.append(String.valueOf(lPlay) + "," + String.valueOf(rPlay) + "," + String.valueOf(tPlay) + "," + String.valueOf(bPlay) + "," + String.valueOf(oPlay) + "," + String.valueOf(cPlay) + "\n");
     } catch (IOException e) {
-      System.out.println("An error occurred.");
+     //System.out.println("An error occurred.");
       e.printStackTrace();
     }
     this.recControl.drive(lPlay, rPlay);
@@ -89,10 +92,11 @@ public class rec extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    fileID++;
     try {
       rFile.close();
     } catch (IOException e) {
-      System.out.println("An error occurred.");
+     //System.out.println("An error occurred.");
       e.printStackTrace();
     }
   }

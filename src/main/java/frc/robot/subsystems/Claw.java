@@ -127,6 +127,6 @@ public class Claw extends SubsystemBase {
     cubeBooleanBox.setBoolean(cubePosition);
     openBooleanBox.setBoolean(clawOpen);
     clawBooleanBox.setBoolean(clawConnection);
-    System.out.println("Claw Encoder <<<<<<< " + encoder.getAbsolutePosition());
+    //System.out.println("Claw Encoder <<<<<<< " + encoder.getAbsolutePosition());
   }
 }

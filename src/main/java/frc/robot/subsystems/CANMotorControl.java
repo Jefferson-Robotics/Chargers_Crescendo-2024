@@ -75,12 +75,14 @@ public class CANMotorControl extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // System.out.println(getEncoderCount());
+    ////System.out.println(getEncoderCount());
     // This method will be called once per scheduler run
     //graph.setDoubleArray(data.toArray(new Double[0]));
-    System.out.println("Angle:" + getAngleY());
-    System.out.println("Accer: " + getAccer());
-    System.out.println("MOTORS:       " + getEncoderCount());
+    /*
+   //System.out.println("Angle:" + getAngleY());
+   //System.out.println("Accer: " + getAccer());
+   //System.out.println("MOTORS:       " + getEncoderCount());
+    */
     //Double.parseDouble(shuffleboardInput.getString("-1"));
 
 

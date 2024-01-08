@@ -30,14 +30,14 @@ public class Reader extends CommandBase {
     try {
       mFile = new File("C:\\Users\\Chargers\\Documents\\Test.txt");
       myReader = new Scanner(mFile);
-      System.out.println("Good");
+     //System.out.println("Good");
     } catch (IOException e) {
-      System.out.println("FileNotFound");
+     //System.out.println("FileNotFound");
       try {
         mFile.createNewFile();
-        System.out.println("Good");
+       //System.out.println("Good");
       } catch (IOException b) {
-        System.out.println(mFile);
+       //System.out.println(mFile);
       }
     }
     

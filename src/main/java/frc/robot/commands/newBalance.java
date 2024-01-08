@@ -38,22 +38,22 @@ public class newBalance extends CommandBase {
   public void execute() {
     angle = drive.getAngleY()*-1;
     if (angle < 2 && angle > -2) {
-      System.out.println("1");
+     //System.out.println("1");
       drive(.13,angle);
     } else if (angle < 5 && angle > -5) {
-      System.out.println("2");
+     //System.out.println("2");
       drive(.17,angle);
     } else if (angle < 10 && angle > -10) {
-      System.out.println("3");
+     //System.out.println("3");
       drive(.19,angle);
     } else if (angle < 15 && angle > -15) {
-      System.out.println("4");
+     //System.out.println("4");
       drive(.30,angle);
     } else if (angle < 20 && angle > -20) {
-      System.out.println("5");
+     //System.out.println("5");
       drive(.35,angle);
     } else {
-      System.out.println("6");
+     //System.out.println("6");
       drive.drive(0,0);
     }
   }

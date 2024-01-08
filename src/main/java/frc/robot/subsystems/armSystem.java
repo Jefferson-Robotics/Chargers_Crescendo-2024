@@ -109,8 +109,9 @@ public class armSystem extends SubsystemBase {
     isDocked = isFullyDocked();
 
     dockedBox.setBoolean(isDocked);
-
-    System.out.println("Bottom Encoder ------ " + encoderB.get());
-    System.out.println("Top Encoder --------- " + encoderT.get());
+    /*
+   //System.out.println("Bottom Encoder ------ " + encoderB.get());
+   //System.out.println("Top Encoder --------- " + encoderT.get());
+    */
   }
 }

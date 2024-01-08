@@ -29,6 +29,8 @@ public class playBack extends CommandBase {
   private ShuffleboardTab tab;
   private GenericEntry textbox;
   private GenericEntry allianceTog;
+  private String recFileName;
+  private Integer fileID;
 
   private double lPlay;
   private double rPlay;
@@ -39,11 +41,14 @@ public class playBack extends CommandBase {
 
   private File rFile;
   private Scanner sc;
-  public playBack(CANMotorControl playControl, armSystem arm, Claw claw, ShuffleboardTab tab) {
+  public playBack(CANMotorControl playControl, armSystem arm, Claw claw, ShuffleboardTab tab, String recFileNameParam, Integer fileIDParam) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.playControl = playControl;
     this.arm = arm;
     this.claw = claw;
+    this.recFileName = recFileNameParam;
+    this.fileID = fileIDParam;
+
 
     this.tab = tab;
     textbox = tab.add("Recording", "default value")
@@ -59,10 +64,10 @@ public class playBack extends CommandBase {
   @Override
   public void initialize() {
     try {
-      rFile = new File("/home/lvuser/" + textbox.getString("rec003") + ".txt");
+      rFile = new File("/home/lvuser/" + recFileName + fileID + ".txt");
       sc = new Scanner(rFile);
     } catch (IOException e) {
-      System.out.println("An error occurred.");
+     //System.out.println("An error occurred.");
       e.printStackTrace();
     }
   }
@@ -96,8 +101,8 @@ public class playBack extends CommandBase {
     arm.setSpeedTop(0);
     arm.setSpeedBottom(0);
     claw.setSpeed(0);
-
-    new SequentialCommandGroup(new AutoBTimed(playControl)).schedule();
+    fileID++;
+    //new SequentialCommandGroup(new AutoBTimed(playControl)).schedule();
   }
 
   // Returns true when the command should end.

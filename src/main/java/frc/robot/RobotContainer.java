@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.PlaceAndBalance;
 import frc.robot.commands.Xbox;
@@ -26,6 +27,7 @@ import frc.robot.commands.moveEncoder;
 import frc.robot.commands.moveDistance;
 import frc.robot.commands.newAuto;
 import frc.robot.commands.newBalance;
+import frc.robot.commands.playBack;
 //import frc.robot.commands.turnNinty;
 import frc.robot.commands.rec;
 import frc.robot.commands.resetArmEncoders;
@@ -50,7 +52,9 @@ public class RobotContainer {
   private armSystem arm = new armSystem(tab);
   private Claw clawControl = new Claw(tab);
   private rec recCommand;
-  //private playBack playB = new playBack(mControl, arm, clawControl, tab);
+  private String recFileName = "recordFile";
+  private Integer fileID = 1;
+  private playBack playB = new playBack(mControl, arm, clawControl, tab, recFileName, fileID);
   
   private UsbCamera camera = CameraServer.startAutomaticCapture("Camera", 0);
   //Camera access with a search.
@@ -75,12 +79,12 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     //m_motorcontrol.setDefaultCommand(new Reader(m_motorcontrol)/*new Drive(m_motorcontrol, controller)*/);
-    /*
-     * m_Chooser.setDefaultOption("Playback", playB);
-    m_Chooser.addOption("Balance", balance);
-    m_Chooser.addOption("Playback with Balance", autoPB);
+    
+    m_Chooser.setDefaultOption("Playback", playB);
+    //m_Chooser.addOption("Balance", balance);
+    //m_Chooser.addOption("Playback with Balance", autoPB);
     tab.add("Autonomous", m_Chooser);
-     */
+    
     camera.setResolution(320, 240);
     camera.setFPS(5);
     
@@ -102,6 +106,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     //JoystickButton ninty = new JoystickButton(leftShaft, 7);
     //ninty.whenPressed(turn);
+    /*
     JoystickButton cancelCommands = new JoystickButton(rightShaft,2);
     cancelCommands.onTrue(new cancelAll(mControl, arm, clawControl));
 
@@ -111,8 +116,9 @@ public class RobotContainer {
     resetArmEncoders2.onTrue(reset);
     JoystickButton balanceButton = new JoystickButton(leftShaft, 2);
     balanceButton.onTrue(balance);
+    */
 
-    /* 
+    /* Previously Commented
     JoystickButton joyOpen = new JoystickButton(leftShaft, 1);
     joyOpen.onTrue(open);
     JoystickButton joyCube = new JoystickButton(rightShaft, 1);
@@ -122,7 +128,7 @@ public class RobotContainer {
     */
 
 
-
+    /*
     JoystickButton dockArmButton = new JoystickButton(controller, Button.kB.value);
     dockArmButton.onTrue(armZero);
     JoystickButton frontOneButton = new JoystickButton(controller, Button.kA.value);
@@ -138,18 +144,19 @@ public class RobotContainer {
     clawCubeButton.onTrue(cube);
     JoystickButton clawConeButton = new JoystickButton(controller, Button.kStart.value);
     clawConeButton.onTrue(cone);
+    */
 
+    recCommand = new rec(mControl, arm, clawControl, leftShaft, rightShaft, controller, recFileName, fileID);
 
-    recCommand = new rec(mControl, arm, clawControl, leftShaft, rightShaft, controller);
-
-    /* 
+    
     JoystickButton recButton = new JoystickButton(rightShaft, 11);
     JoystickButton recButton2 = new JoystickButton(rightShaft, 10);
     recButton.onTrue(recCommand.until(recButton2));
 
     JoystickButton playBack = new JoystickButton(rightShaft, 6);
-    playBack.onTrue(playB);  
-     */
+    playBack.onTrue(playB); 
+    System.out.println(fileID);
+     
       
   }
 

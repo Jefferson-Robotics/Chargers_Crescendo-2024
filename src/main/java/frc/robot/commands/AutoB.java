@@ -60,7 +60,7 @@ public class AutoB extends CommandBase {
       }
     }
 
-    System.out.println("-------Stage-------" + stage);
+    //System.out.println("-------Stage-------" + stage);
   }
 
   // Called once the command ends or is interrupted.

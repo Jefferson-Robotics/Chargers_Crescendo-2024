@@ -47,48 +47,48 @@ public class AutoBTimedGoobo extends CommandBase {
     endTime = Timer.getFPGATimestamp();
     if (endTime >= startTime + 2.1) {
        /*if (Math.abs(m_control.getAccer()) > .25) {
-        System.out.println("1");
+       //System.out.println("1");
         drive(0,angle);
       } else*/
     //    if (angle < 2 && angle > -2) {
-    //     System.out.println("1");
+    //    //System.out.println("1");
     //     drive(.13,angle);
     //   } else if (angle < 5 && angle > -5) {
-    //     System.out.println("2");
+    //    //System.out.println("2");
     //     drive(.17,angle);
     //   } else if (angle < 10 && angle > -10) {
-    //     System.out.println("3");
+    //    //System.out.println("3");
     //     drive(.185,angle);
     //   } else if (angle < 15 && angle > -15) {
-    //     System.out.println("4");
+    //    //System.out.println("4");
     //     drive(.25,angle);
     //   } else if (angle < 20 && angle > -20) {
-    //     System.out.println("5");
+    //    //System.out.println("5");
     //     drive(.24,angle);
     //   } else {
-    //     System.out.println("6");
+    //    //System.out.println("6");
     //     m_control.drive(0,0);
     //   }
     // } else {
     //   m_control.drive(.5,0);
     // }
     if (angle < 2 && angle > -2) {
-      System.out.println("1");
+     //System.out.println("1");
       drive(.13,angle);
     } else if (angle < 5 && angle > -5) {
-      System.out.println("2");
+     //System.out.println("2");
       drive(.17,angle);
     } else if (angle < 10 && angle > -10) {
-      System.out.println("3");
+     //System.out.println("3");
       drive(.2,angle);
     } else if (angle < 15 && angle > -15) {
-      System.out.println("4");
+     //System.out.println("4");
       drive(.25,angle);
     } else if (angle < 20 && angle > -20) {
-      System.out.println("5");
+     //System.out.println("5");
       drive(.3,angle);
     } else {
-      System.out.println("6");
+     //System.out.println("6");
       m_control.drive(0,0);
     }
   } else {
@@ -102,26 +102,26 @@ public class AutoBTimedGoobo extends CommandBase {
     endTime = Timer.getFPGATimestamp();
     if (endTime >= startTime + 1.7) {
        /*if (Math.abs(m_control.getAccer()) > .25) {
-        System.out.println("1");
+       //System.out.println("1");
         drive(0,angle);
       } else*/
        if (angle < 2 && angle > -2) {
-        System.out.println("1");
+       //System.out.println("1");
         drive(.13,angle);
       } else if (angle < 5 && angle > -5) {
-        System.out.println("2");
+       //System.out.println("2");
         drive(.17,angle);
       } else if (angle < 10 && angle > -10) {
-        System.out.println("3");
+       //System.out.println("3");
         drive(.19,angle);
       } else if (angle < 15 && angle > -15) {
-        System.out.println("4");
+       //System.out.println("4");
         drive(.25,angle);
       } else if (angle < 20 && angle > -20) {
-        System.out.println("5");
+       //System.out.println("5");
         drive(.24,angle);
       } else {
-        System.out.println("6");
+       //System.out.println("6");
         m_control.drive(0,0);
       }
     } else {
