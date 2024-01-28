@@ -7,9 +7,11 @@ package frc.robot;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.CenterOnTarget;
 import frc.robot.commands.playBack;
 import frc.robot.commands.rec;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.VisionSerial;
 
 import java.util.List;
 
@@ -45,11 +47,13 @@ public class RobotContainer {
   private ShuffleboardTab tab = Shuffleboard.getTab("Record and Playback");
   private String recFileName = "swerveRecord";
   private Integer fileID = 1;
+  private VisionSerial vision = new VisionSerial();
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   private rec recordCommand;
   private playBack playB = new playBack(m_robotDrive, m_driverController, tab, recFileName, fileID);
+  private CenterOnTarget cameraTrackRotate = new CenterOnTarget(vision, m_robotDrive);
 
   public RobotContainer() {
     // Configure the trigger bindings
@@ -90,7 +94,10 @@ public class RobotContainer {
     recButton.onTrue(recordCommand.until(recButton2));
 
     JoystickButton playBack = new JoystickButton(m_driverController, Button.kY.value);
-    playBack.onTrue(playB); 
+    playBack.onTrue(playB);
+
+    JoystickButton cameraTrack = new JoystickButton(m_driverController, Button.kBack.value);
+    cameraTrack.onTrue(cameraTrackRotate);
 
     new JoystickButton(m_driverController, Button.kStart.value)
         .whileTrue(new RunCommand(
