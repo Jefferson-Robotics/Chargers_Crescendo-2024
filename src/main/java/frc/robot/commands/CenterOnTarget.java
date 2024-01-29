@@ -16,6 +16,8 @@ public class CenterOnTarget extends Command {
   private int cameraX;
   private int cameraDistance;
   private double controlRotate;
+  private double controlX;
+  private double controlY;
 
   private double cameraDegrees;
   private double distMidBot;
@@ -35,6 +37,10 @@ public class CenterOnTarget extends Command {
   @Override
   public void initialize() {
     isFinished = false;
+    controlRotate = 0;
+    controlX = 0;
+    controlY = 0;
+
     cameraX = -1;
     distMidBot = 26.5;
     cameraHFOV = 70.8;
@@ -49,27 +55,31 @@ public class CenterOnTarget extends Command {
   public void execute() {
     cameraX = camera.getCenterX();
     cameraDistance = camera.getDistance();
-    controlRotate = 0;
-    if (cameraX != -1 && (cameraX < 140 || cameraX > 160)) {
-      
-        
+    if (cameraX != -1 && (cameraX < 140 || cameraX > 160) && (cameraDistance < 70 || cameraDistance > 100)) {
+      // Rotate towards AprilTag
       cameraDegrees = (cameraX - 150) * cameraHFOVRadians / horizontalRes;
       botRadians = Math.atan( (Math.sin(cameraDegrees) * cameraDistance)  / (Math.cos(cameraDegrees) * cameraDistance + distMidBot));
-      controlRotate = -0.75 * Math.pow(botRadians / (cameraHFOVRadians / 2),3);
-
-      System.out.println(cameraX + " " + controlRotate);
+      controlRotate = botRadians / (cameraHFOVRadians / 2);
+      controlRotate = -0.5 * (Math.pow((controlRotate), 3) + controlRotate) / 2; //Boost rotation power
+      
+      // Drive towards AprilTag
+      if (cameraDistance < 70) {
+        controlX = 0.25;
+      } else if (cameraDistance > 100) {
+        controlX = -0.25;
+      }
+      
+    } else if ((cameraX > 140 && cameraX < 160) && (cameraDistance > 70 && cameraDistance < 100)) {
+      //isFinished = true;
+    } else {
+      controlX = 0;
+      controlRotate = 0;
     }
-    
-
-
     this.swerve.drive(
-      0,
+      controlX,
       0,
       controlRotate,
       true, true);
-    if (cameraX > 140 && cameraX < 160) {
-      //isFinished = true;
-    }
 }
 
   // Called once the command ends or is interrupted.
