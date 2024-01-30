@@ -24,6 +24,7 @@ public class CenterOnTarget extends Command {
   private double cameraHFOV;
   private double cameraHFOVRadians;
   private int horizontalRes;
+  private int distanceSet;
   private double botRadians;
 
   public CenterOnTarget(VisionSerial camera, DriveSubsystem swerve) {
@@ -42,6 +43,7 @@ public class CenterOnTarget extends Command {
     controlY = 0;
 
     cameraX = -1;
+    distanceSet = 45;
     distMidBot = 26.5;
     cameraHFOV = 70.8;
     cameraHFOVRadians = (cameraHFOV / 360) * 2 * Math.PI;
@@ -59,18 +61,21 @@ public class CenterOnTarget extends Command {
       // Rotate towards AprilTag
       cameraDegrees = (cameraX - 150) * cameraHFOVRadians / horizontalRes;
       botRadians = Math.atan( (Math.sin(cameraDegrees) * cameraDistance)  / (Math.cos(cameraDegrees) * cameraDistance + distMidBot));
-      controlRotate = botRadians / (cameraHFOVRadians / 2);
-      controlRotate = -0.5 * (Math.pow((controlRotate), 3) + controlRotate) / 2; //Boost rotation power
+      controlRotate = -0.5 * Math.pow(botRadians / (cameraHFOVRadians / 2),3); //Boost rotation power
       
       // Drive towards AprilTag
+      controlX = 0.3 * Math.max(-1, Math.min(.2 * Math.pow((double) (cameraDistance - distanceSet) / distanceSet,3), 1));
+      /*
       if (cameraDistance < 70) {
-        controlX = 0.25;
-      } else if (cameraDistance > 100) {
         controlX = -0.25;
-      }
+      } else if (cameraDistance > 100) {
+        controlX = 0.2
+      }*/
       
     } else if ((cameraX > 140 && cameraX < 160) && (cameraDistance > 70 && cameraDistance < 100)) {
       //isFinished = true;
+      //controlX = 0;
+      //controlRotate = 0;
     } else {
       controlX = 0;
       controlRotate = 0;
@@ -79,7 +84,7 @@ public class CenterOnTarget extends Command {
       controlX,
       0,
       controlRotate,
-      true, true);
+      false, true);
 }
 
   // Called once the command ends or is interrupted.
