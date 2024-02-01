@@ -13,12 +13,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class VisionSerial extends SubsystemBase {
   /** Creates a new VisionSerial. */
 
-  int centerX = -1;
-  int centerY = -1;
-  int tagWidth = -1;
-  int distance = -1;
-  double rotation = -1;
-  int tagID = -1;
+  double[] noValue = {-1,-1,-1,-1,-1,-1};
+  double[][] tagData = {
+    {-1,-1,-1,-1,-1,-1}, // First tag
+    {-1,-1,-1,-1,-1,-1}, // Second tag
+    {-1,-1,-1,-1,-1,-1}, // Third tag
+    {-1,-1,-1,-1,-1,-1}, // Fourth tag
+  };
+
   String cameraData;
   SerialPort camera;
   public VisionSerial() {
@@ -26,41 +28,54 @@ public class VisionSerial extends SubsystemBase {
   }
   public void readDataStream() {
     this.cameraData = camera.readString();
-    System.out.println(this.cameraData);
-    StringTokenizer tokenizer = new StringTokenizer(cameraData.trim(), ",");
-    if(tokenizer.countTokens() > 3){
-      centerX = Integer.parseInt(tokenizer.nextToken());
-      centerY = Integer.parseInt(tokenizer.nextToken());
-      tagWidth = Integer.parseInt(tokenizer.nextToken());
-      distance = Integer.parseInt(tokenizer.nextToken());
-      tagID = Integer.parseInt(tokenizer.nextToken());
-      rotation = Double.parseDouble(tokenizer.nextToken());
+    //System.out.println(this.cameraData);
+    StringTokenizer tagSeperater = new StringTokenizer(cameraData.trim(), "|");
+    for (int i = 0; i < tagSeperater.countTokens(); i++) {
+      StringTokenizer tagDataSeperater = new StringTokenizer(cameraData.trim(), ",");
+      if(tagDataSeperater.countTokens() > 3){
+        tagData[i][0] = Integer.parseInt(tagDataSeperater.nextToken());
+        tagData[i][1] = Integer.parseInt(tagDataSeperater.nextToken());
+        tagData[i][2] = Integer.parseInt(tagDataSeperater.nextToken());
+        tagData[i][3] = Integer.parseInt(tagDataSeperater.nextToken());
+        tagData[i][4] = Integer.parseInt(tagDataSeperater.nextToken());
+        tagData[i][5] = Double.parseDouble(tagDataSeperater.nextToken());
+      }
+      tagSeperater.nextToken();
     }
   }
 
-  public int getCenterX() {
-    return centerX;
+  public double[] getData(int tagID) {
+    for (int i = 0; i < 4; i++) {
+      if (tagData[i][4] == tagID) {
+        return tagData[i];
+      }
+    }
+    return noValue;
   }
-  public int getCenterY() {
-    return centerY;
+
+  public int getCenterX(int tagID) {
+    return (int) getData(tagID)[0];
   }
-  public int getTagWidth() {
-    return tagWidth;
+  public int getCenterY(int tagID) {
+    return (int) getData(tagID)[1];
   }
-  public int getDistance() {
-    return distance;
+  public int getTagWidth(int tagID) {
+    return (int) getData(tagID)[2];
   }
-  public double getRotation() {
-    return rotation;
+  public int getDistance(int tagID) {
+    return (int) getData(tagID)[3];
   }
-  public int getTagID() {
-    return tagID;
+  public double getRotation(int tagID) {
+    return getData(tagID)[4];
+  }
+  public int getTagID(int tagID) {
+    return (int) getData(tagID)[5];
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     this.readDataStream();
-    System.out.println("CenX: " + centerX + " | CenY: " + centerY + " | TagW: " + tagWidth + " | Dist: " + distance + " | Rotation: " + rotation + " | TagID: " + tagID);
+    System.out.println("CenX: " + tagData[0][0] + " | CenY: " + tagData[0][1] + " | TagW: " + tagData[0][2] + " | Dist: " + tagData[0][3] + " | Rotation: " + tagData[0][4] + " | TagID: " + tagData[0][5]);
   }
 }
