@@ -17,15 +17,16 @@ public class VisionSerial extends SubsystemBase {
   int centerY = -1;
   int tagWidth = -1;
   int distance = -1;
+  double rotation = -1;
   int tagID = -1;
   String cameraData;
   SerialPort camera;
   public VisionSerial() {
     camera = new SerialPort(115200, SerialPort.Port.kUSB1);
   }
-
   public void readDataStream() {
-    this.cameraData= camera.readString();
+    this.cameraData = camera.readString();
+    System.out.println(this.cameraData);
     StringTokenizer tokenizer = new StringTokenizer(cameraData.trim(), ",");
     if(tokenizer.countTokens() > 3){
       centerX = Integer.parseInt(tokenizer.nextToken());
@@ -33,6 +34,7 @@ public class VisionSerial extends SubsystemBase {
       tagWidth = Integer.parseInt(tokenizer.nextToken());
       distance = Integer.parseInt(tokenizer.nextToken());
       tagID = Integer.parseInt(tokenizer.nextToken());
+      rotation = Double.parseDouble(tokenizer.nextToken());
     }
   }
 
@@ -48,6 +50,9 @@ public class VisionSerial extends SubsystemBase {
   public int getDistance() {
     return distance;
   }
+  public double getRotation() {
+    return rotation;
+  }
   public int getTagID() {
     return tagID;
   }
@@ -56,6 +61,6 @@ public class VisionSerial extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     this.readDataStream();
-    System.out.println("CenX: " + centerX + " | CenY: " + centerY + " | TagW: " + tagWidth + " | Dist: " + distance + " | TagID: " + tagID);
+    System.out.println("CenX: " + centerX + " | CenY: " + centerY + " | TagW: " + tagWidth + " | Dist: " + distance + " | Rotation: " + rotation + " | TagID: " + tagID);
   }
 }
