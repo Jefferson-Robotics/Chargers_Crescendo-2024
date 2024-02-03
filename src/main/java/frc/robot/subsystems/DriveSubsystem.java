@@ -99,6 +99,10 @@ public class DriveSubsystem extends SubsystemBase {
     return m_odometry.getPoseMeters();
   }
 
+
+  public void resetGyro() {
+    m_gyro.reset();
+  }
   /**
    * Resets the odometry to the specified pose.
    *
