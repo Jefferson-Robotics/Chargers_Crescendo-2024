@@ -64,6 +64,22 @@ public class VisionSerial extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     this.readDataStream();
-    System.out.println("Distance: " + tagData[0][0] + " | Rotation: " + tagData[0][1] + " | TagID: " + tagData[0][2]);
+    //System.out.println("Distance: " + tagData[0][0] + " | Rotation: " + tagData[0][1] +  | TagID: " + tagData[0][2]);
+
+    // Translation Calculations
+    double tagDistance = getDistance(1);
+    double tagRotation = getRotation(1);
+
+    double translateX = 0;
+    double translateY = 0;
+    double controlRotate = 0;
+
+    tagDistance = tagDistance / 100; // cm to m
+    if (tagDistance != -1) {
+      translateX = tagDistance * Math.cos(tagRotation);
+      translateY = tagDistance * Math.sin(tagRotation);
+      controlRotate = tagRotation;
+    }
+    System.out.println("TransX: " + translateX + " | TransY: " + translateY + " | Rotate: " + controlRotate);
   }
 }

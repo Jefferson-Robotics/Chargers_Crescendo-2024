@@ -55,7 +55,7 @@ public class CenterOnTarget extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    cameraX = camera.getCenterX(1);
+    //cameraX = camera.getCenterX(1);
     cameraDistance = camera.getDistance(1);
     if (cameraX != -1 && (cameraX < 140 || cameraX > 160) && (cameraDistance < 70 || cameraDistance > 100)) {
       // Rotate towards AprilTag

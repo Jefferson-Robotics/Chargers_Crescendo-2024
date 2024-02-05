@@ -53,7 +53,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   private rec recordCommand;
   private playBack playB = new playBack(m_robotDrive, m_driverController, tab, recFileName, fileID);
-  private CenterOnTarget cameraTrackRotate = new CenterOnTarget(vision, m_robotDrive);
+  //private CenterOnTarget cameraTrackRotate = new CenterOnTarget(vision, m_robotDrive);
 
   public RobotContainer() {
     // Configure the trigger bindings
