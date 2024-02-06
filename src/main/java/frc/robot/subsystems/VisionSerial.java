@@ -28,13 +28,13 @@ public class VisionSerial extends SubsystemBase {
   }
   public void readDataStream() {
     this.cameraData = camera.readString();
-    //System.out.println(this.cameraData);
+    System.out.println(this.cameraData);
     StringTokenizer tagSeperater = new StringTokenizer(cameraData.trim(), "|");
     for (int i = 0; i < tagSeperater.countTokens(); i++) {
       StringTokenizer tagDataSeperater = new StringTokenizer(cameraData.trim(), ",");
       if(tagDataSeperater.countTokens() > 3) {
-        tagData[i][0] = Integer.parseInt(tagDataSeperater.nextToken());
-        tagData[i][1] = Integer.parseInt(tagDataSeperater.nextToken());
+        tagData[i][0] = Double.parseDouble(tagDataSeperater.nextToken());
+        tagData[i][1] = Double.parseDouble(tagDataSeperater.nextToken());
         tagData[i][2] = Integer.parseInt(tagDataSeperater.nextToken());
       }
       tagSeperater.nextToken();
@@ -43,15 +43,15 @@ public class VisionSerial extends SubsystemBase {
 
   public double[] getData(int tagID) {
     for (int i = 0; i < 2; i++) {
-      if (tagData[i][4] == tagID) {
+      if (tagData[i][2] == tagID) {
         return tagData[i];
       }
     }
     return noValue;
   }
 
-  public int getDistance(int tagID) {
-    return (int) getData(tagID)[0];
+  public double getDistance(int tagID) {
+    return getData(tagID)[0];
   }
   public double getRotation(int tagID) {
     return getData(tagID)[1];
@@ -64,7 +64,7 @@ public class VisionSerial extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     this.readDataStream();
-    //System.out.println("Distance: " + tagData[0][0] + " | Rotation: " + tagData[0][1] +  | TagID: " + tagData[0][2]);
+    System.out.println("Distance: " + tagData[0][0] + " | Rotation: " + tagData[0][1] + " | TagID: " + tagData[0][2]);
 
     // Translation Calculations
     double tagDistance = getDistance(1);
@@ -75,11 +75,14 @@ public class VisionSerial extends SubsystemBase {
     double controlRotate = 0;
 
     tagDistance = tagDistance / 100; // cm to m
-    if (tagDistance != -1) {
+    if (tagDistance != -1.0) {
       translateX = tagDistance * Math.cos(tagRotation);
-      translateY = tagDistance * Math.sin(tagRotation);
+      translateX -= 0.5;
+      translateY = -tagDistance * Math.sin(tagRotation);
+      translateY += 0.5;
       controlRotate = tagRotation;
     }
     System.out.println("TransX: " + translateX + " | TransY: " + translateY + " | Rotate: " + controlRotate);
+
   }
 }

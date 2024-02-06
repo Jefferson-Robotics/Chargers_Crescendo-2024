@@ -27,7 +27,7 @@ public class CenterTargetAuto extends Command {
   DriveSubsystem swerve;
   private boolean isFinished;
   private int tagX;
-  private int tagDistance;
+  private double tagDistance;
   private double tagRotate;
 
   private double locationX;

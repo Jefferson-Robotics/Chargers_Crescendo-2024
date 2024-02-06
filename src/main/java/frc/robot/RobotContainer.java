@@ -120,9 +120,11 @@ public class RobotContainer {
     double controlRotate = 0;
 
     tagDistance = tagDistance / 100; // cm to m
-    if (tagDistance != -1) {
+    if (tagDistance != vision.getDistance(1)) {
       translateX = tagDistance * Math.cos(tagRotation);
-      translateY = tagDistance * Math.sin(tagRotation);
+      translateX -= 0.5;
+      translateY = -tagDistance * Math.sin(tagRotation);
+      translateY += 0.5;
       controlRotate = tagRotation;
     }
     System.out.println("TransX: " + translateX + " | TransY: " + translateY + " | Rotate: " + controlRotate);
@@ -150,7 +152,7 @@ public class RobotContainer {
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
         List.of(),
-        new Pose2d(0, 0, new Rotation2d(0)),
+        new Pose2d(translateX, translateY, new Rotation2d(0)),
         config);
 
     var thetaController = new ProfiledPIDController(

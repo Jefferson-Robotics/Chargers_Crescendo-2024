@@ -14,7 +14,7 @@ public class CenterOnTarget extends Command {
   DriveSubsystem swerve;
   private boolean isFinished;
   private int cameraX;
-  private int cameraDistance;
+  private double cameraDistance;
   private double controlRotate;
   private double controlX;
   private double controlY;
