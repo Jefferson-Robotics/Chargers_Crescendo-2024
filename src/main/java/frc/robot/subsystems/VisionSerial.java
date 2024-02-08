@@ -65,6 +65,13 @@ public class VisionSerial extends SubsystemBase {
     return (int) getData(tagID)[3];
   }
 
+  public double getTranslateX(int tagID) {
+
+  }
+  public double getTranslateY(int tagID) {
+
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
