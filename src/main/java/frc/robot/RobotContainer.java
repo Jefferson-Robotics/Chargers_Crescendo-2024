@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -116,20 +117,21 @@ public class RobotContainer {
     double tagRotation = vision.getRotation(1);
     double tagAngle = vision.getTagAngle(1);
 
-    double translateX = 0;
-    double translateY = 0;
-    double controlRotate = 0;
+    double translateX = 0.00001;
+    double translateY = 0.00001;
+    double controlRotate = 0.00001;
 
-    tagDistance = tagDistance / 100; // cm to m
     if (tagDistance != -1) {
+      tagDistance = tagDistance / 100; // cm to m
+
       translateX = tagDistance * Math.cos(tagRotation);
       translateX -= 0.5;
       translateY = -tagDistance * Math.sin(tagRotation);
 
-      tagAngle = (tagAngle / Math.PI) * 180;
-      controlRotate = tagAngle - (360 * Math.floor(tagAngle / 180));
+      System.out.println(tagAngle);
+      controlRotate = tagAngle;
     }
-    System.out.println("TransX: " + translateX + " | TransY: " + translateY + " | Rotate: " + controlRotate);
+    System.out.println("TransX: " + translateX + " | TransY: " + translateY + " | Rotate: " + ((controlRotate / Math.PI) * 180));
 
     // Create config for trajectory
     TrajectoryConfig config = new TrajectoryConfig(

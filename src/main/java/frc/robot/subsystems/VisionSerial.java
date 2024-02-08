@@ -43,6 +43,7 @@ public class VisionSerial extends SubsystemBase {
   }
 
   public double[] getData(int tagID) {
+    this.readDataStream();
     for (int i = 0; i < 3; i++) {
       if (tagData[i][3] == tagID) {
         return tagData[i];
@@ -69,5 +70,6 @@ public class VisionSerial extends SubsystemBase {
     // This method will be called once per scheduler run
     this.readDataStream();
     //System.out.println("Distance: " + tagData[0][0] + " | Rotation: " + tagData[0][1] + " | Tag Angle: " + tagData[0][2] + " | TagID: " + tagData[0][3]);
+    System.out.println((tagData[0][2] / Math.PI) * 180);
   }
 }
