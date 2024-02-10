@@ -13,12 +13,35 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class VisionSerial extends SubsystemBase {
   /** Creates a new VisionSerial. */
 
+  double translateX;
+  double translateY;
   double[] noValue = {-1,-1,-1,-1};
   double[][] tagData = {
     {-1,-1,-1,-1}, // First tag
     {-1,-1,-1,-1}, // Second tag
     {-1,-1,-1,-1}, // Third tag
     {-1,-1,-1,-1}, // Fourth tag
+  };
+  // Tag Offset Distance lookup table for Crescendo 2024
+  // Access april tag via index Meters
+  double[] tagOffsetTable = {
+    -1,       //ID  0 - N/A
+    0.5, //ID  1 - Blue Source Right
+    0.5, //ID  2 - Blue Source Left
+    1.5, //ID  3 - Red Speaker Right
+    1.5, //ID  4 - Red Speaker Left
+    0.5, //ID  5 - Red Amp
+    0.5, //ID  6 - Blue Amp
+    1.5, //ID  7 - Blue Speaker Right
+    1.5, //ID  8 - Blue Speaker Left
+    0.5, //ID  9 - Red Source Right
+    0.5, //ID 10 - Red Source Left
+    0.5, //ID 11 - Red Stage
+    0.5, //ID 12 - Red Stage
+    0.5, //ID 13 - Red Stage
+    0.5, //ID 14 - Blue Stage
+    0.5, //ID 15 - Blue Stage
+    0.5  //ID 16 - Blue Stage
   };
 
   String cameraData;
@@ -55,28 +78,33 @@ public class VisionSerial extends SubsystemBase {
   public double getDistance(int tagID) {
     return getData(tagID)[0];
   }
-  public double getRotation(int tagID) {
+  public double getAngle(int tagID) {
     return getData(tagID)[1];
   }
-  public double getTagAngle(int tagID) {
+  public double getTagRotation(int tagID) {
     return getData(tagID)[2];
   }
   public int getTagID(int tagID) {
     return (int) getData(tagID)[3];
   }
 
-  public double getTranslateX(int tagID) {
-
+  public double getTranslateX(int tagID, double offsetDistance) {
+    translateX = getDistance(tagID) * Math.cos(getAngle(tagID)) + getDistance(tagID) * Math.cos(getAngle(tagID));
+    //translateX =  
+    return translateX;
   }
-  public double getTranslateY(int tagID) {
-
+  public double getTranslateY(int tagID, double offsetDistance) {
+    translateY = -1 * getDistance(tagID) * Math.sin(getTagRotation(tagID));
+    //translateY = ;
+    return translateY;
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     this.readDataStream();
-    //System.out.println("Distance: " + tagData[0][0] + " | Rotation: " + tagData[0][1] + " | Tag Angle: " + tagData[0][2] + " | TagID: " + tagData[0][3]);
-    System.out.println((tagData[0][2] / Math.PI) * 180);
+    if (tagData[0][0] != -1) {
+      System.out.println("Distance: " + tagData[0][0] + " | Rotation: " + tagData[0][1] + " | Tag Angle: " + tagData[0][2] + " | TagID: " + tagData[0][3]);
+    }
   }
 }

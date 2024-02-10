@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.AutoSourceAlign;
 import frc.robot.commands.CenterOnTarget;
 import frc.robot.commands.playBack;
 import frc.robot.commands.rec;
@@ -54,6 +55,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   private rec recordCommand;
   private playBack playB = new playBack(m_robotDrive, m_driverController, tab, recFileName, fileID);
+
   //private CenterOnTarget cameraTrackRotate = new CenterOnTarget(vision, m_robotDrive);
 
   public RobotContainer() {
@@ -97,13 +99,17 @@ public class RobotContainer {
     JoystickButton playBack = new JoystickButton(m_driverController, Button.kY.value);
     playBack.onTrue(playB);
 
+    new JoystickButton(m_driverController, Button.kBack.value)
+        .onTrue(new AutoSourceAlign(vision, m_robotDrive));
+
+    new JoystickButton(m_driverController, Button.kStart.value)
+        .whileTrue(new RunCommand(
+            () -> m_robotDrive.resetGyro()));
+
     /*
     JoystickButton cameraTrack = new JoystickButton(m_driverController, Button.kBack.value);
     cameraTrack.onTrue(cameraTrackRotate);
     */
-    //new JoystickButton(m_driverController, Button.kStart.value)
-    //    .whileTrue(new RunCommand(
-    //4        () -> m_robotDrive.resetGyro()));
   }
 
   /**
@@ -112,24 +118,24 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    /*
     // An example command will be run in autonomous
     double tagDistance = vision.getDistance(1);
-    double tagRotation = vision.getRotation(1);
-    double tagAngle = vision.getTagAngle(1);
+    double angle = -vision.getAngle(1);
+    double tagRotation = vision.getTagRotation(1);
 
-    double translateX = 0.00001;
-    double translateY = 0.00001;
-    double controlRotate = 0.00001;
+    double translateX = 0.01;
+    double translateY = 0.01;
+    double controlRotate = 0.01;
 
     if (tagDistance != -1) {
       tagDistance = tagDistance / 100; // cm to m
 
-      translateX = tagDistance * Math.cos(tagRotation);
-      translateX -= 0.5;
-      translateY = -tagDistance * Math.sin(tagRotation);
+      translateX = tagDistance * Math.cos(angle) - .7 * Math.sin(-(tagRotation + 3 * Math.PI / 2) % (2 * Math.PI));
+      //translateX -= 0.5;
+      translateY = tagDistance * Math.sin(angle) - .7 * Math.cos(-(tagRotation + 3 * Math.PI / 2) % (2 * Math.PI));
 
-      System.out.println(tagAngle);
-      controlRotate = tagAngle;
+      controlRotate = tagRotation;
     }
     System.out.println("TransX: " + translateX + " | TransY: " + translateY + " | Rotate: " + ((controlRotate / Math.PI) * 180));
 
@@ -140,16 +146,6 @@ public class RobotContainer {
         // Add kinematics to ensure max speed is actually obeyed
         .setKinematics(DriveConstants.kDriveKinematics);
     // An example trajectory to follow. All units in meters.
-    /* Example Trajectory
-    Trajectory tagTrajectory = TrajectoryGenerator.generateTrajectory(
-        // Start at the origin facing the +X direction
-        new Pose2d(0, 0, new Rotation2d(0)),
-        // Pass through these two interior waypoints, making an 's' curve path
-        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-        // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(3, 0, new Rotation2d(0)),
-        config);
-    */
 
     Trajectory tagTrajectory = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
@@ -180,5 +176,8 @@ public class RobotContainer {
 
     // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false, false));
+
+    */
+    return new AutoSourceAlign(vision, m_robotDrive);
   }
 }
