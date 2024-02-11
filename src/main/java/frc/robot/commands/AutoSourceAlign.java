@@ -10,6 +10,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
@@ -42,27 +43,33 @@ public class AutoSourceAlign extends SequentialCommandGroup {
     if (tagDistance != -1) {
       tagDistance = tagDistance / 100; // cm to m
 
-      translateX = tagDistance * Math.cos(angle) - 1.5 * Math.sin(tagRotation);
+      //translateX = tagDistance * Math.cos(angle) - 1.5 * Math.sin(tagRotation);
       //translateX -= 0.5;
-      translateY = tagDistance * Math.sin(angle) - 1.5 * Math.cos(tagRotation);
+      //translateY = tagDistance * Math.sin(angle) - 1.5 * Math.cos(tagRotation);
 
-      controlRotate = tagRotation;
+      //controlRotate = tagRotation;
     }
+
+    controlRotate = Math.PI;
+    translateX = 0;
+    translateY = 0;
+
     System.out.println("TransX: " + translateX + " | TransY: " + translateY + " | Rotate: " + ((controlRotate / Math.PI) * 180));
 
     TrajectoryConfig config = new TrajectoryConfig(
-        AutoConstants.kMaxSpeedMetersPerSecond,
-        AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+        1.5 /*AutoConstants.kMaxSpeedMetersPerSecond*/,
+        1.5 /*AutoConstants.kMaxAccelerationMetersPerSecondSquared*/)
 
         .setKinematics(DriveConstants.kDriveKinematics);
 
     Trajectory tagTrajectory = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
-        new Pose2d(0, 0, new Rotation2d(0)),
+        new Pose2d(0,0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
-        List.of(),
-        new Pose2d(translateX, translateY, Rotation2d.fromRadians(controlRotate)),
-        config);
+        List.of(new Translation2d(0.01,0)),
+        new Pose2d(0,0, Rotation2d.fromRadians(Math.PI / 1)),
+        config
+        );
 
     var thetaController = new ProfiledPIDController(
         AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
