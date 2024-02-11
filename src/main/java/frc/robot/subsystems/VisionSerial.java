@@ -55,7 +55,7 @@ public class VisionSerial extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    this.readDataStream();
-    System.out.println("CenX: " + centerX + " | CenY: " + centerY + " | TagW: " + tagWidth + " | Dist: " + distance + " | TagID: " + tagID);
+    //this.readDataStream();
+    //System.out.println("CenX: " + centerX + " | CenY: " + centerY + " | TagW: " + tagWidth + " | Dist: " + distance + " | TagID: " + tagID);
   }
 }
