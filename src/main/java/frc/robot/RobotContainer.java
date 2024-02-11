@@ -49,14 +49,12 @@ public class RobotContainer {
   private ShuffleboardTab tab = Shuffleboard.getTab("Record and Playback");
   private String recFileName = "swerveRecord";
   private Integer fileID = 1;
-  private VisionSerial vision = new VisionSerial();
   private talonmotor talon = new talonmotor();
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   private rec recordCommand;
   private playBack playB = new playBack(m_robotDrive, m_driverController, tab, recFileName, fileID,talon);
-  private CenterOnTarget cameraTrackRotate = new CenterOnTarget(vision, m_robotDrive);
   private IRBeamBreaker intakeSensor = new IRBeamBreaker(8);
 
   public RobotContainer() {
@@ -99,9 +97,6 @@ public class RobotContainer {
 
     JoystickButton playBack = new JoystickButton(m_driverController, Button.kY.value);
     playBack.onTrue(playB);
-
-    JoystickButton cameraTrack = new JoystickButton(m_driverController, Button.kBack.value);
-    cameraTrack.onTrue(cameraTrackRotate);
 
     //new JoystickButton(m_driverController, Button.kStart.value)
     //    .whileTrue(new RunCommand(
