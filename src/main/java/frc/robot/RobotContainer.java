@@ -11,7 +11,9 @@ import frc.robot.commands.CenterOnTarget;
 import frc.robot.commands.playBack;
 import frc.robot.commands.rec;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IRBeamBreaker;
 import frc.robot.subsystems.VisionSerial;
+import frc.robot.subsystems.talonmotor;
 
 import java.util.List;
 
@@ -48,12 +50,14 @@ public class RobotContainer {
   private String recFileName = "swerveRecord";
   private Integer fileID = 1;
   private VisionSerial vision = new VisionSerial();
+  private talonmotor talon = new talonmotor();
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   private rec recordCommand;
-  private playBack playB = new playBack(m_robotDrive, m_driverController, tab, recFileName, fileID);
+  private playBack playB = new playBack(m_robotDrive, m_driverController, tab, recFileName, fileID,talon);
   private CenterOnTarget cameraTrackRotate = new CenterOnTarget(vision, m_robotDrive);
+  private IRBeamBreaker intakeSensor = new IRBeamBreaker(8);
 
   public RobotContainer() {
     // Configure the trigger bindings
@@ -86,7 +90,7 @@ public class RobotContainer {
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
-    recordCommand = new rec(m_robotDrive, m_driverController, recFileName, fileID);
+    recordCommand = new rec(m_robotDrive, m_driverController, recFileName, fileID, talon);
 
     
     JoystickButton recButton = new JoystickButton(m_driverController, Button.kA.value);

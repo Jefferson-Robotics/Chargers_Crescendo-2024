@@ -17,7 +17,8 @@ import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.subsystems.DriveSubsystem; 
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.talonmotor; 
 
 public class playBack extends CommandBase {
   /** Creates a new playBack. */
@@ -33,11 +34,13 @@ public class playBack extends CommandBase {
 
   private File rFile;
   private Scanner sc;
-  public playBack(DriveSubsystem swerveController, XboxController controller, ShuffleboardTab tab, String recFileNameParam, Integer fileIDParam) {
+  private talonmotor talon;
+  public playBack(DriveSubsystem swerveController, XboxController controller, ShuffleboardTab tab, String recFileNameParam, Integer fileIDParam, talonmotor talon) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.swerveController = swerveController;
     this.recFileName = recFileNameParam;
     this.fileID = fileIDParam;
+    this.talon = talon;
 
 
     this.tab = tab;
@@ -66,17 +69,18 @@ public class playBack extends CommandBase {
     controlLeftY = Double.valueOf(currentArray[0]);
     controlLeftX = Double.valueOf(currentArray[1]);
     controlRightX = Double.valueOf(currentArray[2]);
-
     this.swerveController.drive(
       controlLeftY,
       controlLeftX,
       controlRightX,
       true, true);
+    this.talon.setSpeed(Double.valueOf(currentArray[3]));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    talon.setSpeed(0);
     sc.close();
     this.swerveController.drive(
       controlLeftY,

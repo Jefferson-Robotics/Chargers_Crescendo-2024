@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.talonmotor;
 
 public class rec extends CommandBase {
   /** Creates a new recPlay. */
@@ -29,9 +30,11 @@ public class rec extends CommandBase {
   private double controlLeftY;
   private double controlLeftX;
   private double controlRightX;
+  private talonmotor talon;
 
-  public rec(DriveSubsystem swerveController, XboxController controller, String recFileNameParam, Integer fileIDParam) {
+  public rec(DriveSubsystem swerveController, XboxController controller, String recFileNameParam, Integer fileIDParam,talonmotor talon) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.talon = talon;
     this.swerveController = swerveController;
     this.controller = controller;
     this.recFileName = recFileNameParam;
@@ -62,11 +65,12 @@ public class rec extends CommandBase {
     controlLeftX = -MathUtil.applyDeadband(controller.getLeftX() * -.5, OIConstants.kDriveDeadband);
     controlRightX = -MathUtil.applyDeadband(controller.getRightX() * -.5, OIConstants.kDriveDeadband);
     try {
-      rFile.append(String.valueOf(controlLeftY) + "," + String.valueOf(controlLeftX) + "," + String.valueOf(controlRightX) + "\n");
+      rFile.append(String.valueOf(controlLeftY) + "," + String.valueOf(controlLeftX) + "," + String.valueOf(controlRightX)+","+String.valueOf(talon.getSpeed())+ "\n");
     } catch (IOException e) {
      //System.out.println("An error occurred.");
       e.printStackTrace();
     }
+    this.talon.setSpeed(controller.getRightTriggerAxis());
     this.swerveController.drive(
       controlLeftY,
       controlLeftX,
@@ -77,6 +81,7 @@ public class rec extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    this.talon.setSpeed(0);
     fileID++;
     try {
       rFile.close();
