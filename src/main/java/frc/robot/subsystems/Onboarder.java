@@ -4,11 +4,19 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Onboarder extends SubsystemBase {
   /** Creates a new Onboarder. */
+   private DigitalInput BeamInput = new DigitalInput(Constants.OnboarderConstants.kbeamBreakPort);
+
   public Onboarder() {}
+
+  public boolean isTriggered(){
+    return !this.BeamInput.get();
+  }
 
   @Override
   public void periodic() {
