@@ -7,8 +7,8 @@ package frc.robot;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.AutoRotate;
 import frc.robot.commands.AutoSourceAlign;
-import frc.robot.commands.CenterOnTarget;
 import frc.robot.commands.playBack;
 import frc.robot.commands.rec;
 import frc.robot.subsystems.DriveSubsystem;
@@ -55,7 +55,6 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   private rec recordCommand;
   private playBack playB = new playBack(m_robotDrive, m_driverController, tab, recFileName, fileID);
-
   //private CenterOnTarget cameraTrackRotate = new CenterOnTarget(vision, m_robotDrive);
 
   public RobotContainer() {
@@ -100,7 +99,7 @@ public class RobotContainer {
     playBack.onTrue(playB);
 
     new JoystickButton(m_driverController, Button.kBack.value)
-        .onTrue(new AutoSourceAlign(vision, m_robotDrive));
+        .onTrue(new AutoRotate(vision, m_robotDrive, 90, true));
 
     new JoystickButton(m_driverController, Button.kStart.value)
         .whileTrue(new RunCommand(

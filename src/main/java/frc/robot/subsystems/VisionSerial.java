@@ -104,7 +104,7 @@ public class VisionSerial extends SubsystemBase {
     // This method will be called once per scheduler run
     this.readDataStream();
     if (tagData[0][0] != -1) {
-      System.out.println("Distance: " + tagData[0][0] + " | Rotation: " + tagData[0][1] + " | Tag Angle: " + tagData[0][2] + " | TagID: " + tagData[0][3]);
+      //System.out.println("Distance: " + tagData[0][0] + " | Rotation: " + tagData[0][1] + " | Tag Angle: " + tagData[0][2] + " | TagID: " + tagData[0][3]);
     }
   }
 }
