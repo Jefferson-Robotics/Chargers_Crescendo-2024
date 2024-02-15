@@ -49,13 +49,12 @@ public class RobotContainer {
   private ShuffleboardTab tab = Shuffleboard.getTab("Record and Playback");
   private String recFileName = "swerveRecord";
   private Integer fileID = 1;
-  private talonmotor talon = new talonmotor();
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   private rec recordCommand;
   private playBack playB = new playBack(m_robotDrive, m_driverController, tab, recFileName, fileID,talon);
-  private IRBeamBreaker intakeSensor = new IRBeamBreaker(8);
+  //private IRBeamBreaker intakeSensor = new IRBeamBreaker(8);
 
   public RobotContainer() {
     // Configure the trigger bindings

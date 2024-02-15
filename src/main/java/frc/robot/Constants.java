@@ -139,5 +139,11 @@ public final class Constants {
   }
   public static final class OnboarderConstants {
     public static final int kbeamBreakPort = 0;
+    public static final int konboardMotorcanID = 10;
+  }
+  public static final class NoteAcuatorConstants {
+    public static final int kScissorLiftCanID = 11;
+    public static final int kAcuatorCanID = 12;
+    public static final int kRollerCanID = 13;
   }
 }
