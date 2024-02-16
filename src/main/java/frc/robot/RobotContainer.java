@@ -97,12 +97,10 @@ public class RobotContainer {
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
-    recordCommand = new rec(m_robotDrive, m_driverController, recFileName, fileID, talon);
-
     
     JoystickButton recButton = new JoystickButton(m_driverController, Button.kA.value);
     JoystickButton recButton2 = new JoystickButton(m_driverController, Button.kB.value);
-    recButton.onTrue(recordCommand.until(recButton2));
+    recButton.onTrue(new rec(m_robotDrive, m_driverController, recFileName, fileID, talon).until(recButton2));
 
     JoystickButton playBack = new JoystickButton(m_driverController, Button.kY.value);
     playBack.onTrue(playB);
