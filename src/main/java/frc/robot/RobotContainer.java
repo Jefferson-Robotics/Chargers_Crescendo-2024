@@ -59,7 +59,6 @@ public class RobotContainer {
   //private IRBeamBreaker intakeSensor = new IRBeamBreaker(8);
 
   private SendableChooser<String> replayChooser = new SendableChooser<>();
-
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
@@ -80,6 +79,8 @@ public class RobotContainer {
       replayChooser.setDefaultOption("Shoot and Move", "PathToFile");
       replayChooser.addOption("Shoot", "PathToFile");
       SmartDashboard.putData("Auto choices", replayChooser);
+      //m_chooser.getSelected();
+      SmartDashboard.putString("Recorded File Name", recFileName);
   }
 
   /**
