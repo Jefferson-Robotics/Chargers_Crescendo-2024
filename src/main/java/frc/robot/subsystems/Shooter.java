@@ -6,7 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
+import com.crte.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shooter extends SubsystemBase {
@@ -14,12 +14,12 @@ public class Shooter extends SubsystemBase {
   private double topPower = 0;
   private double bottomPower = 0;
 
-  private WPI_TalonSRX topMotor = new WPI_TalonSRX(0);
-  private WPI_TalonSRX bottomMotor = new WPI_TalonSRX(0);
+  private TalonFX topMotor = new TalonFX(6);
+  private TalonFX bottomMotor = new TalonFX(7);
 
   public Shooter() {}
 
-  public void Shoot(double power) {
+  public void shoot(double power) {
     this.topPower = power;
     this.bottomPower = -power;
   }
@@ -27,7 +27,7 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    this.topMotor.set(ControlMode.PercentOutput, this.topPower);
-    this.bottomMotor.set(ControlMode.PercentOutput, this.bottomPower);
+    this.topMotor.set(topPower);
+    this.bottomMotor.set(bottomPower);
   }
 }

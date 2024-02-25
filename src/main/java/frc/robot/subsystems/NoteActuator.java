@@ -18,6 +18,7 @@ public class NoteActuator extends SubsystemBase {
   private boolean actuated = false;
   private double rollerSpeed = 0;
   private double actuateSpeed = 0;
+  
 
   private WPI_TalonSRX scissorLift = new WPI_TalonSRX(Constants.NoteAcuatorConstants.kScissorLiftCanID);
   private WPI_TalonSRX actuator = new WPI_TalonSRX(Constants.NoteAcuatorConstants.kAcuatorCanID);
@@ -39,6 +40,9 @@ public class NoteActuator extends SubsystemBase {
 
   public void actuate(double power) {
     this.actuateSpeed = power;
+  }
+
+  public void extendScissorLift(double power) {
   }
 
   public boolean getOpenPosition() {
