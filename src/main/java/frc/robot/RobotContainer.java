@@ -29,6 +29,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -58,6 +60,7 @@ public class RobotContainer {
   private playBack playB = new playBack(m_robotDrive, m_driverController, tab, recFileName, fileID);
   //private IRBeamBreaker intakeSensor = new IRBeamBreaker(8);
 
+  private SendableChooser<String> replayChooser = new SendableChooser<>();
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
@@ -93,6 +96,14 @@ public class RobotContainer {
     );
   } 
 
+      
+      replayChooser.setDefaultOption("Shoot and Move", "PathToFile");
+      replayChooser.addOption("Shoot", "PathToFile");
+      SmartDashboard.putData("Auto choices", replayChooser);
+      //m_chooser.getSelected();
+      SmartDashboard.putString("Recorded File Name", recFileName);
+  }
+
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
@@ -112,7 +123,7 @@ public class RobotContainer {
     
     JoystickButton recButton = new JoystickButton(m_driverController, Button.kA.value);
     JoystickButton recButton2 = new JoystickButton(m_driverController, Button.kB.value);
-    recButton.onTrue(recordCommand.until(recButton2));
+    recButton.onTrue(new rec(m_robotDrive, m_driverController, recFileName, fileID, talon).until(recButton2));
 
     JoystickButton playBack = new JoystickButton(m_driverController, Button.kY.value);
     playBack.onTrue(playB);
