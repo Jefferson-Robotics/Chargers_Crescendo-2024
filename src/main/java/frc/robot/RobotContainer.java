@@ -57,7 +57,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   private rec recordCommand;
-  private playBack playB = new playBack(m_robotDrive, onboarder, m_driverController, tab, recFileName);
+  private playBack playB = new playBack(m_robotDrive, onboarder, shooter, m_driverController, tab, recFileName);
   //private IRBeamBreaker intakeSensor = new IRBeamBreaker(8);
 
   public RobotContainer() {
@@ -115,7 +115,7 @@ public class RobotContainer {
             () -> m_robotDrive.setX(),
             m_robotDrive));
     
-    recordCommand = new rec(m_robotDrive, onboarder, m_driverController, recFileName);
+    recordCommand = new rec(m_robotDrive, onboarder, shooter, m_driverController, recFileName);
 
     
     JoystickButton recButton = new JoystickButton(m_driverController, Button.kA.value);

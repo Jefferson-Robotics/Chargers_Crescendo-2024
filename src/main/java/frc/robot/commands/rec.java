@@ -16,12 +16,14 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Onboarder;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class rec extends CommandBase {
   /** Creates a new recPlay. */
   private DriveSubsystem swerveController;
   private Onboarder onboarder;
+  private Shooter shooter;
   private XboxController controller;
   private String recFile;
   private String recFileName;
@@ -31,11 +33,13 @@ public class rec extends CommandBase {
   private double controlLeftX;
   private double controlRightX;
   private double onboarderSpeed;
+  private double shooterSpeed;
 
-  public rec(DriveSubsystem swerveController, Onboarder onboarder, XboxController controller, String recFileNameParam) {
+  public rec(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, XboxController controller, String recFileNameParam) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.swerveController = swerveController;
     this.onboarder = onboarder;
+    this.shooter = shooter;
 
     this.controller = controller;
     this.recFileName = recFileNameParam;
@@ -66,8 +70,9 @@ public class rec extends CommandBase {
     controlRightX = -MathUtil.applyDeadband(controller.getRightX() * -.5, OIConstants.kDriveDeadband);
 
     onboarderSpeed = onboarder.getSpeed();
+    shooterSpeed = shooter.getSpeed();
     try {
-      rFile.append(String.valueOf(controlLeftY) + "," + String.valueOf(controlLeftX) + "," + String.valueOf(controlRightX) + "," + String.valueOf(onboarderSpeed) + "," + "\n");
+      rFile.append(String.valueOf(controlLeftY) + "," + String.valueOf(controlLeftX) + "," + String.valueOf(controlRightX) + "," + String.valueOf(onboarderSpeed) + "," + String.valueOf(shooterSpeed) + "," + "\n");
     } catch (IOException e) {
      //System.out.println("An error occurred.");
       e.printStackTrace();

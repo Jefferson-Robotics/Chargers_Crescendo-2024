@@ -27,6 +27,10 @@ public class Shooter extends SubsystemBase {
     this.bottomPower = power;
   }
 
+  public double getSpeed() {
+    return this.topPower;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

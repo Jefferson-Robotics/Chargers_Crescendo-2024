@@ -19,11 +19,13 @@ import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Onboarder;
+import frc.robot.subsystems.Shooter;
 
 public class playBack extends CommandBase {
   /** Creates a new playBack. */
   private DriveSubsystem swerveController;
   private Onboarder onboarder;
+  private Shooter shooter;
   private ShuffleboardTab tab;
   private GenericEntry textbox;
   private String recFileName;
@@ -32,13 +34,15 @@ public class playBack extends CommandBase {
   private double controlLeftX;
   private double controlRightX;
   private double onboarderSpeed;
+  private double shooterSpeed;
 
   private File rFile;
   private Scanner sc;
-  public playBack(DriveSubsystem swerveController, Onboarder onboarder, XboxController controller, ShuffleboardTab tab, String recFileNameParam) {
+  public playBack(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, XboxController controller, ShuffleboardTab tab, String recFileNameParam) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.swerveController = swerveController;
     this.onboarder = onboarder;
+    this.shooter = shooter;
 
     this.recFileName = recFileNameParam;
 
@@ -70,13 +74,17 @@ public class playBack extends CommandBase {
     controlLeftY = Double.valueOf(currentArray[0]);
     controlLeftX = Double.valueOf(currentArray[1]);
     controlRightX = Double.valueOf(currentArray[2]);
+    onboarderSpeed = Double.valueOf(currentArray[3]);
+    shooterSpeed = Double.valueOf(currentArray[4]);
 
     this.swerveController.drive(
       controlLeftY,
       controlLeftX,
       controlRightX,
-      true, true);
-    onboarder.setSpeed(Double.valueOf(currentArray[3]));
+      true, true
+    );
+    onboarder.setSpeed(onboarderSpeed);
+    shooter.shoot(shooterSpeed);
   }
 
   // Called once the command ends or is interrupted.
