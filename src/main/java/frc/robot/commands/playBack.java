@@ -18,39 +18,43 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Onboarder;
 
 public class playBack extends CommandBase {
   /** Creates a new playBack. */
   private DriveSubsystem swerveController;
+  private Onboarder onboarder;
   private ShuffleboardTab tab;
   private GenericEntry textbox;
   private String recFileName;
-  private Integer fileID;
 
   private double controlLeftY;
   private double controlLeftX;
   private double controlRightX;
+  private double onboarderSpeed;
 
   private File rFile;
   private Scanner sc;
-  public playBack(DriveSubsystem swerveController, XboxController controller, ShuffleboardTab tab, String recFileNameParam, Integer fileIDParam) {
+  public playBack(DriveSubsystem swerveController, Onboarder onboarder, XboxController controller, ShuffleboardTab tab, String recFileNameParam) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.swerveController = swerveController;
+    this.onboarder = onboarder;
+
     this.recFileName = recFileNameParam;
-    this.fileID = fileIDParam;
+
 
 
     this.tab = tab;
     textbox = tab.add("Recording", "default value")
       .withWidget(BuiltInWidgets.kTextView).getEntry();
-    addRequirements(swerveController);
+    addRequirements(swerveController, onboarder);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     try {
-      rFile = new File("/home/lvuser/" + recFileName + fileID + ".txt");
+      rFile = new File("/home/lvuser/" + recFileName + ".txt");
       sc = new Scanner(rFile);
     } catch (IOException e) {
      //System.out.println("An error occurred.");
@@ -66,11 +70,13 @@ public class playBack extends CommandBase {
     controlLeftY = Double.valueOf(currentArray[0]);
     controlLeftX = Double.valueOf(currentArray[1]);
     controlRightX = Double.valueOf(currentArray[2]);
+
     this.swerveController.drive(
       controlLeftY,
       controlLeftX,
       controlRightX,
       true, true);
+    onboarder.setSpeed(Double.valueOf(currentArray[3]));
   }
 
   // Called once the command ends or is interrupted.
@@ -82,7 +88,6 @@ public class playBack extends CommandBase {
       controlLeftX,
       controlRightX,
       true, true);
-    fileID++;
     //new SequentialCommandGroup(new AutoBTimed(playControl)).schedule();
   }
 

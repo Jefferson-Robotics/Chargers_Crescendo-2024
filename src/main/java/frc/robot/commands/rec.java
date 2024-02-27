@@ -15,27 +15,30 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Onboarder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class rec extends CommandBase {
   /** Creates a new recPlay. */
   private DriveSubsystem swerveController;
+  private Onboarder onboarder;
   private XboxController controller;
   private String recFile;
   private String recFileName;
-  private Integer fileID;
   private FileWriter rFile;
 
   private double controlLeftY;
   private double controlLeftX;
   private double controlRightX;
+  private double onboarderSpeed;
 
-  public rec(DriveSubsystem swerveController, XboxController controller, String recFileNameParam, Integer fileIDParam) {
+  public rec(DriveSubsystem swerveController, Onboarder onboarder, XboxController controller, String recFileNameParam) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.swerveController = swerveController;
+    this.onboarder = onboarder;
+
     this.controller = controller;
     this.recFileName = recFileNameParam;
-    this.fileID = fileIDParam;
     //this.name = name;
     addRequirements(swerveController);
   }
@@ -43,7 +46,7 @@ public class rec extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    recFile = "/home/lvuser/" + recFileName + fileID + ".txt";
+    recFile = "/home/lvuser/" + recFileName + ".txt";
     try {
           rFile = new FileWriter(recFile);
          //System.out.println("File created: " + rFile);
@@ -61,8 +64,10 @@ public class rec extends CommandBase {
     controlLeftY = -MathUtil.applyDeadband(controller.getLeftY() * -.5, OIConstants.kDriveDeadband);
     controlLeftX = -MathUtil.applyDeadband(controller.getLeftX() * -.5, OIConstants.kDriveDeadband);
     controlRightX = -MathUtil.applyDeadband(controller.getRightX() * -.5, OIConstants.kDriveDeadband);
+
+    onboarderSpeed = onboarder.getSpeed();
     try {
-      rFile.append(String.valueOf(controlLeftY) + "," + String.valueOf(controlLeftX) + "," + String.valueOf(controlRightX)+","+ "\n");
+      rFile.append(String.valueOf(controlLeftY) + "," + String.valueOf(controlLeftX) + "," + String.valueOf(controlRightX) + "," + String.valueOf(onboarderSpeed) + "," + "\n");
     } catch (IOException e) {
      //System.out.println("An error occurred.");
       e.printStackTrace();
@@ -77,7 +82,6 @@ public class rec extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    fileID++;
     try {
       rFile.close();
     } catch (IOException e) {

@@ -26,12 +26,11 @@ public class Onboarder extends SubsystemBase {
     return !this.BeamInput.get();
   }
 
-  public void intake(double speed) { 
-    this.speed = speed;
+  public double getSpeed() {
+    return this.speed;
   }
-
-  public void outtake(double speed) {
-    this.speed = -speed;
+  public void setSpeed(double speed) {
+    this.speed = speed;
   }
 
   @Override

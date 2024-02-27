@@ -51,14 +51,13 @@ public class RobotContainer {
   private final Shooter shooter = new Shooter();
   private ShuffleboardTab tab = Shuffleboard.getTab("Record and Playback");
   private String recFileName = "swerveRecord";
-  private Integer fileID = 1;
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   CommandXboxController commandController = new CommandXboxController(OIConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   private rec recordCommand;
-  private playBack playB = new playBack(m_robotDrive, m_driverController, tab, recFileName, fileID);
+  private playBack playB = new playBack(m_robotDrive, onboarder, m_driverController, tab, recFileName);
   //private IRBeamBreaker intakeSensor = new IRBeamBreaker(8);
 
   public RobotContainer() {
@@ -80,11 +79,11 @@ public class RobotContainer {
       new RunCommand(
         ()->{
           if(m_driverController.getLeftTriggerAxis() >.1){
-            onboarder.intake(m_driverController.getLeftTriggerAxis());
+            onboarder.setSpeed(m_driverController.getLeftTriggerAxis());
           } else if(m_driverController.getRightTriggerAxis() >.1){
-            onboarder.outtake(m_driverController.getRightTriggerAxis());
+            onboarder.setSpeed(-m_driverController.getRightTriggerAxis());
           } else {
-            onboarder.outtake(0);
+            onboarder.setSpeed(0);
           }
         }
         , onboarder)
@@ -92,8 +91,8 @@ public class RobotContainer {
     shooter.setDefaultCommand(
       new RunCommand(
         ()->{
-          if(m_driverController.getAButton()){
-            shooter.shoot(.7);
+          if(m_driverController.getXButton()){
+            shooter.shoot(1);
           } else {
             shooter.shoot(0);
           }
@@ -115,7 +114,8 @@ public class RobotContainer {
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
-    recordCommand = new rec(m_robotDrive, m_driverController, recFileName, fileID);
+    
+    recordCommand = new rec(m_robotDrive, onboarder, m_driverController, recFileName);
 
     
     JoystickButton recButton = new JoystickButton(m_driverController, Button.kA.value);
@@ -125,9 +125,10 @@ public class RobotContainer {
     JoystickButton playBack = new JoystickButton(m_driverController, Button.kY.value);
     playBack.onTrue(playB);
 
-    //new JoystickButton(m_driverController, Button.kStart.value)
-    //    .whileTrue(new RunCommand(
-    //4        () -> m_robotDrive.resetGyro()));
+
+    new JoystickButton(m_driverController, Button.kStart.value)
+       .whileTrue(new RunCommand(
+           () -> m_robotDrive.resetGyro()));
   }
 
   /**
