@@ -29,6 +29,7 @@ public class playBack extends CommandBase {
   private ShuffleboardTab tab;
   private GenericEntry textbox;
   private String recFileName;
+  private Boolean onRed = false;
 
   private double controlLeftY;
   private double controlLeftX;
@@ -38,11 +39,12 @@ public class playBack extends CommandBase {
 
   private File rFile;
   private Scanner sc;
-  public playBack(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, XboxController controller, ShuffleboardTab tab, String recFileNameParam) {
+  public playBack(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, XboxController controller, ShuffleboardTab tab, String recFileNameParam, Boolean onRed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.swerveController = swerveController;
     this.onboarder = onboarder;
     this.shooter = shooter;
+    this.onRed = onRed;
 
     this.recFileName = recFileNameParam;
 
@@ -77,6 +79,12 @@ public class playBack extends CommandBase {
     onboarderSpeed = Double.valueOf(currentArray[3]);
     shooterSpeed = Double.valueOf(currentArray[4]);
 
+    if (onRed) {
+      //controlLeftY *= 1;
+      controlLeftX *= -1;
+      controlRightX *= -1;
+    }
+
     this.swerveController.drive(
       controlLeftY,
       controlLeftX,
@@ -92,12 +100,12 @@ public class playBack extends CommandBase {
   public void end(boolean interrupted) {
     sc.close();
     this.swerveController.drive(
-      controlLeftY,
-      controlLeftX,
-      controlRightX,
+      0,
+      0,
+      0,
       true, true);
-    //new SequentialCommandGroup(new AutoBTimed(playControl)).schedule();
   }
+  
 
   // Returns true when the command should end.
   @Override

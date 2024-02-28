@@ -88,8 +88,8 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearRight.getPosition()
         });
     SmartDashboard.putNumber("Gyro Angle", -m_gyro.getAngle());
-    System.out.println("FL: " + m_frontLeft.getPosition()+ " FR: "+m_frontRight.getPosition());
-    System.out.println("BL: "+m_rearLeft.getPosition()+" BR: "+m_rearRight.getPosition());
+    //System.out.println("FL: " + m_frontLeft.getPosition()+ " FR: "+m_frontRight.getPosition());
+    //System.out.println("BL: "+m_rearLeft.getPosition()+" BR: "+m_rearRight.getPosition());
     //SmartDashboard.putNumber("Rear Left Module", m_rearLeft.getPosition());
   }
 

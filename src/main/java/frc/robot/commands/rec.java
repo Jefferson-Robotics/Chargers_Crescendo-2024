@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -52,6 +53,8 @@ public class rec extends CommandBase {
   public void initialize() {
     recFile = "/home/lvuser/" + recFileName + ".txt";
     try {
+          File prevFile = new File(recFile);
+          prevFile.delete();
           rFile = new FileWriter(recFile);
          //System.out.println("File created: " + rFile);
           

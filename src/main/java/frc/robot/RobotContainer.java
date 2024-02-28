@@ -57,7 +57,8 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   private rec recordCommand;
-  private playBack playB = new playBack(m_robotDrive, onboarder, shooter, m_driverController, tab, recFileName);
+  private playBack playbackCommand;
+  private Boolean onRedAlliance = true;
   //private IRBeamBreaker intakeSensor = new IRBeamBreaker(8);
 
   public RobotContainer() {
@@ -122,13 +123,19 @@ public class RobotContainer {
     JoystickButton recButton2 = new JoystickButton(m_driverController, Button.kB.value);
     recButton.onTrue(recordCommand.until(recButton2));
 
+    JoystickButton flipPlayback = new JoystickButton(m_driverController, Button.kLeftBumper.value);
+    flipPlayback.onTrue(new RunCommand(() -> onRedAlliance = !onRedAlliance));
+    System.out.println(onRedAlliance);
+
+    playbackCommand = new playBack(m_robotDrive, onboarder, shooter, m_driverController, tab, recFileName, onRedAlliance);
     JoystickButton playBack = new JoystickButton(m_driverController, Button.kY.value);
-    playBack.onTrue(playB);
+    playBack.onTrue(playbackCommand);
 
 
     new JoystickButton(m_driverController, Button.kStart.value)
        .whileTrue(new RunCommand(
-           () -> m_robotDrive.resetGyro()));
+          () -> m_robotDrive.resetGyro()
+        ));
   }
 
   /**
