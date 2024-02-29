@@ -15,7 +15,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Onboarder;
 import frc.robot.subsystems.Shooter;
 
-public class playback extends Command {
+public class playBack extends Command {
   /** Creates a new playback. */
   private DriveSubsystem swerveController;
   private Onboarder onboarder;
@@ -32,7 +32,7 @@ public class playback extends Command {
   private File rFile;
   private Scanner sc;
 
-  public playback(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, XboxController controller, SendableChooser<File> RecSelector, Boolean onRed) {
+  public playBack(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, XboxController controller, SendableChooser<File> RecSelector, Boolean onRed) {
     this.swerveController = swerveController;
     this.onboarder = onboarder;
     this.shooter = shooter;
