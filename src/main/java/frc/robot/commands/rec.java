@@ -4,19 +4,23 @@
 
 package frc.robot.commands;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.RecordPlaybackConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Onboarder;
 import frc.robot.subsystems.Shooter;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class rec extends CommandBase {
@@ -25,9 +29,12 @@ public class rec extends CommandBase {
   private Onboarder onboarder;
   private Shooter shooter;
   private XboxController controller;
-  private String recFile;
-  private String recFileName;
+
   private FileWriter rFile;
+  private SendableChooser<File> RecSelector;
+  private GenericEntry recFileName;
+  private File recordFile;
+  private int fileCount = 0;
 
   private double controlLeftY;
   private double controlLeftX;
@@ -35,30 +42,30 @@ public class rec extends CommandBase {
   private double onboarderSpeed;
   private double shooterSpeed;
 
-  public rec(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, XboxController controller, String recFileNameParam) {
+  public rec(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, XboxController controller, SendableChooser<File> RecSelector, GenericEntry FileName) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.swerveController = swerveController;
     this.onboarder = onboarder;
     this.shooter = shooter;
 
     this.controller = controller;
-    this.recFileName = recFileNameParam;
-    //this.name = name;
+    
+    this.RecSelector = RecSelector;
+    this.recFileName = FileName;
     addRequirements(swerveController);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    recFile = "/home/lvuser/" + recFileName + ".txt";
-    try {
-          rFile = new FileWriter(recFile);
-         //System.out.println("File created: " + rFile);
-          
+      try {
+          recordFile = new File(RecordPlaybackConstants.kRecordDirectory,recFileName.getString("rec"+fileCount)+"."+RecordPlaybackConstants.kFileType);
+          rFile = new FileWriter(recordFile);
+          System.out.println("Recording at: " + recordFile);
         } catch (IOException e) {
-         //System.out.println("An error occurred.");
+          System.out.println("Failed to create file: ");
           e.printStackTrace();
-    }
+      }
     }
 
 
@@ -72,7 +79,14 @@ public class rec extends CommandBase {
     onboarderSpeed = onboarder.getSpeed();
     shooterSpeed = shooter.getSpeed();
     try {
-      rFile.append(String.valueOf(controlLeftY) + "," + String.valueOf(controlLeftX) + "," + String.valueOf(controlRightX) + "," + String.valueOf(onboarderSpeed) + "," + String.valueOf(shooterSpeed) + "," + "\n");
+      rFile.append(
+        String.valueOf(controlLeftY) + "," +
+        String.valueOf(controlLeftX) + "," +
+        String.valueOf(controlRightX) + "," +
+        String.valueOf(onboarderSpeed) + "," +
+        String.valueOf(shooterSpeed) + "," +
+        "\n"
+      );
     } catch (IOException e) {
      //System.out.println("An error occurred.");
       e.printStackTrace();
@@ -81,7 +95,8 @@ public class rec extends CommandBase {
       controlLeftY,
       controlLeftX,
       controlRightX,
-      true, true);
+      true, true
+    );
   }
 
   // Called once the command ends or is interrupted.
@@ -90,9 +105,10 @@ public class rec extends CommandBase {
     try {
       rFile.close();
     } catch (IOException e) {
-     //System.out.println("An error occurred.");
+      System.out.println("Failed to end record: ");
       e.printStackTrace();
     }
+    fileCount++;
   }
 
   // Returns true when the command should end.
