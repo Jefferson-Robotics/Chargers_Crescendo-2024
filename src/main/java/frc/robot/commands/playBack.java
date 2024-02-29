@@ -4,27 +4,19 @@
 
 package frc.robot.commands;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.util.Map;
 import java.util.Scanner;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Constants.RecordPlaybackConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Onboarder;
 import frc.robot.subsystems.Shooter;
@@ -32,68 +24,60 @@ import frc.robot.subsystems.Shooter;
 public class playBack extends CommandBase {
   /** Creates a new playBack. */
   private DriveSubsystem swerveController;
-  private boolean isFinished;
   private Onboarder onboarder;
   private Shooter shooter;
+  private ShuffleboardTab tab;
+  private GenericEntry textbox;
+  private String recFileName;
   private Boolean onRed = false;
 
-  private FileInputStream fileInput;
-  private BufferedInputStream bufferedInput;
-  private ObjectInputStream objectInput;
-  private SendableChooser<File> recSelector;
-
-  private double[] data;
   private double controlLeftY;
   private double controlLeftX;
   private double controlRightX;
   private double onboarderSpeed;
   private double shooterSpeed;
 
-  public playBack(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, XboxController controller, SendableChooser<File> RecSelector, Boolean onRed) {
+  private File rFile;
+  private Scanner sc;
+  public playBack(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, XboxController controller, ShuffleboardTab tab, String recFileNameParam, Boolean onRed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.swerveController = swerveController;
     this.onboarder = onboarder;
     this.shooter = shooter;
-
-    this.recSelector = RecSelector;
     this.onRed = onRed;
+
+    this.recFileName = recFileNameParam;
+
+
+
+    this.tab = tab;
+    textbox = tab.add("Recording", "default value")
+      .withWidget(BuiltInWidgets.kTextView).getEntry();
+    addRequirements(swerveController, onboarder);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      isFinished = false;
-      try {
-          fileInput = new FileInputStream(recSelector.getSelected()); //File output stream
-          bufferedInput = new BufferedInputStream(fileInput); // buffer output
-          objectInput = new ObjectInputStream(bufferedInput); // object output
-          System.out.println("Playback Started with: " + recSelector.getSelected());
-        
-        } catch (IOException e) {
-          System.out.println("Failed to read file: ");
-          e.printStackTrace();
-      }
+    try {
+      rFile = new File("/home/lvuser/" + recFileName + ".txt");
+      sc = new Scanner(rFile);
+    } catch (IOException e) {
+     //System.out.println("An error occurred.");
+      e.printStackTrace();
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    try {
-      data = (double[]) objectInput.readObject();
-      if (!(objectInput.available() > 0)) {
-        isFinished = true;
-      }
-    } catch (Exception e) {
-      isFinished = true;
-      System.out.println("Failed to playback: ");
-      e.printStackTrace();
-    }
-
-    controlLeftY = data[0];
-    controlLeftX = data[1];
-    controlRightX = data[2];
-    onboarderSpeed = data[3];
-    shooterSpeed = data[3];
+    String cLine = sc.nextLine();
+    String[] currentArray = cLine.split(",", 6);
+    controlLeftY = Double.valueOf(currentArray[0]);
+    controlLeftX = Double.valueOf(currentArray[1]);
+    controlRightX = Double.valueOf(currentArray[2]);
+    onboarderSpeed = Double.valueOf(currentArray[3]);
+    shooterSpeed = Double.valueOf(currentArray[4]);
 
     if (onRed) {
       //controlLeftY *= 1;
@@ -114,41 +98,22 @@ public class playBack extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    try {
-      objectInput.close();
-      bufferedInput.close();
-      fileInput.close();
-    } catch (IOException e) {
-      System.out.println("Failed to end playback: ");
-      e.printStackTrace();
-    }
-  
+    sc.close();
     this.swerveController.drive(
       0,
       0,
       0,
-      true, true
-    );
-    onboarder.setSpeed(0);
-    shooter.shoot(0);
+      true, true);
   }
   
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    /*
-    try {
-      if (!(objectInput.available() > 0)) {
-        return true;
-      } else {
-        return false;
-      }
-      
-    } catch (Exception e) {
+    if (sc.hasNextLine()) {
+      return false;
+    } else {
       return true;
     }
-    */
-    return isFinished;
   }
 }

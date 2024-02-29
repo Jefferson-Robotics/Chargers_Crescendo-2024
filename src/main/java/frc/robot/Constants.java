@@ -7,9 +7,6 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-
-import java.io.File;
-
 import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.math.util.Units;
 
@@ -148,10 +145,5 @@ public final class Constants {
     public static final int kScissorLiftCanID = 11;
     public static final int kAcuatorCanID = 12;
     public static final int kRollerCanID = 13;
-  }
-
-  public static final class RecordPlaybackConstants {
-    public static final File kRecordDirectory = new File("/home/lvuser/Recordings");
-    public static final String kFileType = "txt";
   }
 }
