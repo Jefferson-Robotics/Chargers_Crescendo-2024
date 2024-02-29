@@ -7,6 +7,9 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+
+import java.io.File;
+
 import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.math.util.Units;
 
@@ -137,7 +140,7 @@ public final class Constants {
   public static final class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
   }
-
+  
   public static final class AprilTagConstants {
     public static final double[] tagAngles = {
       -1 , //ID  0 - N/A
@@ -158,5 +161,20 @@ public final class Constants {
       120, //ID 15 - Blue Stage
       240  //ID 16 - Blue Stage
     };
+
+  public static final class OnboarderConstants {
+    public static final int kbeamBreakPort = 0;
+    public static final int konboardMotorcanID = 8;
+  }
+    
+  public static final class NoteAcuatorConstants {
+    public static final int kScissorLiftCanID = 11;
+    public static final int kAcuatorCanID = 12;
+    public static final int kRollerCanID = 13;
+  }
+    
+  public static final class RecordPlaybackConstants {
+    public static final File kRecordDirectory = new File("/home/lvuser/Recordings");
+    public static final String kFileType = "txt";
   }
 }

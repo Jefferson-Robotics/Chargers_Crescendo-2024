@@ -106,5 +106,7 @@ public class VisionSerial extends SubsystemBase {
     if (tagData[0][0] != -1) {
       //System.out.println("Distance: " + tagData[0][0] + " | Rotation: " + tagData[0][1] + " | Tag Angle: " + tagData[0][2] + " | TagID: " + tagData[0][3]);
     }
+    //this.readDataStream();
+    //System.out.println("CenX: " + centerX + " | CenY: " + centerY + " | TagW: " + tagWidth + " | Dist: " + distance + " | TagID: " + tagID);
   }
 }
