@@ -58,6 +58,7 @@ public class RobotContainer {
 
   // Shuffleboard
   private final ShuffleboardTab tab = Shuffleboard.getTab("Autonomous");
+  private final GenericEntry alliancebox = tab.add("Red Alliance", false).withWidget(BuiltInWidgets.kToggleButton).getEntry();
   private final SendableChooser<File> fileChooser = new SendableChooser<>();
   private final GenericEntry fileName = tab.add("File Name", "PLACEHOLDER")
    .withWidget(BuiltInWidgets.kTextView).getEntry();
@@ -143,7 +144,7 @@ public class RobotContainer {
     flipPlayback.onTrue(new RunCommand(() -> onRedAlliance = !onRedAlliance));
     System.out.println(onRedAlliance);
 
-    playbackCommand = new playBack(m_robotDrive, onboarder, shooter, m_driverController, fileChooser, onRedAlliance);
+    playbackCommand = new playBack(m_robotDrive, onboarder, shooter, m_driverController, fileChooser, alliancebox);
     JoystickButton playBack = new JoystickButton(m_driverController, Button.kY.value);
     playBack.onTrue(playbackCommand);
 

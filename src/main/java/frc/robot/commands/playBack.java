@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -20,7 +21,7 @@ public class playBack extends Command {
   private DriveSubsystem swerveController;
   private Onboarder onboarder;
   private Shooter shooter;
-  private Boolean onRed = false;
+  private GenericEntry onRed;
   private SendableChooser<File> recSelector;
 
   private double controlLeftY;
@@ -32,14 +33,15 @@ public class playBack extends Command {
   private File rFile;
   private Scanner sc;
 
-  public playBack(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, XboxController controller, SendableChooser<File> RecSelector, Boolean onRed) {
+  public playBack(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, XboxController controller, SendableChooser<File> RecSelector, GenericEntry alliancebox) {
     this.swerveController = swerveController;
     this.onboarder = onboarder;
     this.shooter = shooter;
 
     this.recSelector = RecSelector;
-    this.onRed = onRed;
+    this.onRed = alliancebox;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(swerveController, onboarder, shooter);
   }
 
   // Called when the command is initially scheduled.
@@ -67,7 +69,7 @@ public class playBack extends Command {
     onboarderSpeed = Double.valueOf(currentArray[3]);
     shooterSpeed = Double.valueOf(currentArray[4]);
 
-    if (onRed) {
+    if (!onRed.getBoolean(true)) {
       //controlLeftY *= 1; F&B
       controlLeftX *= -1;
       controlRightX *= -1;
