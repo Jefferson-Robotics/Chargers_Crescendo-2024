@@ -130,7 +130,7 @@ public final class Constants {
 
     public static final double kPXController = 1;
     public static final double kPYController = 1;
-    public static final double kPThetaController = 1;
+    public static final double kPThetaController = 1.2;
 
     // Constraint for the motion profiled robot angle controller
     public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
@@ -140,15 +140,39 @@ public final class Constants {
   public static final class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
   }
+  
+  public static final class AprilTagConstants {
+    public static final double[] tagAngles = {
+      -1 , //ID  0 - N/A
+      120, //ID  1 - Blue Source Right
+      120, //ID  2 - Blue Source Left
+      180, //ID  3 - Red Speaker Right
+      180, //ID  4 - Red Speaker Left
+      270, //ID  5 - Red Amp
+      270, //ID  6 - Blue Amp
+        0, //ID  7 - Blue Speaker Right
+        0, //ID  8 - Blue Speaker Left
+       60, //ID  9 - Red Source Right
+       60, //ID 10 - Red Source Left
+       60, //ID 11 - Red Stage
+      300, //ID 12 - Red Stage
+      180, //ID 13 - Red Stage
+        0, //ID 14 - Blue Stage
+      120, //ID 15 - Blue Stage
+      240  //ID 16 - Blue Stage
+    };
+
   public static final class OnboarderConstants {
     public static final int kbeamBreakPort = 0;
     public static final int konboardMotorcanID = 8;
   }
+    
   public static final class NoteAcuatorConstants {
     public static final int kScissorLiftCanID = 11;
     public static final int kAcuatorCanID = 12;
     public static final int kRollerCanID = 13;
   }
+    
   public static final class RecordPlaybackConstants {
     public static final File kRecordDirectory = new File("/home/lvuser/Recordings");
     public static final String kFileType = "txt";

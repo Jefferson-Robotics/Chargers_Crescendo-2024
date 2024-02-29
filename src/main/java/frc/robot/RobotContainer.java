@@ -7,7 +7,8 @@ package frc.robot;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.AutoPickup;
+import frc.robot.commands.AutoRotate;
+import frc.robot.commands.AutoSourceAlign;
 import frc.robot.commands.playBack;
 import frc.robot.commands.rec;
 import frc.robot.subsystems.DriveSubsystem;
@@ -37,6 +38,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -139,11 +141,17 @@ public class RobotContainer {
     JoystickButton playBack = new JoystickButton(m_driverController, Button.kY.value);
     playBack.onTrue(playbackCommand);
 
+    new JoystickButton(m_driverController, Button.kBack.value)
+        .onTrue(new AutoRotate(vision, m_robotDrive, 90, true));
 
     new JoystickButton(m_driverController, Button.kStart.value)
-       .whileTrue(new RunCommand(
-          () -> m_robotDrive.resetGyro()
-        ));
+        .whileTrue(new RunCommand(
+            () -> m_robotDrive.resetGyro()));
+
+    /*
+    JoystickButton cameraTrack = new JoystickButton(m_driverController, Button.kBack.value);
+    cameraTrack.onTrue(cameraTrackRotate);
+    */
   }
 
   /**
@@ -152,22 +160,41 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    /*
     // An example command will be run in autonomous
+    double tagDistance = vision.getDistance(1);
+    double angle = -vision.getAngle(1);
+    double tagRotation = vision.getTagRotation(1);
+
+    double translateX = 0.01;
+    double translateY = 0.01;
+    double controlRotate = 0.01;
+
+    if (tagDistance != -1) {
+      tagDistance = tagDistance / 100; // cm to m
+
+      translateX = tagDistance * Math.cos(angle) - .7 * Math.sin(-(tagRotation + 3 * Math.PI / 2) % (2 * Math.PI));
+      //translateX -= 0.5;
+      translateY = tagDistance * Math.sin(angle) - .7 * Math.cos(-(tagRotation + 3 * Math.PI / 2) % (2 * Math.PI));
+
+      controlRotate = tagRotation;
+    }
+    System.out.println("TransX: " + translateX + " | TransY: " + translateY + " | Rotate: " + ((controlRotate / Math.PI) * 180));
+
     // Create config for trajectory
     TrajectoryConfig config = new TrajectoryConfig(
         AutoConstants.kMaxSpeedMetersPerSecond,
         AutoConstants.kMaxAccelerationMetersPerSecondSquared)
         // Add kinematics to ensure max speed is actually obeyed
         .setKinematics(DriveConstants.kDriveKinematics);
-
     // An example trajectory to follow. All units in meters.
-    Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
+
+    Trajectory tagTrajectory = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
-        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-        // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(3, 0, new Rotation2d(0)),
+        List.of(),
+        new Pose2d(translateX, translateY, Rotation2d.fromRadians(controlRotate)),
         config);
 
     var thetaController = new ProfiledPIDController(
@@ -175,7 +202,7 @@ public class RobotContainer {
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
     SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-        exampleTrajectory,
+        tagTrajectory,
         m_robotDrive::getPose, // Functional interface to feed supplier
         DriveConstants.kDriveKinematics,
 
@@ -187,9 +214,12 @@ public class RobotContainer {
         m_robotDrive);
 
     // Reset odometry to the starting pose of the trajectory.
-    m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
+    m_robotDrive.resetOdometry(tagTrajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false, false));
+
+    */
+    return new AutoSourceAlign(vision, m_robotDrive);
   }
 }
