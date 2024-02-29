@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.RecordPlaybackConstants;
 import frc.robot.commands.AutoPickup;
 import frc.robot.commands.playBack;
 import frc.robot.commands.rec;
@@ -15,6 +16,7 @@ import frc.robot.subsystems.Onboarder;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.VisionSerial;
 
+import java.io.File;
 import java.util.List;
 
 import edu.wpi.first.math.MathUtil;
@@ -26,11 +28,14 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -49,11 +54,16 @@ public class RobotContainer {
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final Onboarder onboarder = new Onboarder();
   private final Shooter shooter = new Shooter();
-  private ShuffleboardTab tab = Shuffleboard.getTab("Record and Playback");
   private String recFileName = "swerveRecord";
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   CommandXboxController commandController = new CommandXboxController(OIConstants.kDriverControllerPort);
+
+  // Shuffleboard
+  private final ShuffleboardTab tab = Shuffleboard.getTab("Autonomous");
+  private final SendableChooser<File> fileChooser = new SendableChooser<>();
+  private final GenericEntry fileName = tab.add("File Name", "")
+   .withWidget(BuiltInWidgets.kTextView).getEntry();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   private rec recordCommand;
@@ -62,6 +72,16 @@ public class RobotContainer {
   //private IRBeamBreaker intakeSensor = new IRBeamBreaker(8);
 
   public RobotContainer() {
+    // Autonomous Shuffleboard Loader
+    File[] files = RecordPlaybackConstants.kRecordDirectory.listFiles();
+    for (int i = 0; i < files.length; i++) {
+      fileChooser.addOption(files[i].getName(), files[i]);
+    }
+    tab.add("Autonomous Mode", fileChooser)
+    .withWidget(BuiltInWidgets.kComboBoxChooser)
+    .withPosition(0, 0)
+    .withSize(2, 1);
+
     // Configure the trigger bindings
     configureBindings();
 
@@ -116,18 +136,14 @@ public class RobotContainer {
             () -> m_robotDrive.setX(),
             m_robotDrive));
     
-    recordCommand = new rec(m_robotDrive, onboarder, shooter, m_driverController, recFileName);
+    recordCommand = new rec(m_robotDrive, onboarder, shooter, m_driverController, fileChooser, fileName);
 
     
     JoystickButton recButton = new JoystickButton(m_driverController, Button.kA.value);
     JoystickButton recButton2 = new JoystickButton(m_driverController, Button.kB.value);
     recButton.onTrue(recordCommand.until(recButton2));
 
-    JoystickButton flipPlayback = new JoystickButton(m_driverController, Button.kLeftBumper.value);
-    flipPlayback.onTrue(new RunCommand(() -> onRedAlliance = !onRedAlliance));
-    System.out.println(onRedAlliance);
-
-    playbackCommand = new playBack(m_robotDrive, onboarder, shooter, m_driverController, tab, recFileName, onRedAlliance);
+    playbackCommand = new playBack(m_robotDrive, onboarder, shooter, m_driverController, fileChooser, onRedAlliance);
     JoystickButton playBack = new JoystickButton(m_driverController, Button.kY.value);
     playBack.onTrue(playbackCommand);
 
