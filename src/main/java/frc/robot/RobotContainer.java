@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.RecordPlaybackConstants;
 import frc.robot.commands.playBack;
 import frc.robot.commands.rec;
 import frc.robot.subsystems.DriveSubsystem;
@@ -68,6 +69,15 @@ public class RobotContainer {
   //private IRBeamBreaker intakeSensor = new IRBeamBreaker(8);
 
   public RobotContainer() {
+    File[] files = RecordPlaybackConstants.kRecordDirectory.listFiles();
+    for (int i = 0; i < files.length; i++) {
+      fileChooser.addOption(files[i].getName(), files[i]);
+    }
+    tab.add("Autonomous Mode", fileChooser)
+    .withWidget(BuiltInWidgets.kComboBoxChooser)
+    .withPosition(0, 0)
+    .withSize(2, 1);
+
     // Configure the trigger bindings
     configureBindings();
 
