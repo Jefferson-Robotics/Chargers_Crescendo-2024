@@ -108,6 +108,8 @@ public class rec extends CommandBase {
       System.out.println("Failed to end record: ");
       e.printStackTrace();
     }
+
+    RecSelector.addOption(recordFile.getName(), recordFile);
     fileCount++;
   }
 
