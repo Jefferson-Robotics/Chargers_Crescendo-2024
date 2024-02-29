@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 import edu.wpi.first.wpilibj.SerialPort;

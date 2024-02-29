@@ -7,9 +7,7 @@ package frc.robot;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.AutoRotate;
-import frc.robot.commands.AutoSourceAlign;
-import frc.robot.commands.playBack;
+import frc.robot.commands.playback;
 import frc.robot.commands.rec;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Onboarder;
@@ -24,12 +22,10 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -38,7 +34,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -53,6 +48,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final VisionSerial visionTag = new VisionSerial();
   private final Onboarder onboarder = new Onboarder();
   private final Shooter shooter = new Shooter();
   // The driver's controller
@@ -67,7 +63,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   private rec recordCommand;
-  private playBack playbackCommand;
+  private playback playbackCommand;
   private Boolean onRedAlliance = true;
   //private IRBeamBreaker intakeSensor = new IRBeamBreaker(8);
 
@@ -137,12 +133,9 @@ public class RobotContainer {
     flipPlayback.onTrue(new RunCommand(() -> onRedAlliance = !onRedAlliance));
     System.out.println(onRedAlliance);
 
-    playbackCommand = new playBack(m_robotDrive, onboarder, shooter, m_driverController, fileChooser, onRedAlliance);
+    playbackCommand = new playback(m_robotDrive, onboarder, shooter, m_driverController, fileChooser, onRedAlliance);
     JoystickButton playBack = new JoystickButton(m_driverController, Button.kY.value);
     playBack.onTrue(playbackCommand);
-
-    new JoystickButton(m_driverController, Button.kBack.value)
-        .onTrue(new AutoRotate(vision, m_robotDrive, 90, true));
 
     new JoystickButton(m_driverController, Button.kStart.value)
         .whileTrue(new RunCommand(
@@ -160,27 +153,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    /*
     // An example command will be run in autonomous
-    double tagDistance = vision.getDistance(1);
-    double angle = -vision.getAngle(1);
-    double tagRotation = vision.getTagRotation(1);
-
-    double translateX = 0.01;
-    double translateY = 0.01;
-    double controlRotate = 0.01;
-
-    if (tagDistance != -1) {
-      tagDistance = tagDistance / 100; // cm to m
-
-      translateX = tagDistance * Math.cos(angle) - .7 * Math.sin(-(tagRotation + 3 * Math.PI / 2) % (2 * Math.PI));
-      //translateX -= 0.5;
-      translateY = tagDistance * Math.sin(angle) - .7 * Math.cos(-(tagRotation + 3 * Math.PI / 2) % (2 * Math.PI));
-
-      controlRotate = tagRotation;
-    }
-    System.out.println("TransX: " + translateX + " | TransY: " + translateY + " | Rotate: " + ((controlRotate / Math.PI) * 180));
-
     // Create config for trajectory
     TrajectoryConfig config = new TrajectoryConfig(
         AutoConstants.kMaxSpeedMetersPerSecond,
@@ -194,7 +167,7 @@ public class RobotContainer {
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
         List.of(),
-        new Pose2d(translateX, translateY, Rotation2d.fromRadians(controlRotate)),
+        new Pose2d(3, 0, Rotation2d.fromRadians(0)),
         config);
 
     var thetaController = new ProfiledPIDController(
@@ -218,8 +191,5 @@ public class RobotContainer {
 
     // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false, false));
-
-    */
-    return new AutoSourceAlign(vision, m_robotDrive);
   }
 }

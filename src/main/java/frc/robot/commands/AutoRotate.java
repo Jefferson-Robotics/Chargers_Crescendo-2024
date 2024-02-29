@@ -11,7 +11,7 @@ import frc.robot.subsystems.VisionSerial;
 public class AutoRotate extends Command {
   /** Creates a new AutoRotate. */
   private boolean isFinished = false;
-  private VisionSerial camera;
+  //private VisionSerial camera;
   private DriveSubsystem swerve;
   private boolean rightTurn;
 
@@ -21,7 +21,7 @@ public class AutoRotate extends Command {
 
   public AutoRotate(VisionSerial camera, DriveSubsystem swerve, int degrees, boolean rightTurn) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.camera = camera;
+    //this.camera = camera;
     this.swerve = swerve;
     this.degrees = degrees;
     this.rightTurn = rightTurn;

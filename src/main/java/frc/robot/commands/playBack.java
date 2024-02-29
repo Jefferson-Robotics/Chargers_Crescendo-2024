@@ -5,25 +5,18 @@
 package frc.robot.commands;
 
 import java.io.File;
-import java.util.Map;
-import java.util.Scanner;
 import java.io.IOException;
+import java.util.Scanner;
 
-import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.ScheduleCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Onboarder;
 import frc.robot.subsystems.Shooter;
 
-public class playBack extends CommandBase {
-  /** Creates a new playBack. */
+public class playback extends Command {
+  /** Creates a new playback. */
   private DriveSubsystem swerveController;
   private Onboarder onboarder;
   private Shooter shooter;
@@ -38,14 +31,15 @@ public class playBack extends CommandBase {
 
   private File rFile;
   private Scanner sc;
-  public playBack(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, XboxController controller, SendableChooser<File> RecSelector, Boolean onRed) {
-    // Use addRequirements() here to declare subsystem dependencies.
+
+  public playback(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, XboxController controller, SendableChooser<File> RecSelector, Boolean onRed) {
     this.swerveController = swerveController;
     this.onboarder = onboarder;
     this.shooter = shooter;
 
     this.recSelector = RecSelector;
     this.onRed = onRed;
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -102,7 +96,6 @@ public class playBack extends CommandBase {
     onboarder.setSpeed(0);
     shooter.shoot(0);
   }
-  
 
   // Returns true when the command should end.
   @Override

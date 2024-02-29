@@ -161,6 +161,7 @@ public final class Constants {
       120, //ID 15 - Blue Stage
       240  //ID 16 - Blue Stage
     };
+  }
 
   public static final class OnboarderConstants {
     public static final int kbeamBreakPort = 0;

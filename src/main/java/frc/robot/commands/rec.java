@@ -10,21 +10,17 @@ import java.io.IOException;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Button;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.RecordPlaybackConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Onboarder;
 import frc.robot.subsystems.Shooter;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class rec extends CommandBase {
-  /** Creates a new recPlay. */
+public class rec extends Command {
+  /** Creates a new rec. */
   private DriveSubsystem swerveController;
   private Onboarder onboarder;
   private Shooter shooter;
@@ -43,31 +39,31 @@ public class rec extends CommandBase {
   private double shooterSpeed;
 
   public rec(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, XboxController controller, SendableChooser<File> RecSelector, GenericEntry FileName) {
-    // Use addRequirements() here to declare subsystem dependencies.
+    this.controller = controller;
+    
     this.swerveController = swerveController;
     this.onboarder = onboarder;
     this.shooter = shooter;
-
-    this.controller = controller;
     
     this.RecSelector = RecSelector;
     this.recFileName = FileName;
+    
+    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerveController);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      try {
-          recordFile = new File(RecordPlaybackConstants.kRecordDirectory,recFileName.getString("rec"+fileCount)+"."+RecordPlaybackConstants.kFileType);
-          rFile = new FileWriter(recordFile);
-          System.out.println("Recording at: " + recordFile);
-        } catch (IOException e) {
-          System.out.println("Failed to create file: ");
-          e.printStackTrace();
-      }
+    try {
+        recordFile = new File(RecordPlaybackConstants.kRecordDirectory,recFileName.getString("rec"+fileCount)+"."+RecordPlaybackConstants.kFileType);
+        rFile = new FileWriter(recordFile);
+        System.out.println("Recording at: " + recordFile);
+      } catch (IOException e) {
+        System.out.println("Failed to create file: ");
+        e.printStackTrace();
     }
-
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
