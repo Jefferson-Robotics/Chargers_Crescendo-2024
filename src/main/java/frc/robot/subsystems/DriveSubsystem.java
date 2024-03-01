@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -15,11 +13,15 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import frc.robot.Constants.DriveConstants;
 import frc.utils.SwerveUtils;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.DriverStation;
 
 public class DriveSubsystem extends SubsystemBase {
   // Create MAXSwerveModules
@@ -90,19 +92,6 @@ public class DriveSubsystem extends SubsystemBase {
     //System.out.println("FL: " + m_frontLeft.getPosition()+ " FR: "+m_frontRight.getPosition());
     //System.out.println("BL: "+m_rearLeft.getPosition()+" BR: "+m_rearRight.getPosition());
     //SmartDashboard.putNumber("Rear Left Module", m_rearLeft.getPosition());
-  }
-  public void changPID(){
-    System.out.println("P: "+SmartDashboard.getNumber("Driving P Gain", 1));
-    System.out.println("I: "+SmartDashboard.getNumber("Driving I Gain", 1));
-    System.out.println("D: "+SmartDashboard.getNumber("Driving D Gain", 1));
-    m_frontLeft.changeDrivingPID(SmartDashboard.getNumber("Driving P Gain", 1), SmartDashboard.getNumber("Driving D Gain", 0), SmartDashboard.getNumber("Driving I Gain", 0));
-    m_frontRight.changeDrivingPID(SmartDashboard.getNumber("Driving P Gain", 1), SmartDashboard.getNumber("Driving D Gain", 0), SmartDashboard.getNumber("Driving I Gain", 0));
-    m_rearLeft.changeDrivingPID(SmartDashboard.getNumber("Driving P Gain", 1), SmartDashboard.getNumber("Driving D Gain", 0), SmartDashboard.getNumber("Driving I Gain", 0));
-    m_rearRight.changeDrivingPID(SmartDashboard.getNumber("Driving P Gain", 1), SmartDashboard.getNumber("Driving D Gain", 0), SmartDashboard.getNumber("Driving I Gain", 0));
-    m_frontLeft.changeTurningPID(SmartDashboard.getNumber("Turning P Gain", 1), SmartDashboard.getNumber("Turning D Gain", 0), SmartDashboard.getNumber("Turning I Gain", 0));
-    m_frontRight.changeTurningPID(SmartDashboard.getNumber("Turning P Gain", 1), SmartDashboard.getNumber("Turning D Gain", 0), SmartDashboard.getNumber("Turning I Gain", 0));
-    m_rearLeft.changeTurningPID(SmartDashboard.getNumber("Turning P Gain", 1), SmartDashboard.getNumber("Turning D Gain", 0), SmartDashboard.getNumber("Turning I Gain", 0));
-    m_rearRight.changeTurningPID(SmartDashboard.getNumber("Turning P Gain", 1), SmartDashboard.getNumber("Turning D Gain", 0), SmartDashboard.getNumber("Turning I Gain", 0));
   }
 
   /**

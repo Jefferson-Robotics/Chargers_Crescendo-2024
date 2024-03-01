@@ -39,7 +39,6 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -71,12 +70,6 @@ public class RobotContainer {
   //private IRBeamBreaker intakeSensor = new IRBeamBreaker(8);
 
   public RobotContainer() {
-    SmartDashboard.putNumber("Driving P Gain",1 );
-    SmartDashboard.putNumber("Driving D Gain",0 );
-    SmartDashboard.putNumber("Driving I Gain",0 );
-    SmartDashboard.putNumber("Turning P Gain",1 );
-    SmartDashboard.putNumber("Turning D Gain",0 );
-    SmartDashboard.putNumber("Turning I Gain",0 );
     File[] files = RecordPlaybackConstants.kRecordDirectory.listFiles();
     for (int i = 0; i < files.length; i++) {
       fileChooser.addOption(files[i].getName(), files[i]);
@@ -155,13 +148,9 @@ public class RobotContainer {
     JoystickButton playBack = new JoystickButton(m_driverController, Button.kY.value);
     playBack.onTrue(playbackCommand);
 
-    
     new JoystickButton(m_driverController, Button.kStart.value)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.resetGyro()));
-    new JoystickButton(m_driverController, Button.kBack.value)
-        .whileTrue(new RunCommand(
-            () -> m_robotDrive.changPID()));
 
     /*
     JoystickButton cameraTrack = new JoystickButton(m_driverController, Button.kBack.value);

@@ -4,16 +4,17 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkAbsoluteEncoder.Type;
-import com.revrobotics.SparkPIDController;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.SparkAbsoluteEncoder.Type;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.RelativeEncoder;
+
 import frc.robot.Constants.ModuleConstants;
 
 public class MAXSwerveModule {
@@ -108,16 +109,7 @@ public class MAXSwerveModule {
     m_desiredState.angle = new Rotation2d(m_turningEncoder.getPosition());
     m_drivingEncoder.setPosition(0);
   }
-public void changeTurningPID(double p, double d, double i){
-    m_turningPIDController.setP(p);
-    m_turningPIDController.setI(i);
-    m_turningPIDController.setD(d);
-}
-public void changeDrivingPID(double p, double d, double i){
-  m_drivingPIDController.setP(p);
-  m_drivingPIDController.setI(i);
-  m_drivingPIDController.setD(d);
-}
+
   /**
    * Returns the current state of the module.
    *
