@@ -13,7 +13,6 @@ import frc.robot.commands.rec;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Onboarder;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.VisionSerial;
 
 import java.io.File;
 import java.util.List;
@@ -49,7 +48,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  private final VisionSerial visionTag = new VisionSerial();
+  //private final VisionSerial visionTag = new VisionSerial();
   private final Onboarder onboarder = new Onboarder();
   private final Shooter shooter = new Shooter();
   // The driver's controller
