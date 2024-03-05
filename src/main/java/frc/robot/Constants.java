@@ -167,6 +167,12 @@ public final class Constants {
     public static final int kbeamBreakPort = 0;
     public static final int konboardMotorcanID = 8;
   }
+
+  public static final class ClimbConstants {
+    public static final int kClimbMotorID = 15;
+    public static final int kRestLimitID = 16;
+    public static final int kExtendLimitID = 17;
+  }
     
   public static final class NoteAcuatorConstants {
     public static final int kScissorLiftCanID = 11;

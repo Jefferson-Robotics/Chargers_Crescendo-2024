@@ -96,9 +96,9 @@ public class RobotContainer {
       new RunCommand(
         ()->{
           if(m_driverController.getLeftTriggerAxis() >.1){
-            onboarder.setSpeed(m_driverController.getLeftTriggerAxis());
+            onboarder.setSpeed(-m_driverController.getLeftTriggerAxis());
           } else if(m_driverController.getRightTriggerAxis() >.1){
-            onboarder.setSpeed(-m_driverController.getRightTriggerAxis());
+            onboarder.setSpeed(m_driverController.getRightTriggerAxis());
           } else {
             onboarder.setSpeed(0);
           }

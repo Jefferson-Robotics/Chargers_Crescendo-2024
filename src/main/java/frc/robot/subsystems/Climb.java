@@ -4,14 +4,42 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Climb extends SubsystemBase {
   /** Creates a new Climb. */
+  private double speed = 0;
+  private boolean rest = false;
+  private boolean extended = false;
+
+  private DigitalInput restPosition = new DigitalInput(Constants.ClimbConstants.kRestLimitID);
+  private DigitalInput extendPosition = new DigitalInput(Constants.ClimbConstants.kExtendLimitID);
+  private WPI_VictorSPX onboardMotor = new WPI_VictorSPX(Constants.ClimbConstants.kClimbMotorID);
+
   public Climb() {}
+
+  public void setSpeed(double speed) {
+    this.speed = speed;
+  }
+
+  public boolean getRestPosition() {
+    return rest;
+  }
+  public boolean getExtendedPosition() {
+    return extended;
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    rest = this.restPosition.get();
+    extended = this.extendPosition.get();
+
+    onboardMotor.set(ControlMode.PercentOutput, speed);
   }
 }

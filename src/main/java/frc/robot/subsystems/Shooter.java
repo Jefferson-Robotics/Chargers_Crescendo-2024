@@ -21,7 +21,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void shoot(double power) {
-    this.topPower = power;
+    this.topPower = -power;
     this.bottomPower = power;
   }
 
