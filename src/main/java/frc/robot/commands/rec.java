@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.RecordPlaybackConstants;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.NoteActuator;
 import frc.robot.subsystems.Onboarder;
 import frc.robot.subsystems.Shooter;
 
@@ -24,6 +25,7 @@ public class rec extends Command {
   private DriveSubsystem swerveController;
   private Onboarder onboarder;
   private Shooter shooter;
+  private NoteActuator noteActuator;
   private XboxController controller;
 
   private FileWriter rFile;
@@ -37,13 +39,17 @@ public class rec extends Command {
   private double controlRightX;
   private double onboarderSpeed;
   private double shooterSpeed;
+  private double rollerSpeed;
+  private double actuateSpeed;
+  private double liftSpeed;
 
-  public rec(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, XboxController controller, SendableChooser<File> RecSelector, GenericEntry FileName) {
+  public rec(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, NoteActuator noteActuator, XboxController controller, SendableChooser<File> RecSelector, GenericEntry FileName) {
     this.controller = controller;
     
     this.swerveController = swerveController;
     this.onboarder = onboarder;
     this.shooter = shooter;
+    this.noteActuator = noteActuator;
     
     this.RecSelector = RecSelector;
     this.recFileName = FileName;
@@ -74,6 +80,9 @@ public class rec extends Command {
 
     onboarderSpeed = onboarder.getSpeed();
     shooterSpeed = shooter.getSpeed();
+    rollerSpeed = noteActuator.getRollerSpeed();
+    actuateSpeed = noteActuator.getActuateSpeed();
+    liftSpeed = noteActuator.getLiftSpeed();
     try {
       rFile.append(
         String.valueOf(controlLeftY) + "," +
@@ -81,6 +90,9 @@ public class rec extends Command {
         String.valueOf(controlRightX) + "," +
         String.valueOf(onboarderSpeed) + "," +
         String.valueOf(shooterSpeed) + "," +
+        String.valueOf(rollerSpeed) + "," +
+        String.valueOf(actuateSpeed) + "," +
+        String.valueOf(liftSpeed) + "," +
         "\n"
       );
     } catch (IOException e) {

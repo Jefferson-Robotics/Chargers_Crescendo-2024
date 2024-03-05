@@ -11,6 +11,7 @@ import frc.robot.Constants.RecordPlaybackConstants;
 import frc.robot.commands.playBack;
 import frc.robot.commands.rec;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.NoteActuator;
 import frc.robot.subsystems.Onboarder;
 import frc.robot.subsystems.Shooter;
 
@@ -51,6 +52,7 @@ public class RobotContainer {
   //private final VisionSerial visionTag = new VisionSerial();
   private final Onboarder onboarder = new Onboarder();
   private final Shooter shooter = new Shooter();
+  private final NoteActuator noteActuator = new NoteActuator();
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   CommandXboxController commandController = new CommandXboxController(OIConstants.kDriverControllerPort);
@@ -132,7 +134,7 @@ public class RobotContainer {
             () -> m_robotDrive.setX(),
             m_robotDrive));
     
-    recordCommand = new rec(m_robotDrive, onboarder, shooter, m_driverController, fileChooser, fileName);
+    recordCommand = new rec(m_robotDrive, onboarder, shooter, noteActuator, m_driverController, fileChooser, fileName);
 
     
     JoystickButton recButton = new JoystickButton(m_driverController, Button.kA.value);
@@ -143,7 +145,7 @@ public class RobotContainer {
     flipPlayback.onTrue(new RunCommand(() -> onRedAlliance = !onRedAlliance));
     System.out.println(onRedAlliance);
 
-    playbackCommand = new playBack(m_robotDrive, onboarder, shooter, m_driverController, fileChooser, alliancebox);
+    playbackCommand = new playBack(m_robotDrive, onboarder, shooter, noteActuator, m_driverController, fileChooser, alliancebox);
     JoystickButton playBack = new JoystickButton(m_driverController, Button.kY.value);
     playBack.onTrue(playbackCommand);
 

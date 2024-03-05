@@ -172,6 +172,7 @@ public final class Constants {
     public static final int kClimbMotorID = 15;
     public static final int kRestLimitID = 16;
     public static final int kExtendLimitID = 17;
+    public static final int kScissorLiftID = 18;
   }
     
   public static final class NoteAcuatorConstants {

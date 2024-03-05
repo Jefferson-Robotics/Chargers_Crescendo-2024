@@ -17,9 +17,11 @@ public class NoteActuator extends SubsystemBase {
   private boolean actuated = false;
   private double rollerSpeed = 0;
   private double actuateSpeed = 0;
+  private double liftSpeed = 0;
   
 
   //private WPI_TalonSRX scissorLift = new WPI_TalonSRX(Constants.NoteAcuatorConstants.kScissorLiftCanID);
+  private WPI_TalonSRX liftMotor = new WPI_TalonSRX(Constants.NoteAcuatorConstants.kScissorLiftCanID);
   private WPI_TalonSRX actuator = new WPI_TalonSRX(Constants.NoteAcuatorConstants.kAcuatorCanID);
   private WPI_TalonSRX roller = new WPI_TalonSRX(Constants.NoteAcuatorConstants.kRollerCanID);
 
@@ -29,19 +31,26 @@ public class NoteActuator extends SubsystemBase {
 
   public NoteActuator() {}
 
-  public void intake(double power) {
+  public void setRoller(double power) {
     this.rollerSpeed = power;
-  }
-
-  public void outtake(double power) {
-    this.rollerSpeed = -power;
   }
 
   public void actuate(double power) {
     this.actuateSpeed = power;
   }
 
-  public void extendScissorLift(double power) {
+  public void extendLift(double power) {
+    this.liftSpeed = power;
+  }
+
+  public double getRollerSpeed() {
+    return this.rollerSpeed;
+  }
+  public double getActuateSpeed() {
+    return this.actuateSpeed;
+  }
+  public double getLiftSpeed() {
+    return this.liftSpeed;
   }
 
   public boolean getOpenPosition() {
@@ -59,5 +68,6 @@ public class NoteActuator extends SubsystemBase {
 
     actuator.set(ControlMode.PercentOutput, this.actuateSpeed);
     roller.set(ControlMode.PercentOutput, this.rollerSpeed);
+    liftMotor.set(ControlMode.PercentOutput, this.liftSpeed);
   }
 }

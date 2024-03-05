@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.NoteActuator;
 import frc.robot.subsystems.Onboarder;
 import frc.robot.subsystems.Shooter;
 
@@ -21,6 +22,7 @@ public class playBack extends Command {
   private DriveSubsystem swerveController;
   private Onboarder onboarder;
   private Shooter shooter;
+  private NoteActuator noteActuator;
   private GenericEntry onRed;
   private SendableChooser<File> recSelector;
 
@@ -29,14 +31,19 @@ public class playBack extends Command {
   private double controlRightX;
   private double onboarderSpeed;
   private double shooterSpeed;
+  private double rollerSpeed;
+  private double actuateSpeed;
+  private double liftSpeed;
 
   private File rFile;
   private Scanner sc;
 
-  public playBack(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, XboxController controller, SendableChooser<File> RecSelector, GenericEntry alliancebox) {
+  public playBack(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, NoteActuator noteActuator, XboxController controller, SendableChooser<File> RecSelector, GenericEntry alliancebox) {
     this.swerveController = swerveController;
     this.onboarder = onboarder;
     this.shooter = shooter;
+    this.noteActuator = noteActuator;
+    
 
     this.recSelector = RecSelector;
     this.onRed = alliancebox;
@@ -68,6 +75,9 @@ public class playBack extends Command {
     controlRightX = Double.valueOf(currentArray[2]);
     onboarderSpeed = Double.valueOf(currentArray[3]);
     shooterSpeed = Double.valueOf(currentArray[4]);
+    rollerSpeed = Double.valueOf(currentArray[5]);
+    actuateSpeed = Double.valueOf(currentArray[6]);
+    liftSpeed = Double.valueOf(currentArray[7]);
 
     if (!onRed.getBoolean(true)) {
       //controlLeftY *= 1; F&B
@@ -83,6 +93,10 @@ public class playBack extends Command {
     );
     onboarder.setSpeed(onboarderSpeed);
     shooter.shoot(shooterSpeed);
+
+    noteActuator.setRoller(rollerSpeed);
+    noteActuator.actuate(actuateSpeed);
+    noteActuator.extendLift(liftSpeed);
   }
 
   // Called once the command ends or is interrupted.
@@ -97,6 +111,9 @@ public class playBack extends Command {
     );
     onboarder.setSpeed(0);
     shooter.shoot(0);
+    noteActuator.setRoller(0);
+    noteActuator.actuate(0);
+    noteActuator.extendLift(0);
   }
 
   // Returns true when the command should end.
