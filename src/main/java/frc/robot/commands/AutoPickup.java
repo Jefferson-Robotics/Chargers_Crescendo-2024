@@ -7,17 +7,17 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.OnBoarder;
+import frc.robot.subsystems.Onboarder;
 
 public class AutoPickup extends Command {
   /** Creates a new NoteAuto. */
   private final Camera camera;
   private DriveSubsystem drive;
-  private final OnBoarder OnBoarder;
+  private final Onboarder OnBoarder;
   private int x;
   private int y;
   private boolean done = false;
-  public AutoPickup(DriveSubsystem drive, OnBoarder OnBoarder, Camera cameraSystem) {
+  public AutoPickup(DriveSubsystem drive, Onboarder OnBoarder, Camera cameraSystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.OnBoarder = OnBoarder;
     this.camera = cameraSystem;

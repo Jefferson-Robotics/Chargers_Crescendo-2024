@@ -5,11 +5,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Shooter;
 
 public class PrimeShooter extends Command {
+  private Shooter shooter;
+
   /** Creates a new PrimeShooter. */
-  public PrimeShooter() {
+  public PrimeShooter(Shooter shooter) {
+    this.shooter = shooter;
+
     // Use addRequirements() here to declare subsystem dependencies.
+    //addRequirements(shooter);
   }
 
   // Called when the command is initially scheduled.
@@ -18,11 +24,15 @@ public class PrimeShooter extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    shooter.shoot(1);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    shooter.shoot(0);
+  }
 
   // Returns true when the command should end.
   @Override
