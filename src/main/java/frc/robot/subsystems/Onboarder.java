@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class OnBoarder extends SubsystemBase {
+public class Onboarder extends SubsystemBase {
   /** Creates a new Onboarder. */
 
   private double speed = 0;
@@ -20,7 +20,7 @@ public class OnBoarder extends SubsystemBase {
   private DigitalInput kOutakeBeam = new DigitalInput(Constants.OnboarderConstants.kOutakeBeam);
   private WPI_VictorSPX onboardMotor = new WPI_VictorSPX(Constants.OnboarderConstants.konboardMotorcanID);
   
-  public OnBoarder() {}
+  public Onboarder() {}
 
   public boolean intake(){
     return !this.kIntakeBeam.get();
