@@ -14,7 +14,6 @@ public class ShootNote extends Command {
 
   private Shooter shooter;
   private Onboarder onboarder;
-  Timer timer;
   double initTime = 0;
   double endingTime = 0;
   double stopTime = 1;
@@ -32,8 +31,8 @@ public class ShootNote extends Command {
   @Override
   public void initialize() {
     isFinished = false;
-    initTime = timer.getFPGATimestamp();
-    endingTime = timer.getFPGATimestamp() + stopTime;
+    initTime = Timer.getFPGATimestamp();
+    endingTime = Timer.getFPGATimestamp() + stopTime;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
