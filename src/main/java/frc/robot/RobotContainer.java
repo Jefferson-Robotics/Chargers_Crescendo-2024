@@ -122,15 +122,17 @@ public class RobotContainer {
             */
     climb.setDefaultCommand(climbCommand);
     m_robotDrive.setDefaultCommand(new DriveWithJoysticks(m_robotDrive, leftShaft, rightShaft));
-    onboarder.setDefaultCommand(
+
+    // SECONDARY DRIVER BUTTONS
+    noteActuator.setDefaultCommand(
       new RunCommand(
         ()->{
-          if(m_driverController.getLeftTriggerAxis() >.1){
-            onboarder.setSpeed(-m_driverController.getLeftTriggerAxis());
-          } else if(m_driverController.getRightTriggerAxis() >.1){
-            onboarder.setSpeed(m_driverController.getRightTriggerAxis());
+          if(m_driverController.getLeftTriggerAxis() > .1){
+            noteActuator.setRoller(m_driverController.getLeftTriggerAxis());
+          } else if(m_driverController.getRightTriggerAxis() > .1) {
+            noteActuator.setRoller(-m_driverController.getRightTriggerAxis());
           } else {
-            onboarder.setSpeed(0);
+            noteActuator.setRoller(0);
           }
         }
         , onboarder)
@@ -138,7 +140,9 @@ public class RobotContainer {
     shooter.setDefaultCommand(
       new RunCommand(
         ()->{
-          if(m_driverController.getXButton()){
+          if(m_driverController.getBackButton()){
+            shooter.shoot(-1);
+          } else if (m_driverController.getStartButton()) {
             shooter.shoot(1);
           } else {
             shooter.shoot(0);
@@ -165,15 +169,6 @@ public class RobotContainer {
     
     recordCommand = new rec(m_robotDrive, onboarder, shooter, noteActuator, leftShaft, rightShaft, fileChooser, fileName);
     
-    JoystickButton primeShooterButton = new JoystickButton(m_driverController, Button.kA.value);
-    JoystickButton shootButton = new JoystickButton(m_driverController, Button.kX.value);
-    primeShooterButton.onTrue(primeShooter);
-    shootButton.onTrue(shootNote);
-    JoystickButton intakeSource = new JoystickButton(m_driverController, Button.kB.value);
-    JoystickButton outtakeAmp = new JoystickButton(m_driverController, Button.kY.value);
-    intakeSource.onTrue(new ScissorIntake(noteActuator));
-    outtakeAmp.onTrue(new ScissorOuttake(noteActuator));
-    
     // RECORD AND PLAYBACK
     JoystickButton recButton = new JoystickButton(rightShaft, 10);
     JoystickButton recButton2 = new JoystickButton(rightShaft, 11);
@@ -183,16 +178,28 @@ public class RobotContainer {
     JoystickButton playBack = new JoystickButton(rightShaft, 7);
     playBack.onTrue(playbackCommand);
 
-    //JoystickButton flipPlayback = new JoystickButton(m_driverController, Button.kLeftBumper.value);
-    //flipPlayback.onTrue(new RunCommand(() -> onRedAlliance = !onRedAlliance));
-    //System.out.println(onRedAlliance);
 
-    new JoystickButton(leftShaft, 3)
+    // JOYSTICK BUTTON BINDINGS
+    JoystickButton primeShooterButton = new JoystickButton(m_driverController, Button.kA.value);
+    JoystickButton shootButton = new JoystickButton(m_driverController, Button.kX.value);
+    primeShooterButton.onTrue(primeShooter);
+    shootButton.onTrue(shootNote);
+
+    JoystickButton intakeSource = new JoystickButton(m_driverController, Button.kB.value);
+    JoystickButton outtakeAmp = new JoystickButton(m_driverController, Button.kY.value);
+    intakeSource.onTrue(new ScissorIntake(noteActuator));
+    outtakeAmp.onTrue(new ScissorOuttake(noteActuator));
+
+    new JoystickButton(leftShaft, 10)
         .whileTrue(new RunCommand(
             () -> {
               m_robotDrive.resetGyro();
-
-            }));
+        }));
+    new JoystickButton(leftShaft, 11)
+        .whileTrue(new RunCommand(
+            () -> {
+              m_robotDrive.resetGyro();
+        }));
     
     new JoystickButton(rightShaft, 3)
     .whileTrue(new RunCommand(
@@ -219,21 +226,6 @@ public class RobotContainer {
         () -> {
           onboarder.setSpeed(0);
     }));
-
-    new JoystickButton(m_driverController, Button.kStart.value)
-    .whileTrue(new RunCommand(
-        () -> {
-        if(onboarder.getDefaultCommand()==autoIntake){
-          
-        }else{
-          onboarder.setDefaultCommand(autoIntake);
-        }
-        
-    }));
-    /*
-    JoystickButton cameraTrack = new JoystickButton(m_driverController, Button.kBack.value);
-    cameraTrack.onTrue(cameraTrackRotate);
-    */
   }
 
   /**
