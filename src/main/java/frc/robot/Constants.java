@@ -24,7 +24,9 @@ import edu.wpi.first.wpilibj.SerialPort;
  */
 public final class Constants {
   public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
+    public static final int kDriverJoystickLeft = 0;
+    public static final int kDriverJoystickRight = 1;
+    public static final int kDriverControllerPort = 2;
   }
   public static final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
