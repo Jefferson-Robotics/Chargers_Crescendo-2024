@@ -174,10 +174,47 @@ public class RobotContainer {
     JoystickButton playBack = new JoystickButton(m_driverController, Button.kY.value);
     playBack.onTrue(playbackCommand);
 
-    new JoystickButton(m_driverController, Button.kStart.value)
+    new JoystickButton(leftShaft, 3)
         .whileTrue(new RunCommand(
-            () -> m_robotDrive.resetGyro()));
+            () -> {
+              m_robotDrive.resetGyro();
 
+            }));
+    
+    new JoystickButton(rightShaft, 3)
+    .whileTrue(new RunCommand(
+        () -> {
+        shooter.shoot(1);
+    }));
+
+    new JoystickButton(leftShaft, 4)
+    .whileTrue(new RunCommand(
+        () -> {
+          onboarder.setSpeed(1);
+    }))
+    .whileFalse(new RunCommand(
+        () -> {
+          onboarder.setSpeed(0);
+    }));
+
+    new JoystickButton(leftShaft, 5)
+    .whileTrue(new RunCommand(
+        () -> {
+          onboarder.setSpeed(-1);
+    }))
+    .whileFalse(new RunCommand(
+        () -> {
+          onboarder.setSpeed(0);
+    }));
+
+    new JoystickButton(m_driverController, Button.kStart.value)
+    .whileTrue(new RunCommand(
+        () -> {
+        if(onboarder.getDefaultCommand()==){
+
+        }
+        onboarder.setDefaultCommand();
+    }));
     /*
     JoystickButton cameraTrack = new JoystickButton(m_driverController, Button.kBack.value);
     cameraTrack.onTrue(cameraTrackRotate);
