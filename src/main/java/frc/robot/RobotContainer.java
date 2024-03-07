@@ -32,6 +32,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.RecordPlaybackConstants;
+import frc.robot.commands.AutoIntake;
 import frc.robot.commands.AutoPickup;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.DriveWithJoysticks;
@@ -73,6 +74,7 @@ public class RobotContainer {
   private final PrimeShooter primeShooter = new PrimeShooter(shooter);
   private final ShootNote shootNote = new ShootNote(shooter, onboarder);
   private final ClimbCommand climbCommand = new ClimbCommand(climb, m_driverController);
+  private final AutoIntake autoIntake = new AutoIntake(onboarder);
 
   // Shuffleboard
   private final ShuffleboardTab tab = Shuffleboard.getTab("Autonomous");
@@ -211,10 +213,12 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Button.kStart.value)
     .whileTrue(new RunCommand(
         () -> {
-        if(onboarder.getDefaultCommand()==){
-
+        if(onboarder.getDefaultCommand()==autoIntake){
+          
+        }else{
+          onboarder.setDefaultCommand(autoIntake);
         }
-        onboarder.setDefaultCommand();
+        
     }));
     /*
     JoystickButton cameraTrack = new JoystickButton(m_driverController, Button.kBack.value);
