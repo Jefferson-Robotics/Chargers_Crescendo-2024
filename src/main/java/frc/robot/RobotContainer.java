@@ -33,6 +33,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.RecordPlaybackConstants;
 import frc.robot.commands.AutoPickup;
+import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.PrimeShooter;
 import frc.robot.commands.ShootNote;
@@ -71,6 +72,7 @@ public class RobotContainer {
   // Robot Mechanisms
   private final PrimeShooter primeShooter = new PrimeShooter(shooter);
   private final ShootNote shootNote = new ShootNote(shooter, onboarder);
+  private final ClimbCommand climbCommand = new ClimbCommand(climb, m_driverController);
 
   // Shuffleboard
   private final ShuffleboardTab tab = Shuffleboard.getTab("Autonomous");
@@ -112,6 +114,7 @@ public class RobotContainer {
                 true, true),
             m_robotDrive));
             */
+    climb.setDefaultCommand(climbCommand);
     m_robotDrive.setDefaultCommand(new DriveWithJoysticks(m_robotDrive, m_driverController));
     onboarder.setDefaultCommand(
       new RunCommand(

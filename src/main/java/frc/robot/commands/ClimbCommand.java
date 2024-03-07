@@ -4,22 +4,41 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Climb;
 
-public class Climb extends Command {
+public class ClimbCommand extends Command {
   /** Creates a new Climb. */
-  public Climb() {
+  private final Climb climb;
+  private final XboxController xbox;
+  public ClimbCommand(Climb climb, XboxController xbox) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.climb = climb;
+    this.xbox = xbox;
+    addRequirements(climb);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
-
+  public void execute() {
+    if(climb.getExtendedPosition()&&270<xbox.getPOV()&&xbox.getPOV()<90){
+      climb.setSpeed(1);
+      System.out.println("DOWN");
+    }else if(climb.getRestPosition()){
+      climb.setSpeed(-1);
+      System.out.println("UP");
+    }else{
+      climb.setSpeed(0);
+      System.out.println("STOP");
+    }
+  }
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}
