@@ -30,13 +30,10 @@ public class ClimbCommand extends Command {
   public void execute() {
     if(climb.getExtendedPosition()&&90<xbox.getPOV()&&xbox.getPOV()<270){
       climb.setSpeed(-1);
-      System.out.println("DOWN");
     }else if(!climb.getRestPosition()&&(0<=xbox.getPOV())){
       climb.setSpeed(1);
-      System.out.println("UP");
     }else{
       climb.setSpeed(0);
-      System.out.println("STOP");
     }
   }
   // Called once the command ends or is interrupted.

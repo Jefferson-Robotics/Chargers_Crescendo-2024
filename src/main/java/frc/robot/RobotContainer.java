@@ -163,7 +163,7 @@ public class RobotContainer {
             () -> m_robotDrive.setX(),
             m_robotDrive));
     
-    recordCommand = new rec(m_robotDrive, onboarder, shooter, noteActuator, m_driverController, fileChooser, fileName);
+    recordCommand = new rec(m_robotDrive, onboarder, shooter, noteActuator, leftShaft, rightShaft, fileChooser, fileName);
     
     JoystickButton primeShooterButton = new JoystickButton(m_driverController, Button.kA.value);
     JoystickButton shootButton = new JoystickButton(m_driverController, Button.kX.value);
@@ -179,7 +179,7 @@ public class RobotContainer {
     JoystickButton recButton2 = new JoystickButton(rightShaft, 11);
     recButton.onTrue(recordCommand.until(recButton2));
 
-    playbackCommand = new playBack(m_robotDrive, onboarder, shooter, noteActuator, m_driverController, fileChooser, alliancebox);
+    playbackCommand = new playBack(m_robotDrive, onboarder, shooter, noteActuator, fileChooser, alliancebox);
     JoystickButton playBack = new JoystickButton(rightShaft, 7);
     playBack.onTrue(playbackCommand);
 

@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,7 +27,8 @@ public class rec extends Command {
   private Onboarder onboarder;
   private Shooter shooter;
   private NoteActuator noteActuator;
-  private XboxController controller;
+  private Joystick leftShaft;
+  private Joystick rightShaft;
 
   private FileWriter rFile;
   private SendableChooser<File> RecSelector;
@@ -43,8 +45,9 @@ public class rec extends Command {
   private double actuateSpeed;
   private double liftSpeed;
 
-  public rec(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, NoteActuator noteActuator, XboxController controller, SendableChooser<File> RecSelector, GenericEntry FileName) {
-    this.controller = controller;
+  public rec(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, NoteActuator noteActuator, Joystick leftShaft, Joystick rightShaft, SendableChooser<File> RecSelector, GenericEntry FileName) {
+    this.leftShaft = leftShaft;
+    this.rightShaft = rightShaft;
     
     this.swerveController = swerveController;
     this.onboarder = onboarder;
@@ -55,7 +58,7 @@ public class rec extends Command {
     this.recFileName = FileName;
     
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(swerveController);
+    addRequirements(swerveController, onboarder, shooter);
   }
 
   // Called when the command is initially scheduled.
@@ -74,15 +77,17 @@ public class rec extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    controlLeftY = -MathUtil.applyDeadband(controller.getLeftY() * -.5, OIConstants.kDriveDeadband);
-    controlLeftX = -MathUtil.applyDeadband(controller.getLeftX() * -.5, OIConstants.kDriveDeadband);
-    controlRightX = -MathUtil.applyDeadband(controller.getRightX() * -.5, OIConstants.kDriveDeadband);
+    controlLeftY = -MathUtil.applyDeadband(leftShaft.getY(), OIConstants.kDriveDeadband);
+    controlLeftX = -MathUtil.applyDeadband(leftShaft.getX(), OIConstants.kDriveDeadband);
+    controlRightX = MathUtil.applyDeadband(rightShaft.getX(), OIConstants.kDriveDeadband);
 
-    onboarderSpeed = onboarder.getSpeed();
-    shooterSpeed = shooter.getSpeed();
+    onboarderSpeed = -onboarder.getSpeed();
+    shooterSpeed = -shooter.getSpeed();
     rollerSpeed = noteActuator.getRollerSpeed();
     actuateSpeed = noteActuator.getActuateSpeed();
     liftSpeed = noteActuator.getLiftSpeed();
+
+    System.out.println(shooterSpeed);
     try {
       rFile.append(
         String.valueOf(controlLeftY) + "," +
@@ -105,6 +110,7 @@ public class rec extends Command {
       controlRightX,
       true, true
     );
+    onboarder.setSpeed(onboarderSpeed);
   }
 
   // Called once the command ends or is interrupted.

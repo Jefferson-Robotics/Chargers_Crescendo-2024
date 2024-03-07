@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -38,7 +39,8 @@ public class playBack extends Command {
   private File rFile;
   private Scanner sc;
 
-  public playBack(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, NoteActuator noteActuator, XboxController controller, SendableChooser<File> RecSelector, GenericEntry alliancebox) {
+  public playBack(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, NoteActuator noteActuator, SendableChooser<File> RecSelector, GenericEntry alliancebox) {
+    
     this.swerveController = swerveController;
     this.onboarder = onboarder;
     this.shooter = shooter;
@@ -48,7 +50,7 @@ public class playBack extends Command {
     this.recSelector = RecSelector;
     this.onRed = alliancebox;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(swerveController, onboarder, shooter);
+    addRequirements(swerveController, onboarder, shooter, noteActuator);
   }
 
   // Called when the command is initially scheduled.
@@ -69,7 +71,7 @@ public class playBack extends Command {
   @Override
   public void execute() {
     String cLine = sc.nextLine();
-    String[] currentArray = cLine.split(",", 6);
+    String[] currentArray = cLine.split(",", 9);
     controlLeftY = Double.valueOf(currentArray[0]);
     controlLeftX = Double.valueOf(currentArray[1]);
     controlRightX = Double.valueOf(currentArray[2]);
