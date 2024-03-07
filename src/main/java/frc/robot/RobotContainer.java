@@ -39,7 +39,7 @@ import frc.robot.commands.rec;
 import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.NoteActuator;
-import frc.robot.subsystems.OnBoarder;
+import frc.robot.subsystems.Onboarder;
 import frc.robot.subsystems.Shooter;
 
 /**
@@ -52,7 +52,7 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   //private final VisionSerial visionTag = new VisionSerial();
-  private final OnBoarder onboarder = new OnBoarder();
+  private final Onboarder onboarder = new Onboarder();
   private final Shooter shooter = new Shooter();
   private final NoteActuator noteActuator = new NoteActuator();
   private final Camera camera = new Camera();

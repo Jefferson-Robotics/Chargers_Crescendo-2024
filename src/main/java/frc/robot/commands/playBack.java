@@ -14,13 +14,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.NoteActuator;
-import frc.robot.subsystems.OnBoarder;
+import frc.robot.subsystems.Onboarder;
 import frc.robot.subsystems.Shooter;
 
 public class playBack extends Command {
   /** Creates a new playback. */
   private DriveSubsystem swerveController;
-  private OnBoarder onboarder;
+  private Onboarder onboarder;
   private Shooter shooter;
   private NoteActuator noteActuator;
   private GenericEntry onRed;
@@ -38,7 +38,7 @@ public class playBack extends Command {
   private File rFile;
   private Scanner sc;
 
-  public playBack(DriveSubsystem swerveController, OnBoarder onboarder, Shooter shooter, NoteActuator noteActuator, XboxController controller, SendableChooser<File> RecSelector, GenericEntry alliancebox) {
+  public playBack(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, NoteActuator noteActuator, XboxController controller, SendableChooser<File> RecSelector, GenericEntry alliancebox) {
     this.swerveController = swerveController;
     this.onboarder = onboarder;
     this.shooter = shooter;

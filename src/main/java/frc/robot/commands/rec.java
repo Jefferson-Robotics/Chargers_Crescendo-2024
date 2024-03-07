@@ -17,13 +17,13 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.RecordPlaybackConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.NoteActuator;
-import frc.robot.subsystems.OnBoarder;
+import frc.robot.subsystems.Onboarder;
 import frc.robot.subsystems.Shooter;
 
 public class rec extends Command {
   /** Creates a new rec. */
   private DriveSubsystem swerveController;
-  private OnBoarder onboarder;
+  private Onboarder onboarder;
   private Shooter shooter;
   private NoteActuator noteActuator;
   private XboxController controller;
@@ -43,7 +43,7 @@ public class rec extends Command {
   private double actuateSpeed;
   private double liftSpeed;
 
-  public rec(DriveSubsystem swerveController, OnBoarder onboarder, Shooter shooter, NoteActuator noteActuator, XboxController controller, SendableChooser<File> RecSelector, GenericEntry FileName) {
+  public rec(DriveSubsystem swerveController, Onboarder onboarder, Shooter shooter, NoteActuator noteActuator, XboxController controller, SendableChooser<File> RecSelector, GenericEntry FileName) {
     this.controller = controller;
     
     this.swerveController = swerveController;
