@@ -36,6 +36,7 @@ public class DriveWithJoysticks extends PIDCommand {
           // Use the output here
           drive.drive(xSpeed, ySpeed, output, true, true);
         });
+        //absolute angle is tan inverse
         addRequirements(drive);
     SmartDashboard.putNumber("P", 0);
     SmartDashboard.putNumber("I",0);
