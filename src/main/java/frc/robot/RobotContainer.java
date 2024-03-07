@@ -34,9 +34,12 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.RecordPlaybackConstants;
 import frc.robot.commands.AutoPickup;
 import frc.robot.commands.DriveWithJoysticks;
+import frc.robot.commands.PrimeShooter;
+import frc.robot.commands.ShootNote;
 import frc.robot.commands.playBack;
 import frc.robot.commands.rec;
 import frc.robot.subsystems.Camera;
+import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.NoteActuator;
 import frc.robot.subsystems.Onboarder;
@@ -51,10 +54,12 @@ import frc.robot.subsystems.Shooter;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  //private final VisionSerial visionTag = new VisionSerial();
+  private final Climb climb = new Climb();
   private final Onboarder onboarder = new Onboarder();
   private final Shooter shooter = new Shooter();
   private final NoteActuator noteActuator = new NoteActuator();
+
+  //private final VisionSerial visionTag = new VisionSerial();
   private final Camera camera = new Camera();
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
@@ -62,6 +67,10 @@ public class RobotContainer {
   private Joystick rightShaft = new Joystick(1);
   CommandXboxController commandController = new CommandXboxController(OIConstants.kDriverControllerPort);
   private final AutoPickup autoPickup = new AutoPickup(m_robotDrive, onboarder, camera);
+
+  // Robot Mechanisms
+  private final PrimeShooter primeShooter = new PrimeShooter(shooter);
+  private final ShootNote shootNote = new ShootNote(shooter, onboarder);
 
   // Shuffleboard
   private final ShuffleboardTab tab = Shuffleboard.getTab("Autonomous");
@@ -145,7 +154,10 @@ public class RobotContainer {
             m_robotDrive));
     
     recordCommand = new rec(m_robotDrive, onboarder, shooter, noteActuator, m_driverController, fileChooser, fileName);
-
+    
+    JoystickButton primeShooterButton = new JoystickButton(m_driverController, Button.kA.value);
+    JoystickButton shootButton = new JoystickButton(m_driverController, Button.kA.value);
+    primeShooterButton.onTrue(shootNote.until(shootButton));
     
     JoystickButton recButton = new JoystickButton(m_driverController, Button.kA.value);
     JoystickButton recButton2 = new JoystickButton(m_driverController, Button.kB.value);
