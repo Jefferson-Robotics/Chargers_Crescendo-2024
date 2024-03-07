@@ -40,6 +40,10 @@ public class Climb extends SubsystemBase {
     rest = this.restPosition.get();
     extended = this.extendPosition.get();
 
-    onboardMotor.set(ControlMode.PercentOutput, speed);
+    if (rest == true || extended == true) {
+      onboardMotor.set(ControlMode.PercentOutput, 0);
+    } else {
+      onboardMotor.set(ControlMode.PercentOutput, speed);
+    }
   }
 }

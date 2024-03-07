@@ -5,17 +5,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Onboarder;
 
-public class PrimeShooter extends Command {
-  private Shooter shooter;
+public class AutoIntake extends Command {
+  /** Creates a new AutoIntake. */
+  Onboarder onboarder;
 
-  /** Creates a new PrimeShooter. */
-  public PrimeShooter(Shooter shooter) {
-    this.shooter = shooter;
-
+  public AutoIntake(Onboarder onboarder) {
+    this.onboarder = onboarder;
+    addRequirements(onboarder);
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter);
   }
 
   // Called when the command is initially scheduled.
@@ -25,14 +24,18 @@ public class PrimeShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.shoot(1);
+    if(!onboarder.outTake()){
+      onboarder.setSpeed(0);
+    } else if(!onboarder.intake()) {
+      onboarder.setSpeed(1);
+    } else {
+      onboarder.setSpeed(0);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    shooter.shoot(0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

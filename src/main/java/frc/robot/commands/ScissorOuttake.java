@@ -4,21 +4,29 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.NoteActuator;
 
 public class ScissorOuttake extends Command {
   /** Creates a new ScissorOuttake. */
-  public ScissorOuttake() {
+  NoteActuator noteActuator;
+  public ScissorOuttake(NoteActuator noteActuator) {
+    this.noteActuator = noteActuator;
+    addRequirements(noteActuator);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    noteActuator.actuate(1);
+  }
 
   // Called once the command ends or is interrupted.
   @Override

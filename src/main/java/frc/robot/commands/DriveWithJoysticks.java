@@ -4,11 +4,9 @@
 
 package frc.robot.commands;
 
-import javax.swing.plaf.TreeUI;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants;
@@ -20,7 +18,7 @@ import frc.robot.subsystems.DriveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class DriveWithJoysticks extends PIDCommand {
   /** Creates a new DriveWithJoysticks. */
-  public DriveWithJoysticks(DriveSubsystem drive, XboxController controller) {
+  public DriveWithJoysticks(DriveSubsystem drive, Joystick leftShaft, Joystick rightShaft) {
     super(
         // The controller that the command will use
         new PIDController(0, 0, 0),
@@ -30,14 +28,15 @@ public class DriveWithJoysticks extends PIDCommand {
         () -> drive.getChosenAngle(),
         // This uses the output
         output -> {
-          double xSpeed = -MathUtil.applyDeadband(controller.getLeftY() * -.5, OIConstants.kDriveDeadband);
-          double ySpeed = -MathUtil.applyDeadband(controller.getLeftX() * -.5, OIConstants.kDriveDeadband);
-          if(!(-MathUtil.applyDeadband(controller.getRightX() * -.5, OIConstants.kDriveDeadband) > 0)){        
+          double xSpeed = -MathUtil.applyDeadband(leftShaft.getY() * -.5, OIConstants.kDriveDeadband);
+          double ySpeed = -MathUtil.applyDeadband(leftShaft.getX() * -.5, OIConstants.kDriveDeadband);
+          if(!(-MathUtil.applyDeadband(rightShaft.getX() * -.5, OIConstants.kDriveDeadband) > 0)){        
             drive.setChosenAngle(output + Constants.DriveConstants.HeadingTurnRate);
           }
           // Use the output here
           drive.drive(xSpeed, ySpeed, output, true, true);
         });
+        //absolute angle is tan inverse
         addRequirements(drive);
     SmartDashboard.putNumber("P", 0);
     SmartDashboard.putNumber("I",0);
