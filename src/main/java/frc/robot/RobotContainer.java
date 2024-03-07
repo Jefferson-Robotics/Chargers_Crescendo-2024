@@ -112,7 +112,7 @@ public class RobotContainer {
                 true, true),
             m_robotDrive));
             */
-    m_robotDrive.setDefaultCommand(new DriveWithJoysticks(m_robotDrive, m_driverController));
+    m_robotDrive.setDefaultCommand(new DriveWithJoysticks(m_robotDrive, leftShaft, rightShaft));
     onboarder.setDefaultCommand(
       new RunCommand(
         ()->{
@@ -157,7 +157,8 @@ public class RobotContainer {
     
     JoystickButton primeShooterButton = new JoystickButton(m_driverController, Button.kA.value);
     JoystickButton shootButton = new JoystickButton(m_driverController, Button.kA.value);
-    primeShooterButton.onTrue(shootNote.until(shootButton));
+    primeShooterButton.onTrue(primeShooter);
+    shootButton.onTrue(shootNote);
     
     JoystickButton recButton = new JoystickButton(m_driverController, Button.kA.value);
     JoystickButton recButton2 = new JoystickButton(m_driverController, Button.kB.value);

@@ -15,7 +15,7 @@ public class PrimeShooter extends Command {
     this.shooter = shooter;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    //addRequirements(shooter);
+    addRequirements(shooter);
   }
 
   // Called when the command is initially scheduled.
