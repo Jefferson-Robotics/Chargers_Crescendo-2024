@@ -7,19 +7,19 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.Onboarder;
+import frc.robot.subsystems.OnBoarder;
 
 public class AutoPickup extends Command {
   /** Creates a new NoteAuto. */
   private final Camera camera;
   private DriveSubsystem drive;
-  //private final Onboarder NoteSystem;
+  private final OnBoarder OnBoarder;
   private int x;
   private int y;
   private boolean done = false;
-  public AutoPickup(DriveSubsystem drive,Onboarder noteSystem,Camera cameraSystem) {
+  public AutoPickup(DriveSubsystem drive, OnBoarder OnBoarder, Camera cameraSystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    //NoteSystem = noteSystem;
+    this.OnBoarder = OnBoarder;
     this.camera = cameraSystem;
     this.drive=drive;
     addRequirements(cameraSystem);
@@ -29,7 +29,11 @@ public class AutoPickup extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    done=false;
+    if(0<=y){
+      done=true;
+    }else{
+      done=false;
+    }
     x=0;
     y=0;
   }
@@ -42,7 +46,7 @@ public class AutoPickup extends Command {
     y=camera.getY();
     System.out.println(x);
     System.out.println(y);
-    if(y<240){
+    if(!OnBoarder.intake()){
       if(x<-25){
         drive.drive(.2, .2, 0, false, true);
       }else if(25<x){
@@ -50,8 +54,11 @@ public class AutoPickup extends Command {
       }else{
         drive.drive(0, .2, 0, false, true);
       }
-    }else{
+    }else if(!OnBoarder.outTake()){
       drive.drive(0, 0, 0, false, true);
+      OnBoarder.setSpeed(1);
+    }else{
+      OnBoarder.setSpeed(0);
       done=true;
     }
   }
@@ -60,6 +67,7 @@ public class AutoPickup extends Command {
   @Override
   public void end(boolean interrupted) {
     drive.drive(0, 0, 0, false, true);
+    OnBoarder.setSpeed(0);
     
   }
 

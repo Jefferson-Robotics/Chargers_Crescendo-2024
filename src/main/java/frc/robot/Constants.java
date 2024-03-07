@@ -12,6 +12,7 @@ import java.io.File;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.SerialPort;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -64,6 +65,8 @@ public final class Constants {
     public static final int kRearRightTurningCanId = 26;
 
     public static final boolean kGyroReversed = false;
+
+    public static final double HeadingTurnRate = 3;
   }
 
   public static final class ModuleConstants {
@@ -162,9 +165,13 @@ public final class Constants {
       240  //ID 16 - Blue Stage
     };
   }
+  public static final class CameraConstants {
+    public static final SerialPort.Port kCamera = SerialPort.Port.kUSB;
+  }
 
   public static final class OnboarderConstants {
-    public static final int kbeamBreakPort = 0;
+    public static final int kIntakeBeam = 0;
+    public static final int kOutakeBeam = 0;
     public static final int konboardMotorcanID = 8;
   }
 

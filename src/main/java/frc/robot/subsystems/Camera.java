@@ -5,15 +5,14 @@
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.CameraConstants;
 
 public class Camera extends SubsystemBase {
   /** Creates a new CameraSubsystem. */
-  private final SerialPort camera;
   private String[] cameraData = {"0","0"};
+  private SerialPort camera = new SerialPort(115200, CameraConstants.kCamera);
 
-  public Camera(SerialPort port) {
-    camera = port;
-  }
+  public Camera() {}
   public void readDataStream(){
     try {
       String[] temp = camera.readString().split(",");

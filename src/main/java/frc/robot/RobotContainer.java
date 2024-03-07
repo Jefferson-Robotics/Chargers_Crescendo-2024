@@ -8,11 +8,14 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.RecordPlaybackConstants;
+import frc.robot.commands.AutoPickup;
+import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.playBack;
 import frc.robot.commands.rec;
+import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.NoteActuator;
-import frc.robot.subsystems.Onboarder;
+import frc.robot.subsystems.OnBoarder;
 import frc.robot.subsystems.Shooter;
 
 import java.io.File;
@@ -50,12 +53,14 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   //private final VisionSerial visionTag = new VisionSerial();
-  private final Onboarder onboarder = new Onboarder();
+  private final OnBoarder onboarder = new OnBoarder();
   private final Shooter shooter = new Shooter();
   private final NoteActuator noteActuator = new NoteActuator();
+  private final Camera camera = new Camera();
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   CommandXboxController commandController = new CommandXboxController(OIConstants.kDriverControllerPort);
+  private final AutoPickup autoPickup = new AutoPickup(m_robotDrive, onboarder, camera);
 
   // Shuffleboard
   private final ShuffleboardTab tab = Shuffleboard.getTab("Autonomous");
@@ -84,9 +89,11 @@ public class RobotContainer {
     configureBindings();
 
     // Configure default commands
+    /* 
     m_robotDrive.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
+        
         new RunCommand(
             () -> m_robotDrive.drive(
                 -MathUtil.applyDeadband(m_driverController.getLeftY() * -.5, OIConstants.kDriveDeadband),
@@ -94,6 +101,8 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getRightX() * -.5, OIConstants.kDriveDeadband),
                 true, true),
             m_robotDrive));
+            */
+    m_robotDrive.setDefaultCommand(new DriveWithJoysticks(m_robotDrive, m_driverController));
     onboarder.setDefaultCommand(
       new RunCommand(
         ()->{

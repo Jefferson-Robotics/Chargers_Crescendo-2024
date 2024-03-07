@@ -10,19 +10,24 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.ClimbConstants;
 
-public class Onboarder extends SubsystemBase {
+public class OnBoarder extends SubsystemBase {
   /** Creates a new Onboarder. */
 
   private double speed = 0;
 
-  private DigitalInput BeamInput = new DigitalInput(Constants.OnboarderConstants.kbeamBreakPort);
+  private DigitalInput kIntakeBeam = new DigitalInput(Constants.OnboarderConstants.kIntakeBeam);
+  private DigitalInput kOutakeBeam = new DigitalInput(Constants.OnboarderConstants.kOutakeBeam);
   private WPI_VictorSPX onboardMotor = new WPI_VictorSPX(Constants.OnboarderConstants.konboardMotorcanID);
   
-  public Onboarder() {}
+  public OnBoarder() {}
 
-  public boolean isTriggered(){
-    return !this.BeamInput.get();
+  public boolean intake(){
+    return !this.kIntakeBeam.get();
+  }
+  public boolean outTake(){
+    return !this.kOutakeBeam.get();
   }
 
   public double getSpeed() {
