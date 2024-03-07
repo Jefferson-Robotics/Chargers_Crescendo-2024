@@ -4,8 +4,6 @@
 
 package frc.robot.commands;
 
-import javax.swing.plaf.TreeUI;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.XboxController;
@@ -38,6 +36,7 @@ public class DriveWithJoysticks extends PIDCommand {
           // Use the output here
           drive.drive(xSpeed, ySpeed, output, true, true);
         });
+        //absolute angle is tan inverse
         addRequirements(drive);
     SmartDashboard.putNumber("P", 0);
     SmartDashboard.putNumber("I",0);
