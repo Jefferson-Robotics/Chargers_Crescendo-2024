@@ -33,7 +33,7 @@ public class Onboarder extends SubsystemBase {
     return this.speed;
   }
   public void setSpeed(double speed) {
-    this.speed = speed;
+    this.speed = -speed;
   }
 
   @Override

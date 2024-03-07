@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -19,7 +20,7 @@ public class Climb extends SubsystemBase {
 
   private DigitalInput restPosition = new DigitalInput(Constants.ClimbConstants.kRestLimitID);
   private DigitalInput extendPosition = new DigitalInput(Constants.ClimbConstants.kExtendLimitID);
-  private WPI_VictorSPX onboardMotor = new WPI_VictorSPX(Constants.ClimbConstants.kClimbMotorID);
+  private WPI_TalonSRX onboardMotor = new WPI_TalonSRX(Constants.ClimbConstants.kClimbMotorID);
 
   public Climb() {}
 
@@ -40,10 +41,10 @@ public class Climb extends SubsystemBase {
     rest = this.restPosition.get();
     extended = this.extendPosition.get();
 
-    if (rest == true || extended == true) {
-      onboardMotor.set(ControlMode.PercentOutput, 0);
-    } else {
+    //if (rest == true || extended == true) {
+   //   onboardMotor.set(ControlMode.PercentOutput, 0);
+   // } else {
       onboardMotor.set(ControlMode.PercentOutput, speed);
-    }
+   // }
   }
 }

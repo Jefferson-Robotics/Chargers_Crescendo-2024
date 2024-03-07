@@ -28,13 +28,15 @@ public class DriveWithJoysticks extends PIDCommand {
         () -> drive.getChosenAngle(),
         // This uses the output
         output -> {
-          double xSpeed = -MathUtil.applyDeadband(leftShaft.getY() * -.5, OIConstants.kDriveDeadband);
-          double ySpeed = -MathUtil.applyDeadband(leftShaft.getX() * -.5, OIConstants.kDriveDeadband);
-          if(!(-MathUtil.applyDeadband(rightShaft.getX() * -.5, OIConstants.kDriveDeadband) > 0)){        
-            drive.setChosenAngle(output + Constants.DriveConstants.HeadingTurnRate);
-          }
+          double xSpeed = MathUtil.applyDeadband(leftShaft.getY(), OIConstants.kDriveDeadband);
+          double ySpeed = MathUtil.applyDeadband(leftShaft.getX(), OIConstants.kDriveDeadband);
+          double rotationSpeed = MathUtil.applyDeadband(rightShaft.getX(), .1);
+          //if(!(-MathUtil.applyDeadband(rightShaft.getX() * -.5, OIConstants.kDriveDeadband) > 0)){        
+          //  drive.setChosenAngle(output + Constants.DriveConstants.HeadingTurnRate);
+         // }
           // Use the output here
-          drive.drive(xSpeed, ySpeed, output, true, true);
+          //drive.drive(xSpeed, ySpeed, output, true, true);
+          drive.drive(-xSpeed, -ySpeed, rotationSpeed, true, true);
         });
         //absolute angle is tan inverse
         addRequirements(drive);

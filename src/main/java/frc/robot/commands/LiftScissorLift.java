@@ -4,27 +4,29 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.NoteActuator;
 
-public class ScissorIntake extends Command {
-  /** Creates a new ScissorIntake. */
+public class LiftScissorLift extends Command {
+  /** Creates a new LiftScissorLift. */
   NoteActuator noteActuator;
-  public ScissorIntake(NoteActuator noteActuator) {
+  XboxController controller;
+  public LiftScissorLift(NoteActuator noteActuator,  XboxController controller) {
     this.noteActuator = noteActuator;
+    this.controller = controller;
     addRequirements(noteActuator);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    noteActuator.actuate(-.2);
+    noteActuator.extendLift(-controller.getRightY());
   }
 
   // Called once the command ends or is interrupted.

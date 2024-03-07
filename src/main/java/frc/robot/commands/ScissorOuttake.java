@@ -25,7 +25,7 @@ public class ScissorOuttake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    noteActuator.actuate(1);
+    noteActuator.actuate(.2);
   }
 
   // Called once the command ends or is interrupted.

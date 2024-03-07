@@ -71,7 +71,6 @@ public class AutoRotate extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    System.out.println(isFinished);
     return isFinished;
   }
 }

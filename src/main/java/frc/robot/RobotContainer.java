@@ -31,12 +31,16 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RecordPlaybackConstants;
 import frc.robot.commands.AutoIntake;
 import frc.robot.commands.AutoPickup;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.DriveWithJoysticks;
+import frc.robot.commands.LiftScissorLift;
 import frc.robot.commands.PrimeShooter;
+import frc.robot.commands.ScissorIntake;
+import frc.robot.commands.ScissorOuttake;
 import frc.robot.commands.ShootNote;
 import frc.robot.commands.playBack;
 import frc.robot.commands.rec;
@@ -62,13 +66,13 @@ public class RobotContainer {
   private final NoteActuator noteActuator = new NoteActuator();
 
   //private final VisionSerial visionTag = new VisionSerial();
-  private final Camera camera = new Camera();
+  //private final Camera camera = new Camera();
   // The driver's controller
-  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
-  private Joystick leftShaft = new Joystick(0);
-  private Joystick rightShaft = new Joystick(1);
-  CommandXboxController commandController = new CommandXboxController(OIConstants.kDriverControllerPort);
-  private final AutoPickup autoPickup = new AutoPickup(m_robotDrive, onboarder, camera);
+  XboxController m_driverController = new XboxController(OperatorConstants.kDriverControllerPort);
+  private Joystick leftShaft = new Joystick(OperatorConstants.kDriverJoystickLeft);
+  private Joystick rightShaft = new Joystick(OperatorConstants.kDriverJoystickRight);
+  //CommandXboxController commandController = new CommandXboxController(OIConstants.kDriverControllerPort);
+  //private final AutoPickup autoPickup = new AutoPickup(m_robotDrive, onboarder, camera);
 
   // Robot Mechanisms
   private final PrimeShooter primeShooter = new PrimeShooter(shooter);
@@ -141,6 +145,7 @@ public class RobotContainer {
           }
         }, shooter)
     );
+    noteActuator.setDefaultCommand(new LiftScissorLift(noteActuator, m_driverController));
   } 
 
   /**
@@ -161,21 +166,26 @@ public class RobotContainer {
     recordCommand = new rec(m_robotDrive, onboarder, shooter, noteActuator, m_driverController, fileChooser, fileName);
     
     JoystickButton primeShooterButton = new JoystickButton(m_driverController, Button.kA.value);
-    JoystickButton shootButton = new JoystickButton(m_driverController, Button.kA.value);
+    JoystickButton shootButton = new JoystickButton(m_driverController, Button.kX.value);
     primeShooterButton.onTrue(primeShooter);
     shootButton.onTrue(shootNote);
+    JoystickButton intakeSource = new JoystickButton(m_driverController, Button.kB.value);
+    JoystickButton outtakeAmp = new JoystickButton(m_driverController, Button.kY.value);
+    intakeSource.onTrue(new ScissorIntake(noteActuator));
+    outtakeAmp.onTrue(new ScissorOuttake(noteActuator));
     
-    JoystickButton recButton = new JoystickButton(m_driverController, Button.kA.value);
-    JoystickButton recButton2 = new JoystickButton(m_driverController, Button.kB.value);
+    // RECORD AND PLAYBACK
+    JoystickButton recButton = new JoystickButton(rightShaft, 10);
+    JoystickButton recButton2 = new JoystickButton(rightShaft, 11);
     recButton.onTrue(recordCommand.until(recButton2));
 
-    JoystickButton flipPlayback = new JoystickButton(m_driverController, Button.kLeftBumper.value);
-    flipPlayback.onTrue(new RunCommand(() -> onRedAlliance = !onRedAlliance));
-    System.out.println(onRedAlliance);
-
     playbackCommand = new playBack(m_robotDrive, onboarder, shooter, noteActuator, m_driverController, fileChooser, alliancebox);
-    JoystickButton playBack = new JoystickButton(m_driverController, Button.kY.value);
+    JoystickButton playBack = new JoystickButton(rightShaft, 7);
     playBack.onTrue(playbackCommand);
+
+    //JoystickButton flipPlayback = new JoystickButton(m_driverController, Button.kLeftBumper.value);
+    //flipPlayback.onTrue(new RunCommand(() -> onRedAlliance = !onRedAlliance));
+    //System.out.println(onRedAlliance);
 
     new JoystickButton(leftShaft, 3)
         .whileTrue(new RunCommand(

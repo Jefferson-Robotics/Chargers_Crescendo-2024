@@ -44,8 +44,8 @@ public class AutoPickup extends Command {
     camera.readDataStream();
     x=camera.getX();
     y=camera.getY();
-    System.out.println(x);
-    System.out.println(y);
+    //System.out.println(x);
+    //System.out.println(y);
     if(!OnBoarder.intake()){
       if(x<-25){
         drive.drive(.2, .2, 0, false, true);

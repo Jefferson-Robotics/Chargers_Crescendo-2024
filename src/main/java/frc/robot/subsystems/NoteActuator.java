@@ -25,11 +25,13 @@ public class NoteActuator extends SubsystemBase {
   private WPI_TalonSRX actuator = new WPI_TalonSRX(Constants.NoteAcuatorConstants.kAcuatorCanID);
   private WPI_TalonSRX roller = new WPI_TalonSRX(Constants.NoteAcuatorConstants.kRollerCanID);
 
-  private DigitalInput openPosition = new DigitalInput(0);
-  private DigitalInput actuatedPosition = new DigitalInput(1);
+  private DigitalInput ScissorExtendedLimit = new DigitalInput(Constants.NoteAcuatorConstants.kScissorLimit);
+  //private DigitalInput actuatedPosition = new DigitalInput(9);
 
 
-  public NoteActuator() {}
+  public NoteActuator() {
+    actuator.configContinuousCurrentLimit(10, 1); //prevents the motor from burning out from stalling
+  }
 
   public void setRoller(double power) {
     this.rollerSpeed = power;
@@ -63,8 +65,8 @@ public class NoteActuator extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    open = this.openPosition.get();
-    actuated = this.actuatedPosition.get();
+    //open = this.openPosition.get();
+    //actuated = this.actuatedPosition.get();
 
     actuator.set(ControlMode.PercentOutput, this.actuateSpeed);
     roller.set(ControlMode.PercentOutput, this.rollerSpeed);
