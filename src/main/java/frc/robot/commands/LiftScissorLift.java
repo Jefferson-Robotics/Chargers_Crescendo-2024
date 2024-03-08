@@ -27,6 +27,13 @@ public class LiftScissorLift extends Command {
   @Override
   public void execute() {
     noteActuator.extendLift(-controller.getRightY());
+    /*
+    if(noteActuator.getScissorLimitSwitch()){
+       noteActuator.extendLift(-controller.getRightY());
+    } else {
+       noteActuator.extendLift(0);
+    }
+    */
   }
 
   // Called once the command ends or is interrupted.

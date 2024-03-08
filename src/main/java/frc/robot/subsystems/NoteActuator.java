@@ -55,11 +55,8 @@ public class NoteActuator extends SubsystemBase {
     return this.liftSpeed;
   }
 
-  public boolean getOpenPosition() {
-    return open;
-  }
-  public boolean getClosePosition() {
-    return actuated;
+  public boolean getScissorLimitSwitch() {
+    return this.ScissorExtendedLimit.get();
   }
 
   @Override
