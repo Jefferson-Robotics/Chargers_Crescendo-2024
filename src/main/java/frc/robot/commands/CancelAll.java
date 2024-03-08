@@ -52,14 +52,27 @@ public class CancelAll extends Command {
     shooter.shoot(0.01);
     noteActuator.setRoller(0.01);
     noteActuator.actuate(0.01);
-    noteActuator.extendLift(0);
+    noteActuator.extendLift(0.01);
 
     isFinished = true;
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    onboarder.setSpeed(0);
+    climb.setSpeed(0);
+    drive.drive(
+      0,
+      0,
+      0,
+      false,
+      false);
+    shooter.shoot(0);
+    noteActuator.setRoller(0);
+    noteActuator.actuate(0);
+    noteActuator.extendLift(0);
+  }
 
   // Returns true when the command should end.
   @Override

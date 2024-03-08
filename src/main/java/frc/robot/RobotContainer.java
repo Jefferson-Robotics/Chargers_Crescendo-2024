@@ -64,7 +64,6 @@ public class RobotContainer {
   private final Onboarder onboarder = new Onboarder(tab);
   private final Shooter shooter = new Shooter();
   private final NoteActuator noteActuator = new NoteActuator();
-  private final CancelAll cancelAll = new CancelAll(onboarder, climb, m_robotDrive, shooter, noteActuator);
 
   //private final VisionSerial visionTag = new VisionSerial();
   //private final Camera camera = new Camera();
@@ -90,7 +89,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   private rec recordCommand;
   private playBack playbackCommand;
-  private Boolean onRedAlliance = true;
+  private CancelAll cancelAll;
   //private IRBeamBreaker intakeSensor = new IRBeamBreaker(8);
 
   public RobotContainer() {
@@ -178,6 +177,7 @@ public class RobotContainer {
     JoystickButton playBack = new JoystickButton(rightShaft, 7);
     playBack.onTrue(playbackCommand);
 
+    cancelAll = new CancelAll(onboarder, climb, m_robotDrive, shooter, noteActuator);
     JoystickButton cancleAllSecondary = new JoystickButton(m_driverController, 5);
     cancleAllSecondary.onTrue(cancelAll);
     // Secondary
@@ -211,6 +211,11 @@ public class RobotContainer {
     outtakeAmp.onTrue(new ScissorOuttake(noteActuator));
 
     //Primary
+    new JoystickButton(leftShaft, 6)
+        .onTrue(cancelAll);
+    new JoystickButton(leftShaft, 7)
+    .onTrue(cancelAll);
+
     new JoystickButton(leftShaft, 10)
         .whileTrue(new RunCommand(
             () -> {
@@ -228,20 +233,20 @@ public class RobotContainer {
         shooter.shoot(1);
     }));
 
-    new JoystickButton(leftShaft, 4)
+    new JoystickButton(rightShaft, 1)
     .whileTrue(new RunCommand(
         () -> {
-          onboarder.setSpeed(1);
+          onboarder.setSpeed(-1);
     }))
     .whileFalse(new RunCommand(
         () -> {
           onboarder.setSpeed(0);
     }));
 
-    new JoystickButton(leftShaft, 5)
+    new JoystickButton(leftShaft, 1)
     .whileTrue(new RunCommand(
         () -> {
-          onboarder.setSpeed(-1);
+          onboarder.setSpeed(1);
     }))
     .whileFalse(new RunCommand(
         () -> {

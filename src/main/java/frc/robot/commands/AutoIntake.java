@@ -27,11 +27,11 @@ public class AutoIntake extends Command {
   @Override
   public void execute() {
     if (Math.abs(controller.getLeftY()) > .1) {
-      onboarder.setSpeed(controller.getLeftY());
+      onboarder.setSpeed(-controller.getLeftY());
     } else if(onboarder.outTake()){
       onboarder.setSpeed(0);
     } else if(onboarder.intake()) {
-      onboarder.setSpeed(1);
+      onboarder.setSpeed(0.5);
     }else {
       onboarder.setSpeed(0);
     }
