@@ -35,6 +35,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RecordPlaybackConstants;
 import frc.robot.commands.AutoIntake;
 import frc.robot.commands.AutoPickup;
+import frc.robot.commands.CancelAll;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.LiftScissorLift;
@@ -64,6 +65,7 @@ public class RobotContainer {
   private final Onboarder onboarder = new Onboarder();
   private final Shooter shooter = new Shooter();
   private final NoteActuator noteActuator = new NoteActuator();
+  private final CancelAll cancelAll = new CancelAll(onboarder, climb, m_robotDrive, shooter, noteActuator);
 
   //private final VisionSerial visionTag = new VisionSerial();
   //private final Camera camera = new Camera();
@@ -178,7 +180,8 @@ public class RobotContainer {
     JoystickButton playBack = new JoystickButton(rightShaft, 7);
     playBack.onTrue(playbackCommand);
 
-
+    JoystickButton cancleAllSecondary = new JoystickButton(m_driverController, 5);
+    cancleAllSecondary.onTrue(cancelAll);
     // JOYSTICK BUTTON BINDINGS
     JoystickButton primeShooterButton = new JoystickButton(m_driverController, Button.kA.value);
     JoystickButton shootButton = new JoystickButton(m_driverController, Button.kX.value);
