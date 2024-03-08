@@ -15,9 +15,12 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.util.concurrent.Event;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.event.BooleanEvent;
+import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -110,7 +113,7 @@ public class RobotContainer {
     /* 
     m_robotDrive.setDefaultCommand(
         // The left stick controls translation of the robot.
-        // Turning is controlled by the X axis of the right stick.
+        // Turn        ing is controlled by the X axis of the right stick.
         
         new RunCommand(
             () -> m_robotDrive.drive(
@@ -179,7 +182,18 @@ public class RobotContainer {
     playBack.onTrue(playbackCommand);
 
 
-    // JOYSTICK BUTTON BINDINGS
+    // Secondary
+    new JoystickButton(m_driverController, Button.kLeftBumper.value)
+        .whileTrue(new RunCommand(
+            () -> {
+              noteActuator.setRoller(1);
+        }));
+    new JoystickButton(m_driverController, Button.kRightBumper.value)
+        .whileTrue(new RunCommand(
+            () -> {
+              noteActuator.setRoller(-1);
+        }));
+
     JoystickButton primeShooterButton = new JoystickButton(m_driverController, Button.kA.value);
     JoystickButton shootButton = new JoystickButton(m_driverController, Button.kX.value);
     primeShooterButton.onTrue(primeShooter);
@@ -190,6 +204,17 @@ public class RobotContainer {
     intakeSource.onTrue(new ScissorIntake(noteActuator));
     outtakeAmp.onTrue(new ScissorOuttake(noteActuator));
 
+    EventLoop intakeOnboarderEventLoop = new EventLoop();
+    intakeOnboarderEventLoop.bind(()->{
+      onboarder.setSpeed(.5);
+    });
+    m_driverController.axisGreaterThan(1,.1,intakeOnboarderEventLoop);
+
+    EventLoop outtakeOnboarderEventLoop = new EventLoop();
+    outtakeOnboarderEventLoop.bind(()->{
+      onboarder.setSpeed(-.5);
+    });
+    //Primary
     new JoystickButton(leftShaft, 10)
         .whileTrue(new RunCommand(
             () -> {
