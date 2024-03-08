@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.MAXSwerveModule;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -37,6 +38,9 @@ public class DriveWithJoysticks extends PIDCommand {
           // Use the output here
           //drive.drive(xSpeed, ySpeed, output, true, true);
           drive.drive(-xSpeed, -ySpeed, rotationSpeed, true, true);
+          if(xSpeed == 0 && ySpeed==0){
+            drive.setX();
+          }
         });
         //absolute angle is tan inverse
         addRequirements(drive);
