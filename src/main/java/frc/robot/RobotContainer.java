@@ -57,10 +57,11 @@ import frc.robot.subsystems.Shooter;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+  private final ShuffleboardTab tab = Shuffleboard.getTab("Autonomous");
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final Climb climb = new Climb();
-  private final Onboarder onboarder = new Onboarder();
+  private final Onboarder onboarder = new Onboarder(tab);
   private final Shooter shooter = new Shooter();
   private final NoteActuator noteActuator = new NoteActuator();
   private final CancelAll cancelAll = new CancelAll(onboarder, climb, m_robotDrive, shooter, noteActuator);
@@ -78,15 +79,14 @@ public class RobotContainer {
   private final PrimeShooter primeShooter = new PrimeShooter(shooter);
   private final ShootNote shootNote = new ShootNote(shooter, onboarder, noteActuator);
   private final ClimbCommand climbCommand = new ClimbCommand(climb, m_driverController);
-  private final AutoIntake autoIntake = new AutoIntake(onboarder);
+  private final AutoIntake autoIntake = new AutoIntake(onboarder, m_driverController);
 
   // Shuffleboard
-  private final ShuffleboardTab tab = Shuffleboard.getTab("Autonomous");
+  
   private final GenericEntry alliancebox = tab.add("Red Alliance", false).withWidget(BuiltInWidgets.kToggleButton).getEntry();
   private final SendableChooser<File> fileChooser = new SendableChooser<>();
   private final GenericEntry fileName = tab.add("File Name", "PLACEHOLDER")
    .withWidget(BuiltInWidgets.kTextView).getEntry();
-
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   private rec recordCommand;
   private playBack playbackCommand;
@@ -135,7 +135,7 @@ public class RobotContainer {
             noteActuator.setRoller(0);
           }
         }
-        , onboarder)
+        , noteActuator)
     );
     shooter.setDefaultCommand(
       new RunCommand(
@@ -150,6 +150,8 @@ public class RobotContainer {
         }, shooter)
     );
     noteActuator.setDefaultCommand(new LiftScissorLift(noteActuator, m_driverController));
+
+    onboarder.setDefaultCommand(autoIntake);
   } 
 
   /**
