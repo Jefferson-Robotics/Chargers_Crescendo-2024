@@ -180,14 +180,14 @@ public final class Constants {
   public static final class ClimbConstants {
     public static final int kClimbMotorID = 15;
     public static final int kRestLimitID = 3;
-    public static final int kExtendLimitID = 4;
+    public static final int kExtendLimitID = 2;
   }
     
   public static final class NoteAcuatorConstants {
     public static final int kScissorLiftCanID = 11;
     public static final int kAcuatorCanID = 13;
     public static final int kRollerCanID = 12;
-    public static final int kScissorLimit = 2;
+    public static final int kScissorLimit = 4;
   }
     
   public static final class RecordPlaybackConstants {

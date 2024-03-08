@@ -28,13 +28,18 @@ public class ClimbCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(climb.getExtendedPosition()&&90<xbox.getPOV()&&xbox.getPOV()<270){
+    System.out.println("Extended: " + climb.getExtendedPosition());
+    System.out.println("Rest Position: " + climb.getRestPosition());
+    if(!climb.getRestPosition()&&90<xbox.getPOV()&&xbox.getPOV()<270){
       climb.setSpeed(-1);
-    }else if(!climb.getRestPosition()&&(0<=xbox.getPOV())){
+      System.out.println("BOTTOM HIT ");
+    }else if(!climb.getExtendedPosition()&&(0<=xbox.getPOV()&&xbox.getPOV()<90) || (270<xbox.getPOV())){
       climb.setSpeed(1);
+      System.out.println("TOP HIT ");
     }else{
       climb.setSpeed(0);
     }
+    
   }
   // Called once the command ends or is interrupted.
   @Override

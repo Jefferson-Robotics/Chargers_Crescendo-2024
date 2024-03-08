@@ -79,7 +79,7 @@ public class RobotContainer {
   private final PrimeShooter primeShooter = new PrimeShooter(shooter);
   private final ShootNote shootNote = new ShootNote(shooter, onboarder, noteActuator);
   private final ClimbCommand climbCommand = new ClimbCommand(climb, m_driverController);
-  private final AutoIntake autoIntake = new AutoIntake(onboarder);
+  private final AutoIntake autoIntake = new AutoIntake(onboarder,m_driverController);
 
   // Shuffleboard
   
@@ -134,10 +134,8 @@ public class RobotContainer {
           } else {
             noteActuator.actuate(0);
           }
-        }
-        , noteActuator)
-    );
-    shooter.setDefaultCommand(
+        }, noteActuator));
+    shooter.setDefaultCommand( 
       new RunCommand(
         ()->{
           if(m_driverController.getBackButton()){
@@ -187,12 +185,20 @@ public class RobotContainer {
         .whileTrue(new RunCommand(
             () -> {
               noteActuator.setRoller(1);
-        }));
+        }))
+        .whileFalse(new RunCommand(
+          () -> {
+            noteActuator.setRoller(0);
+          }));
     new JoystickButton(m_driverController, Button.kRightBumper.value)
         .whileTrue(new RunCommand(
             () -> {
               noteActuator.setRoller(-1);
-        }));
+        }))
+        .whileFalse(new RunCommand(
+          () -> {
+            noteActuator.setRoller(0);
+          }));
 
     JoystickButton primeShooterButton = new JoystickButton(m_driverController, Button.kA.value);
     JoystickButton shootButton = new JoystickButton(m_driverController, Button.kX.value);
@@ -204,16 +210,6 @@ public class RobotContainer {
     intakeSource.onTrue(new ScissorIntake(noteActuator));
     outtakeAmp.onTrue(new ScissorOuttake(noteActuator));
 
-    EventLoop intakeOnboarderEventLoop = new EventLoop();
-    intakeOnboarderEventLoop.bind(()->{
-      onboarder.setSpeed(.5);
-    });
-    m_driverController.axisGreaterThan(1,.1,intakeOnboarderEventLoop);
-
-    EventLoop outtakeOnboarderEventLoop = new EventLoop();
-    outtakeOnboarderEventLoop.bind(()->{
-      onboarder.setSpeed(-.5);
-    });
     //Primary
     new JoystickButton(leftShaft, 10)
         .whileTrue(new RunCommand(

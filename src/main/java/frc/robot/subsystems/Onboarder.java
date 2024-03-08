@@ -48,8 +48,8 @@ public class Onboarder extends SubsystemBase {
   public void periodic() {
     booleanbox.setBoolean(!this.kIntakeBeam.get());
     onboardMotor.set(ControlMode.PercentOutput, speed);
-    System.out.println("outake"+outTake());
-    System.out.println("intake"+intake());
+    // System.out.println("outake"+outTake());
+    // System.out.println("intake"+intake());
     // This method will be called once per scheduler run
   }
 }

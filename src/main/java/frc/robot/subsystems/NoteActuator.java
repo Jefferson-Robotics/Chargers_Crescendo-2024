@@ -64,6 +64,7 @@ public class NoteActuator extends SubsystemBase {
     // This method will be called once per scheduler run
     //open = this.openPosition.get();
     //actuated = this.actuatedPosition.get();
+    //System.out.println("VOLTS: " + actuator.getMotorOutputVoltage());
 
     actuator.set(ControlMode.PercentOutput, this.actuateSpeed);
     roller.set(ControlMode.PercentOutput, this.rollerSpeed);

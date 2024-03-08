@@ -4,15 +4,17 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Onboarder;
 
 public class AutoIntake extends Command {
   /** Creates a new AutoIntake. */
   Onboarder onboarder;
-
-  public AutoIntake(Onboarder onboarder) {
+  XboxController controller;
+  public AutoIntake(Onboarder onboarder, XboxController controller) {
     this.onboarder = onboarder;
+    this.controller = controller;
     addRequirements(onboarder);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -24,11 +26,13 @@ public class AutoIntake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!onboarder.outTake()){
+    if (Math.abs(controller.getLeftY()) > .1) {
+      onboarder.setSpeed(controller.getLeftY());
+    } else if(onboarder.outTake()){
       onboarder.setSpeed(0);
-    } else if(!onboarder.intake()) {
+    } else if(onboarder.intake()) {
       onboarder.setSpeed(1);
-    } else {
+    }else {
       onboarder.setSpeed(0);
     }
   }

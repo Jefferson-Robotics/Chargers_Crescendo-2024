@@ -4,10 +4,16 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.NoteActuator;
 
 public class ScissorIntake extends Command {
+  private boolean isFinished;
+
+  private double initTime = 0;
+  private double endingTime = 0;
+  private double stopTime = 1;
   /** Creates a new ScissorIntake. */
   NoteActuator noteActuator;
   public ScissorIntake(NoteActuator noteActuator) {
@@ -19,21 +25,31 @@ public class ScissorIntake extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    isFinished = false;
+    initTime = Timer.getFPGATimestamp();
+    endingTime = Timer.getFPGATimestamp() + stopTime;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    noteActuator.actuate(-.2);
+    noteActuator.actuate(-.4);
+    initTime = Timer.getFPGATimestamp();
+
+    if (initTime >= endingTime) {
+      isFinished = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    noteActuator.actuate(0);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isFinished;
   }
 }
