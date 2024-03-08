@@ -79,7 +79,7 @@ public class RobotContainer {
   private final PrimeShooter primeShooter = new PrimeShooter(shooter);
   private final ShootNote shootNote = new ShootNote(shooter, onboarder, noteActuator);
   private final ClimbCommand climbCommand = new ClimbCommand(climb, m_driverController);
-  private final AutoIntake autoIntake = new AutoIntake(onboarder, m_driverController);
+  private final AutoIntake autoIntake = new AutoIntake(onboarder);
 
   // Shuffleboard
   
@@ -128,11 +128,11 @@ public class RobotContainer {
       new RunCommand(
         ()->{
           if(m_driverController.getLeftTriggerAxis() > .1){
-            noteActuator.setRoller(m_driverController.getLeftTriggerAxis());
+            noteActuator.actuate(m_driverController.getLeftTriggerAxis());
           } else if(m_driverController.getRightTriggerAxis() > .1) {
-            noteActuator.setRoller(-m_driverController.getRightTriggerAxis());
+            noteActuator.actuate(-m_driverController.getRightTriggerAxis());
           } else {
-            noteActuator.setRoller(0);
+            noteActuator.actuate(0);
           }
         }
         , noteActuator)
