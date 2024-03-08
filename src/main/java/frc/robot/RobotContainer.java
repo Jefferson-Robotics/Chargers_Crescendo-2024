@@ -15,11 +15,9 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.util.concurrent.Event;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import edu.wpi.first.wpilibj.event.BooleanEvent;
 import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -33,11 +31,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RecordPlaybackConstants;
 import frc.robot.commands.AutoIntake;
-import frc.robot.commands.AutoPickup;
 import frc.robot.commands.CancelAll;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.DriveWithJoysticks;
@@ -48,7 +44,6 @@ import frc.robot.commands.ScissorOuttake;
 import frc.robot.commands.ShootNote;
 import frc.robot.commands.playBack;
 import frc.robot.commands.rec;
-import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.NoteActuator;
@@ -299,6 +294,7 @@ public class RobotContainer {
     m_robotDrive.resetOdometry(tagTrajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
-    return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false, false));
+    //return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false, false));
+    return new playBack(m_robotDrive, onboarder, shooter, noteActuator, fileChooser, alliancebox);
   }
 }
