@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.NoteActuator;
 import frc.robot.subsystems.Onboarder;
 import frc.robot.subsystems.Shooter;
 
@@ -14,15 +15,16 @@ public class ShootNote extends Command {
 
   private Shooter shooter;
   private Onboarder onboarder;
+  private final NoteActuator noteActuator;
   double initTime = 0;
   double endingTime = 0;
   double stopTime = 1;
 
   /** Creates a new ShootNote. */
-  public ShootNote(Shooter shooter, Onboarder onboarder) {
+  public ShootNote(Shooter shooter, Onboarder onboarder, NoteActuator noteActuator) {
     this.shooter = shooter;
     this.onboarder = onboarder;
-
+    this.noteActuator = noteActuator;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter, onboarder);
   }

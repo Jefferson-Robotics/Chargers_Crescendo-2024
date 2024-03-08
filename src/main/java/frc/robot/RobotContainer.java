@@ -81,7 +81,7 @@ public class RobotContainer {
 
   // Robot Mechanisms
   private final PrimeShooter primeShooter = new PrimeShooter(shooter);
-  private final ShootNote shootNote = new ShootNote(shooter, onboarder);
+  private final ShootNote shootNote = new ShootNote(shooter, onboarder, noteActuator);
   private final ClimbCommand climbCommand = new ClimbCommand(climb, m_driverController);
   private final AutoIntake autoIntake = new AutoIntake(onboarder);
 
