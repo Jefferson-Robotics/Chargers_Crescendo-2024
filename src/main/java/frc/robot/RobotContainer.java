@@ -75,7 +75,7 @@ public class RobotContainer {
   //private final AutoPickup autoPickup = new AutoPickup(m_robotDrive, onboarder, camera);
 
   // Robot Mechanisms
-  private final PrimeShooter primeShooter = new PrimeShooter(shooter);
+  private final PrimeShooter primeShooter = new PrimeShooter(shooter, onboarder);
   private final ShootNote shootNote = new ShootNote(shooter, onboarder, noteActuator);
   private final ClimbCommand climbCommand = new ClimbCommand(climb, m_driverController);
   private final AutoIntake autoIntake = new AutoIntake(onboarder,m_driverController);
@@ -238,22 +238,17 @@ public class RobotContainer {
         () -> {
           onboarder.setSpeed(-1);
     }))
-    .whileFalse(new RunCommand(
-        () -> {
-          onboarder.setSpeed(0);
-    }));
+    .whileFalse(new AutoIntake(onboarder, m_driverController));
 
     new JoystickButton(leftShaft, 1)
     .whileTrue(new RunCommand(
         () -> {
           onboarder.setSpeed(1);
-    }))
-    .whileFalse(new RunCommand(
-        () -> {
-          onboarder.setSpeed(0);
-    }));
+    })).whileFalse(new AutoIntake(onboarder, m_driverController));
   }
 
+  //JoystickButton resetEncoder = new JoystickButton(leftShaft, 8);
+  //resetEncoder.onT
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

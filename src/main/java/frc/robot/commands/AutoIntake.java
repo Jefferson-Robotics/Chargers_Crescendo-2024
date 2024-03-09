@@ -11,7 +11,7 @@ import frc.robot.subsystems.Onboarder;
 public class AutoIntake extends Command {
   /** Creates a new AutoIntake. */
   Onboarder onboarder;
-  XboxController controller;
+  XboxController controller;  
   public AutoIntake(Onboarder onboarder, XboxController controller) {
     this.onboarder = onboarder;
     this.controller = controller;
@@ -27,7 +27,7 @@ public class AutoIntake extends Command {
   @Override
   public void execute() {
     if (Math.abs(controller.getLeftY()) > .1) {
-      onboarder.setSpeed(-controller.getLeftY());
+      onboarder.setSpeed(controller.getLeftY());
     } else if(onboarder.outTake()){
       onboarder.setSpeed(0);
     } else if(onboarder.intake()) {
