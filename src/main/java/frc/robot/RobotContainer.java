@@ -245,10 +245,21 @@ public class RobotContainer {
         () -> {
           onboarder.setSpeed(1);
     })).whileFalse(new AutoIntake(onboarder, m_driverController));
+
+    JoystickButton resetEncoderButton = new JoystickButton(leftShaft, 8);
+    resetEncoderButton.whileTrue(new RunCommand(
+      () -> {
+        noteActuator.resetEncoder();
+      }
+    ));
+    JoystickButton resetEncoderButton2 = new JoystickButton(leftShaft, 9);
+    resetEncoderButton2.whileTrue(new RunCommand(
+      () -> {
+        noteActuator.resetEncoder();
+      }
+    ));
   }
 
-  //JoystickButton resetEncoder = new JoystickButton(leftShaft, 8);
-  //resetEncoder.onT
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

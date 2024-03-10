@@ -22,7 +22,7 @@ public class NoteActuator extends SubsystemBase {
   private double liftSpeed = 0;
   private double lowerlimit = 0;
   private double heightlimit = 0;
-  //private Encoder encoder = new Encoder(Constants.NoteAcuatorConstants.kEncoderAID, Constants.NoteAcuatorConstants.kEncoderBID);
+  private Encoder encoder = new Encoder(Constants.NoteAcuatorConstants.kEncoderAID, Constants.NoteAcuatorConstants.kEncoderBID);
   
 
   //private WPI_TalonSRX scissorLift = new WPI_TalonSRX(Constants.NoteAcuatorConstants.kScissorLiftCanID);
@@ -83,7 +83,7 @@ public class NoteActuator extends SubsystemBase {
   }
 
   public void resetEncoder(){
-   // encoder.reset();
+   encoder.reset();
   }
 
   @Override
@@ -92,7 +92,7 @@ public class NoteActuator extends SubsystemBase {
     //open = this.openPosition.get();
     //actuated = this.actuatedPosition.get();
     //System.out.println("VOLTS: " + actuator.getMotorOutputVoltage());
-    //System.out.println(encoder.get());
+    System.out.println(encoder.get());
     actuator.set(ControlMode.PercentOutput, this.actuateSpeed);
     roller.set(ControlMode.PercentOutput, this.rollerSpeed);
     liftMotor.set(ControlMode.PercentOutput, this.liftSpeed);

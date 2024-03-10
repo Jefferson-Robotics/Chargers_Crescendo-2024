@@ -40,7 +40,15 @@ public class PrimeShooter extends Command {
   public void execute() {
     initTime = Timer.getFPGATimestamp();
 
+    /*
     if (initTime >= endingTime) {
+      onboarder.setSpeed(0);
+      shooter.shoot(1);
+    } else {
+      onboarder.setSpeed(-0.5);
+    }
+    */
+    if (!onboarder.outTake()) {
       onboarder.setSpeed(0);
       shooter.shoot(1);
     } else {
